@@ -1,0 +1,17 @@
+.mainWindow {
+  background-color: rgb(221, 199, 255);
+}
+
+.mainMenu {
+  background-color: aquamarine;
+}
+
+.nickname {
+  background-color: rgb(164, 204, 255);
+}
+
+.main {
+  background-color: rgb(164, 204, 255);
+  width: 500px;
+  height: 500px;
+}

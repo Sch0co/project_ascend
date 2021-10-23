@@ -1,0 +1,79 @@
+.login {
+  background-color: rgb(139, 212, 255);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  /* justify-content: center; */
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 500px;
+}
+
+.login .formTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.login .formTitle Button {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.login .loginStart {
+  margin: 10px;
+  margin-top: 25px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.login .loginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.login .loginForm span {
+  display: flex;
+  font-weight: 600;
+}
+
+.login .loginForm .textTab {
+  margin: 5px;
+}
+
+.login .loginForm .textTab input {
+  border: none;
+  padding: 5px 10px;
+  margin: 3px;
+  width: 300px;
+}
+
+.login .loginForm .textTab input:focus {
+  outline: none;
+  border-bottom: 1px solid #7cb9ff;
+  border-bottom-width: 2px;
+}
+
+.login .loginButton {
+  margin: 10px;
+}
+
+.login .loginButton .onMain {
+  margin-top: 10px;
+  width: 300px;
+  color: #0f8bff;
+  font-weight: 600;
+  background: -webkit-linear-gradient(left, #92d7ff, #3be2ff);
+}
+
+.login .loginButton .onMain:hover {
+  color: #1900ff;
+}

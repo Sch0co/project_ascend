@@ -1,0 +1,44 @@
+body {
+  background-color: #000;
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  height: 200px;
+  background-color: rgb(207, 166, 255);
+  color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.chat .chatTop {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chat .chatName {
+  font-size: 23px;
+  font-weight: 600;
+  color: #000;
+}
+
+.chat .chatDial {
+  padding-bottom: 10px;
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+.chat .chatButton {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  padding: 5px;
+}
+
+.chat .chatButton Button:first-child {
+  margin-right: 20px;
+}

@@ -1,36 +1,52 @@
-import React from "react";
-import { useState } from "react/cjs/react.development";
+import { React, useState } from "react";
 import "./MenuBar.css";
 import { ReactComponent as Exit } from "../icon/mainIcon/arrow-right-solid.svg";
 
 const MenuBar = () => {
-    const [toggle, setToggle] = useState(false);
+    const [sideToggle, setSideToggle] = useState(true);
 
     const showBar = () => {
-        setToggle(!toggle);
+        setSideToggle(!sideToggle);
     }
 
     return (
-        <div className="sideBarMenu">
-            <div className="sideBarTop">
-                <div>MENU</div>
-                <button className="sideBarExit"><Exit width="30" height="20"/></button>
-            </div>
-            <div className="sideBarList">
-                <div>
-                    마이페이지
+        <>
+            { sideToggle && (
+                <div className="sideBarMenu">
+                    <div className="sideBarTop">
+                        <div className="sideBarMenuName">MENU</div>
+                        <button
+                            className="sideBarExit"
+                            onClick={showBar}
+                        >
+                            <Exit width="15" height="15"/>
+                        </button>
+                    </div>
+                    <div className="sideBarList">
+                        <div>
+                            <button>
+                                마이페이지
+                            </button>
+                        </div>
+                        <div>
+                            <button>
+                                캐릭터 세팅
+                            </button>
+                        </div>
+                        <div>
+                            <button>
+                                상점
+                            </button>
+                        </div>
+                        <div>
+                            <button>
+                                로그아웃
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    캐릭터 세팅
-                </div>
-                <div>
-                    상점
-                </div>
-                <div>
-                    로그아웃
-                </div>
-            </div>
-        </div>
+            )}
+        </>
     )
 }
 

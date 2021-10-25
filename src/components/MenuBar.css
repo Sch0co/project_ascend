@@ -2,9 +2,30 @@
     background-color: #202443;
     color: #fff;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    width: 15%;
+    padding: 10px;
+}
+
+.sideBarMenu .sideBarTop {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sideBarMenu .sideBarTop .sideBarMenuName {
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .sideBarMenu .sideBarTop .sideBarExit {
-    color: #000;
+    background-color: #202443;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+}
+
+.sideBarMenu .sideBarList div button {
+    border: none;
+    background-color: #202443;
+    cursor: pointer;
 }

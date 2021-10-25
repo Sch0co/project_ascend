@@ -1,5 +1,6 @@
 body {
-  background-color: #000;
+  background-color: #000000;
+  user-select : none;
 }
 
 .chat {
@@ -8,16 +9,21 @@ body {
   position: fixed;
   bottom: 20px;
   width: 100%;
-  height: 200px;
-  background-color: rgb(207, 166, 255);
-  color: #fff;
+  height: 190px;
+  background-color: #d3d3d3;
+  color: #000000;
   border-radius: 10px;
   padding: 20px;
+  cursor: pointer;
 }
 
 .chat .chatTop {
   display: flex;
   justify-content: space-between;
+}
+
+.chat .chatTop .chatSkipBtn {
+  z-index: 10;
 }
 
 .chat .chatName {

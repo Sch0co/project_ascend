@@ -1,10 +1,9 @@
 .login {
-  background-color: rgb(139, 212, 255);
+  background-color: #d3d3d3;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
   text-align: center;
-  /* justify-content: center; */
   position: absolute;
   left: 50%;
   top: 40%;
@@ -13,23 +12,27 @@
   height: 500px;
 }
 
+.login .tabBtn {
+  font-weight: bold;
+}
+
 .login .formTitle {
   display: flex;
   justify-content: center;
   align-items: center;
   justify-content: space-around;
+  margin-top: 25px;
 }
 
 .login .formTitle Button {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .login .loginStart {
   margin: 10px;
-  margin-top: 25px;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .login .loginForm {
@@ -42,7 +45,7 @@
 
 .login .loginForm span {
   display: flex;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .login .loginForm .textTab {
@@ -53,13 +56,14 @@
   border: none;
   padding: 5px 10px;
   margin: 3px;
+  box-sizing: border-box;
   width: 300px;
+  border-bottom: 1px solid rgb(129, 129, 129);
 }
 
 .login .loginForm .textTab input:focus {
   outline: none;
-  border-bottom: 1px solid #7cb9ff;
-  border-bottom-width: 2px;
+  border-bottom-color: #1783ff;
 }
 
 .login .loginButton {
@@ -68,12 +72,33 @@
 
 .login .loginButton .onMain {
   margin-top: 10px;
+  margin-bottom: 20px;
   width: 300px;
-  color: #0f8bff;
-  font-weight: 600;
-  background: -webkit-linear-gradient(left, #92d7ff, #3be2ff);
+  height: 40px;
+  border: none;
+  border-radius: 7px;
+  color: #000000;
+  font-weight: bold;
+  background: -webkit-linear-gradient(left, #9fc9f3, #387af3);
 }
 
 .login .loginButton .onMain:hover {
-  color: #1900ff;
+  color: #ffffff;
+}
+
+.ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap {
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.ant-tabs > .ant-tabs-nav .ant-tabs-nav-list {
+  gap: 80px;  
+}
+
+.ant-tabs-tab {
+  height: 35px;
+}
+
+.ant-tabs-tab:hover {
+  color: #0011ff;
 }

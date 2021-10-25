@@ -10,6 +10,11 @@
   justify-content: space-between;
 }
 
+.mainWindow .mainTop .mainSide {
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
 .mainWindow .mainTop .mainMenu {
   border:none;
   width: 100px;
@@ -67,32 +72,4 @@
 
 .mainWindow .mainStart .startButton .startBtn:hover {
   background-color: #4790ff;
-}
-
-.mainWindow .mainForm .mainSide .gearStatus {
-  background-color: #a4ccff;
-  border-radius: 10px;
-  margin: 10px;
-  padding: 10px;
-}
-
-.mainWindow .mainForm .mainSide .gearStatus .gear {
-  color: #ffffff;
-}
-
-.mainWindow .mainForm .mainSide .gearStatus .gear div {
-  background-color: #2c5c9b;
-}
-
-.mainWindow .mainForm .mainSide .shopBtn {
-  background-color: #a4ccff;
-  border-radius: 10px;
-  width: 200px;
-  height: 30px;
-  border: none;
-  margin-top: 10px;
-}
-
-.mainWindow .mainForm .mainSide .shopBtn:hover {
-  background-color: #00ccff;
 }

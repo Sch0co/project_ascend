@@ -1,0 +1,10 @@
+.sideBarMenu {
+    background-color: #202443;
+    color: #fff;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sideBarMenu .sideBarTop .sideBarExit {
+    color: #000;
+}

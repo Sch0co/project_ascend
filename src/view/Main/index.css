@@ -1,7 +1,6 @@
 .mainWindow {
   width: 100%;
   height: 100vh;
-  padding: 10px;
   background-color: #ffffff;
 }
 
@@ -10,34 +9,10 @@
   justify-content: space-between;
 }
 
-.mainWindow .mainTop .mainSide {
-  margin-bottom: 5px;
-  cursor: pointer;
-}
-
-.mainWindow .mainTop .mainMenu {
-  border:none;
-  width: 100px;
-  border-radius: 10px;
-  background-color: #a4ccff;
-}
-
-.mainWindow .mainTop .mainMenu:hover {
-  background-color: #00ccff;
-}
-
-.mainWindow .mainTop .nickname {
-  background-color: #a4ccff;
-  height: 30px;
-  width: 50px;
-  text-align: center;
-  align-items: center;
-  border-radius: 10px;
-}
-
 .mainWindow .mainForm {
   display: flex;
-  height: 97%;
+  height: 100%;
+  margin-right: 250px;
 }
 
 .mainWindow .mainStart {
@@ -47,7 +22,6 @@
   background-color: #a4ccff;
   width: 100%;
   padding: 10px;
-  margin-top: 10px;
 }
 
 .mainWindow .mainStart .gameName {
@@ -72,4 +46,10 @@
 
 .mainWindow .mainStart .startButton .startBtn:hover {
   background-color: #4790ff;
+}
+
+@media screen and (max-width: 600px) {
+  .mainWindow .mainForm {
+    margin-right: 0px;
+  }
 }

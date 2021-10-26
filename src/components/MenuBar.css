@@ -1,31 +1,48 @@
 .sideBarMenu {
     background-color: #202443;
     color: #fff;
-    display: flex;
-    flex-direction: column;
-    width: 15%;
-    padding: 10px;
+    width: 250px;
+    position: fixed;
+    right: 0;
+    height: 100%;
 }
 
 .sideBarMenu .sideBarTop {
-    display: flex;
-    justify-content: space-between;
+    height: 30px;
+    text-align: right;
 }
 
-.sideBarMenu .sideBarTop .sideBarMenuName {
-    font-weight: bold;
-    font-size: 20px;
-}
-
-.sideBarMenu .sideBarTop .sideBarExit {
+.sideBarMenu .sideBarTop .sideBarClose {
     background-color: #202443;
     color: #ffffff;
     border: none;
     cursor: pointer;
+    margin: 10px;
+}
+
+.sideBarMenu .sideBarList div {
+    border-bottom: 2px solid #2a3575;
+    margin-top: 10px;
 }
 
 .sideBarMenu .sideBarList div button {
     border: none;
     background-color: #202443;
     cursor: pointer;
+    font-size: 20px;
+}
+
+.sideBarMenu .sideBarList div button:hover {
+    color: #82a9ff;
+}
+
+.mainSide {
+    padding: 20px;
+}
+
+.mainSide .mainSideBtn {
+    cursor: pointer;
+    position: fixed;
+    right: 0;
+    top: 10px;
 }

@@ -5,6 +5,7 @@
     position: fixed;
     right: 0;
     height: 100%;
+    border-radius: 15px 0 0 15px;
 }
 
 .sideBarMenu .sideBarTop {
@@ -17,12 +18,18 @@
     color: #ffffff;
     border: none;
     cursor: pointer;
-    margin: 10px;
+    padding-top: 8px;
+    margin-right: 8px;
 }
 
 .sideBarMenu .sideBarList div {
     border-bottom: 2px solid #2a3575;
-    margin-top: 10px;
+    padding-bottom: 5px;
+    margin-left: 10px;
+}
+
+.sideBarMenu .sideBarList div:not(:first-of-type) {
+    margin: 20px 0 0 10px;
 }
 
 .sideBarMenu .sideBarList div button {
@@ -36,13 +43,25 @@
     color: #82a9ff;
 }
 
-.mainSide {
-    padding: 20px;
-}
-
 .mainSide .mainSideBtn {
     cursor: pointer;
     position: fixed;
     right: 0;
     top: 10px;
+}
+
+.sideBarMenu .sideBarList .logout .logoutBtn {
+    color: #a13333;
+}
+
+.sideBarMenu .sideBarList .logout .logoutBtn:hover {
+    color: #df6767;
+}
+
+.myPageModal .myPageTop,
+.characterModal .characterSetTop,
+.shopModal .shopTop {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold; 
 }

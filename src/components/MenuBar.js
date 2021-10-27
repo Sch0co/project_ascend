@@ -7,7 +7,27 @@ import { useMediaQuery } from "react-responsive"
 import { useHistory } from "react-router-dom";
 import Modal from "react-modal";
 
-const modalStyle = {
+// modal style
+const myPageStyle = {
+    overlay: {
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    content: {
+        backgroundColor: "#fff",
+        width: "400px",
+    }
+}
+
+const characterStyle = {
+    overlay: {
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    content: {
+        backgroundColor: "#fff",
+    }
+}
+
+const shopStyle = {
     overlay: {
         backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
@@ -26,6 +46,7 @@ const MenuBar = () => {
         query: "(max-width: 600px)",
     })
 
+    // modal open/ close
     const showBar = () => {
         setSideToggle(!sideToggle);
     }
@@ -53,6 +74,7 @@ const MenuBar = () => {
         setIsShop(false);
     }
 
+    // logout
     const history = useHistory();
 
     const onLogout = () => {
@@ -84,17 +106,22 @@ const MenuBar = () => {
                         <Modal
                             isOpen={isMyPage}
                             onRequestClose={myPageClose}
-                            style={modalStyle}
+                            style={myPageStyle}
                         >
-                            <div className="myPageTop">
-                                <div>마이페이지</div>
-                                <ModalClose onClick={myPageClose} />
-                            </div>
-                            <div className="myPageList">
-                                <div>프로필 이미지 변경</div>
-                                <div>닉네임 변경</div>
-                                <div>비밀번호 변경</div>
-                                <div>회원 탈퇴</div>
+                            <div className="myPageModal">
+                                <div className="myPageTop">
+                                    <div>마이페이지</div>
+                                    <ModalClose
+                                        className="closeBtn"
+                                        onClick={myPageClose}
+                                    />
+                                </div>
+                                <div className="myPageList">
+                                    <div>프로필 이미지 변경</div>
+                                    <div>닉네임 변경</div>
+                                    <div>비밀번호 변경</div>
+                                    <div>회원 탈퇴</div>
+                                </div>
                             </div>
                         </Modal>
                         <div>
@@ -105,10 +132,25 @@ const MenuBar = () => {
                             <Modal
                                 isOpen={isCharacter}
                                 onRequestClose={characterClose}
-                                style={modalStyle}
+                                style={characterStyle}
                             >
-                                캐릭터 세팅
-                                <ModalClose onClick={characterClose} />
+                                <div className="characterModal">
+                                    <div className="characterSetTop">
+                                        <div>캐릭터 세팅</div>
+                                        <ModalClose onClick={characterClose} />
+                                    </div>
+                                    <div className="characterSetList">
+                                        <div>
+                                            캐릭터 장비창
+                                        </div>
+                                        <div>
+                                            캐릭터 스탯
+                                        </div>
+                                        <div>
+                                            인벤토리
+                                        </div>
+                                    </div>
+                                </div>
                             </Modal>
                         <div>
                             <button onClick={shopOpen}>
@@ -118,13 +160,27 @@ const MenuBar = () => {
                             <Modal
                                 isOpen={isShop}
                                 onRequestClose={shopClose}
-                                style={modalStyle}
+                                style={shopStyle}
                             >
-                                상점
-                            <ModalClose onClick={shopClose} />
+                                <div className="shopModal">
+                                    <div className="shopTop">
+                                        <div>상점</div>
+                                        <ModalClose onClick={shopClose} />
+                                    </div>
+                                    <div className="shopList">
+                                        <div className="gacha">
+                                            <div>
+                                                1회 뽑기
+                                            </div>
+                                            <div>
+                                                10회 뽑기
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </Modal>
-                        <div>
-                            <button onClick={onLogout}>
+                        <div className="logout">
+                            <button className="logoutBtn" onClick={onLogout}>
                                 로그아웃
                             </button>
                         </div>

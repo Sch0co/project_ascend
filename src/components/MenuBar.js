@@ -24,6 +24,9 @@ const characterStyle = {
     },
     content: {
         backgroundColor: "#fff",
+        maxWidth: "700px",
+        textAlign: "center",
+        margin: "0 auto",
     }
 }
 
@@ -38,9 +41,10 @@ const shopStyle = {
 
 const MenuBar = () => {
     const [sideToggle, setSideToggle] = useState(true);
-    const [isMyPage, setIsMyPage] = useState(false);
+    // const [isMyPage, setIsMyPage] = useState(false);
     const [isCharacter, setIsCharacter] = useState(false);
     const [isShop, setIsShop] = useState(false);
+    const [upload, setUpload] = useState(null);
 
     const screenMove = useMediaQuery({
         query: "(max-width: 600px)",
@@ -51,13 +55,13 @@ const MenuBar = () => {
         setSideToggle(!sideToggle);
     }
 
-    const myPageOpen = () => {
-        setIsMyPage(true);
-    }
+    // const myPageOpen = () => {
+    //     setIsMyPage(true);
+    // }
 
-    const myPageClose = () => {
-        setIsMyPage(false);
-    }
+    // const myPageClose = () => {
+    //     setIsMyPage(false);
+    // }
     
     const characterOpen = () => {
         setIsCharacter(true);
@@ -96,7 +100,7 @@ const MenuBar = () => {
                         }
                     </div>
                     <div className="sideBarList">
-                        <div className="myPage">
+                        {/* <div className="myPage">
                             <button
                                 onClick={myPageOpen}
                             >
@@ -117,13 +121,20 @@ const MenuBar = () => {
                                     />
                                 </div>
                                 <div className="myPageList">
+                                    <div className="myPageProfile">
+                                        <input
+                                            className="profile"
+                                            type="file"
+                                            value={upload}
+                                        />
+                                    </div>
                                     <div>프로필 이미지 변경</div>
                                     <div>닉네임 변경</div>
                                     <div>비밀번호 변경</div>
                                     <div>회원 탈퇴</div>
                                 </div>
                             </div>
-                        </Modal>
+                        </Modal> */}
                         <div>
                             <button onClick={characterOpen}>
                                 캐릭터 세팅
@@ -140,14 +151,41 @@ const MenuBar = () => {
                                         <ModalClose onClick={characterClose} />
                                     </div>
                                     <div className="characterSetList">
-                                        <div>
-                                            캐릭터 장비창
+                                        <div className="charaSta">
+                                            <div className="charaGear">
+                                                <span>캐릭터 장비창</span>
+                                                <div className="gearTab">
+                                                    <div className="gear">
+                                                        <div>
+                                                            투구
+                                                        </div>
+                                                        <div>
+                                                            갑옷
+                                                        </div>
+                                                        <div>
+                                                            무기
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        캐릭터 이미지
+                                                        <img src="../icon/image/llium.png" alt="llium" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="charaStatus">
+                                                <div>캐릭터 스탯</div>
+                                                <div className="status">
+                                                    <div>체력 100</div>
+                                                    <div>방어력 0</div>
+                                                    <div>기본 데미지 10</div>
+                                                    <div>재화 0원</div>
+                                                    <div>캐릭터 생성 날짜</div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div>
-                                            캐릭터 스탯
-                                        </div>
-                                        <div>
-                                            인벤토리
+                                        <div className="inventory">
+                                            <div>인벤토리</div>
+                                            <div> 표 </div>
                                         </div>
                                     </div>
                                 </div>

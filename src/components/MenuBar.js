@@ -153,7 +153,7 @@ const MenuBar = () => {
                                     <div className="characterSetList">
                                         <div className="charaSta">
                                             <div className="charaGear">
-                                                <span>캐릭터 장비창</span>
+                                                <div className="gearTop">캐릭터 장비</div>
                                                 <div className="gearTab">
                                                     <div className="gear">
                                                         <div>
@@ -166,14 +166,13 @@ const MenuBar = () => {
                                                             무기
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                    <div className="charaImg">
                                                         캐릭터 이미지
-                                                        <img src="../icon/image/llium.png" alt="llium" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="charaStatus">
-                                                <div>캐릭터 스탯</div>
+                                                <div className="statusTop">캐릭터 스탯</div>
                                                 <div className="status">
                                                     <div>체력 100</div>
                                                     <div>방어력 0</div>

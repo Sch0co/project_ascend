@@ -62,7 +62,8 @@
 .shopModal .shopTop {
     display: flex;
     justify-content: space-between;
-    font-weight: bold; 
+    font-weight: bold;
+    align-items: center;
 }
 
 .characterModal .characterSetList .charaSta {
@@ -89,11 +90,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
+}
+
+.characterModal .characterSetList .charaSta .charaGear .gearTab .charaImg {
+    border: 1px solid #63adf1;
+    width: 250px;
+    height: 350px;
 }
 
 .characterModal .characterSetList .charaSta .charaStatus .status {
-    border: 1px solid red;
-    width: 200px;
-    height: 200px;
-    text-align: center;
+    border: 1px solid #63adf1;
+    width: 300px;
+    height: 350px;
 }

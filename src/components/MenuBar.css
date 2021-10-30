@@ -70,10 +70,17 @@
     display: flex;
     justify-content: space-around;
     margin-top: 10px;
-    border-top: 1px solid #7b71ff;
+    border-top: 1px solid #221f47;
 }
 
 .characterModal .characterSetList .charaSta .charaGear {
+    text-align: center;
+}
+
+.characterModal .characterSetList .charaSta .charaGear .gearTop,
+.characterModal .characterSetList .charaSta .charaStatus .statusTop {
+    margin: 10px 0px;
+    font-weight: bold;
     text-align: center;
 }
 
@@ -83,24 +90,106 @@
     width: 300px;
 }
 
+.characterModal .characterSetList .charaSta .charaGear .gearTab .gear {
+    display: flex;
+    flex-direction: column;
+    gap:30px;
+    margin-top: 30px;
+    color: #fff;
+}
+
 .characterModal .characterSetList .charaSta .charaGear .gearTab .gear div {
-    background-color: rgb(122, 131, 255);
+    background-color: #2d236b;
     width: 50px;
-    height: 50px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 10px;
+    border-radius: 10px 0 0 10px;
 }
 
 .characterModal .characterSetList .charaSta .charaGear .gearTab .charaImg {
-    border: 1px solid #63adf1;
+    border: 2px solid #2d236b;
     width: 250px;
     height: 350px;
+    border-radius: 10px;
 }
 
 .characterModal .characterSetList .charaSta .charaStatus .status {
-    border: 1px solid #63adf1;
+    border: 2px solid #2d236b;
+    border-radius: 10px;
     width: 300px;
     height: 350px;
+    font-size: 20px;
+    text-align: left;
+    padding: 20px;
+    display: flex;
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.characterModal .characterSetList .charaSta .charaStatus .status .statusName div {
+    padding: 0 40px 20px 5px;
+}
+
+.characterModal .characterSetList .charaSta .charaStatus .status .statusNum {
+    color: rgb(66, 73, 165);
+}
+
+.characterModal .characterSetList .charaSta .charaStatus .status .statusNum div {
+    padding-bottom: 20px;
+}
+
+.characterModal .characterSetList .inventory .invenTop {
+    margin: 15px 0;
+    font-weight: bold;
+    text-align: center;
+    border: 2px solid #2d236b;
+    width: 100px;
+    padding: 5px;
+}
+
+.characterModal .characterSetList .inventory .invenArray {
+    border: 1px solid #63adf1;
+}
+
+.shopModal .shopList {
+    border-top: 1px solid #221f47;
+    margin-top: 10px;
+}
+
+.shopModal .shopList .gacha {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.shopModal .shopList .gacha .gacha_1 .gacha_1_img,
+.shopModal .shopList .gacha .gacha_2 .gacha_2_img {
+    background-color: #2a325f;
+    height: 500px;
+    width: 400px;
+    border-radius: 10px;
+}
+
+.shopModal .shopList .gacha .gacha_1 .gacha_1s,
+.shopModal .shopList .gacha .gacha_2 .gacha_10s {
+    margin-top: 30px;
+}
+
+.shopModal .shopList .gacha .gacha_1 .gacha_1s button,
+.shopModal .shopList .gacha .gacha_2 .gacha_10s button {
+    width: 400px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background-color: #bdaaff;
+}
+
+.shopModal .shopList .gacha .gacha_1 .gacha_1s button:hover,
+.shopModal .shopList .gacha .gacha_2 .gacha_10s button:hover {
+    background-color: #2a325f;
+    cursor: pointer;
 }

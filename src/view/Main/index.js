@@ -9,7 +9,7 @@ const Main = () => {
     <div className="mainWindow">
       <div className="mainForm">
         <div className="mainStart">
-          <div className="gameName">Ascend</div>
+          <div className="gameName">MonTap</div>
           <div className="startButton">
             <button className="startBtn">모험 출발</button>
           </div>

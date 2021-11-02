@@ -83,7 +83,6 @@ const Index = () => {
           }
         }}
       />
-      {/* <Modal></Modal> */}
     </div>
   );
 };

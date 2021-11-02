@@ -7,6 +7,7 @@ import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
 import { useMediaQuery } from "react-responsive"
 import { useHistory } from "react-router-dom";
 import CharacterSet from "./CharacterSet";
+import Gacha from "./Gacha";
 import Modal from "react-modal";
 
 // modal style
@@ -47,6 +48,22 @@ const MenuBar = () => {
     // const [isMyPage, setIsMyPage] = useState(false);
     const [isCharacter, setIsCharacter] = useState(false);
     const [isShop, setIsShop] = useState(false);
+    const [oneHover, setOneHover] =useState(false);
+    const [tenHover, setTenHover] =useState(false);
+    
+    const onOneHover = () => {
+        setOneHover(true);
+    };
+    const onOneLeave = () => {
+        setOneHover(false);
+    };
+
+    const onTenHover = () => {
+        setTenHover(true);
+    };
+    const onTenLeave = () => {
+        setTenHover(false);
+    };
 
     const screenMove = useMediaQuery({
         query: "(max-width: 600px)",
@@ -191,9 +208,15 @@ const MenuBar = () => {
                                                     뽑기볼 이미지
                                                 </div>
                                                 <div className="gacha_1s">
-                                                    <button>
-                                                        1회 뽑기
+                                                    <button
+                                                        onMouseOver={onOneHover}
+                                                        onMouseLeave={onOneLeave}
+                                                    >
+                                                        장비 1회 뽑기
                                                     </button>
+                                                    <div>
+                                                        {oneHover && "100원이 소모됩니다."}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="gacha_2">
@@ -201,13 +224,20 @@ const MenuBar = () => {
                                                     뽑기볼 이미지 * 10
                                                 </div>
                                                 <div className="gacha_10s">
-                                                    <button>
-                                                        10회 뽑기
+                                                    <button
+                                                        onMouseOver={onTenHover}
+                                                        onMouseLeave={onTenLeave}
+                                                    >
+                                                        장비 10회 뽑기
                                                     </button>
+                                                    <div>
+                                                        {tenHover && "1,000원이 소모됩니다."}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <Gacha />
                                 </div>
                             </Modal>
                         <div className="logout">

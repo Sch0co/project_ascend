@@ -64,6 +64,7 @@
     text-align: center;
     margin-top: 40px;
     flex-wrap: wrap;
+    height: 100%;
 }
 
 .shopModal .shopList .gacha .gacha_1 .gacha_1_img,

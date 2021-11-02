@@ -119,7 +119,7 @@ const CharacterSet = () => {
                 </div>
                 <div className="inventory">
                     <div className="invenTop">인벤토리</div>
-                    <div className="invenArray"> 인벤 리스트 </div>
+                    <div className="invenArray">리스트</div>
                 </div>
             </div>
         </div>

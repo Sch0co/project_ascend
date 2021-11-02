@@ -58,6 +58,7 @@
 }
 
 .mainWindow .mainView .mainItem .mainItemList {
+  border-top: 2px solid #25294a;
   padding: 10px;
 }
 

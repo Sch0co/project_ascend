@@ -63,7 +63,9 @@ const Main = () => {
         </div>
         <div className="mainItem">
           <div className="mainItemTop">최근 획득 장비</div>
-          <div className="mainItemList">템 목록 ~~</div>
+          <div className="mainItemList">
+            목록 ~~
+          </div>
         </div>
       </div>
     </div>

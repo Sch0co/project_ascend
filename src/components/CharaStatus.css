@@ -1,0 +1,18 @@
+.statusList {
+    font-size: 20px;
+    background-color: #212543;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-align: left;
+    margin: 15px 0;
+}
+
+.statusList .stats {
+    display: flex;
+    align-items: center;
+}
+
+.statusList .stats .statusName {
+    margin-right: 20px;
+    width: 100px;
+}

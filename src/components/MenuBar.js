@@ -3,25 +3,22 @@ import "./MenuBar.css";
 import { ReactComponent as Close } from "../icon/mainIcon/arrow-right-solid.svg";
 import { ReactComponent as Line } from "../icon/mainIcon/bars-solid.svg";
 import { ReactComponent as ModalClose } from "../icon/mainIcon/x_close_cross_delete_icon.svg";
-import { ReactComponent as User } from "../icon/mainIcon/user.svg";
-import { ReactComponent as Hp } from "../icon/mainIcon/heart-solid.svg";
-import { ReactComponent as Armor } from "../icon/mainIcon/armor.svg";
-import { ReactComponent as Damage } from "../icon/mainIcon/swords.svg";
 import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
 import { useMediaQuery } from "react-responsive"
 import { useHistory } from "react-router-dom";
+import CharacterSet from "./CharacterSet";
 import Modal from "react-modal";
 
 // modal style
-const myPageStyle = {
-    overlay: {
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-    },
-    content: {
-        backgroundColor: "#fff",
-        width: "400px",
-    }
-}
+// const myPageStyle = {
+//     overlay: {
+//         backgroundColor: "rgba(0, 0, 0, 0.5)",
+//     },
+//     content: {
+//         backgroundColor: "#fff",
+//         width: "400px",
+//     }
+// }
 
 const characterStyle = {
     overlay: {
@@ -45,26 +42,11 @@ const shopStyle = {
     }
 }
 
-const gachaStyle = {
-    overlay: {
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-    },
-    content: {
-        backgroundColor: "#fff",
-        maxHeight: "400px",
-        maxWidth: "700px",
-        textAlign: "center",
-        margin: "auto auto",
-    }
-}
-
 const MenuBar = () => {
     const [sideToggle, setSideToggle] = useState(true);
     // const [isMyPage, setIsMyPage] = useState(false);
     const [isCharacter, setIsCharacter] = useState(false);
     const [isShop, setIsShop] = useState(false);
-    const [isOneGacha, setIsOneGacha] = useState(false);
-    const [isTenGacha, setIsTenGacha] = useState(false);
 
     const screenMove = useMediaQuery({
         query: "(max-width: 600px)",
@@ -98,22 +80,6 @@ const MenuBar = () => {
 
     const shopClose = () => {
         setIsShop(false);
-    }
-
-    const oneGachaOpen = () => {
-        setIsOneGacha(true);
-    }
-
-    const oneGachaclose = () => {
-        setIsOneGacha(false);
-    }
-
-    const tenGachaOpen = () => {
-        setIsTenGacha(true);
-    }
-
-    const tenGachaclose = () => {
-        setIsTenGacha(false);
     }
 
     // logout
@@ -183,108 +149,7 @@ const MenuBar = () => {
                                 onRequestClose={characterClose}
                                 style={characterStyle}
                             >
-                                <div className="characterModal">
-                                    <div className="characterSetTop">
-                                        <div>캐릭터 세팅</div>
-                                        <ModalClose onClick={characterClose} />
-                                    </div>
-                                    <div className="characterSetList">
-                                        <div className="charaSta">
-                                            <div className="charaGear">
-                                                <div className="gearTop">
-                                                    캐릭터 장비
-                                                </div>
-                                                <div className="gearTab">
-                                                    <div className="gear">
-                                                        <div>
-                                                            투구
-                                                        </div>
-                                                        <div>
-                                                            갑옷
-                                                        </div>
-                                                        <div>
-                                                            무기
-                                                        </div>
-                                                    </div>
-                                                    <div className="charaImg">
-                                                        캐릭터 이미지
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="charaStatus">
-                                                <div className="statusTop">
-                                                    캐릭터 스탯
-                                                </div>
-                                                <div className="status">
-                                                    <div className="statusName">
-                                                        <div>
-                                                            <User
-                                                                width="16px"
-                                                                height="16px" 
-                                                                style={{
-                                                                    marginRight: "5px"
-                                                                }}
-                                                            />
-                                                            이름
-                                                        </div>
-                                                        <div>
-                                                            <Hp
-                                                                width="16px"
-                                                                height="16px"
-                                                                style={{
-                                                                    marginRight: "5px"
-                                                                }}  
-                                                            />
-                                                            체력
-                                                        </div>
-                                                        <div>
-                                                            <Armor
-                                                                width="16px"
-                                                                height="16px"
-                                                                style={{
-                                                                    marginRight: "5px"
-                                                                }}
-                                                            />
-                                                            방어력
-                                                        </div>
-                                                        <div>
-                                                            <Damage
-                                                                width="16px"
-                                                                height="16px"
-                                                                style={{
-                                                                    marginRight: "5px"
-                                                                }}
-                                                            />
-                                                            데미지
-                                                        </div>
-                                                        <div>
-                                                            <Coin
-                                                                width="16px"
-                                                                height="16px"
-                                                                style={{
-                                                                    marginRight: "5px"
-                                                                }}
-                                                            />
-                                                            재화
-                                                        </div>
-                                                        {/* <div>캐릭터 생성 날짜</div> */}
-                                                    </div>
-                                                    <div className="statusNum">
-                                                        <div>닉네임</div>
-                                                        <div>100</div>
-                                                        <div>0</div>
-                                                        <div>10</div>
-                                                        <div>0</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="inventory">
-                                            <div className="invenTop">인벤토리</div>
-                                            <div className="invenArray"> 인벤 리스트 </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <CharacterSet />
                             </Modal>
                         <div>
                             <button onClick={shopOpen}>
@@ -299,40 +164,48 @@ const MenuBar = () => {
                                 <div className="shopModal">
                                     <div className="shopTop">
                                         <div>상점</div>
-                                        <ModalClose onClick={shopClose} />
+                                        <ModalClose
+                                            onClick={shopClose}
+                                            style={{
+                                                width: "25px",
+                                                height: "25px",
+                                                cursor: "pointer",
+                                            }}
+                                        />
                                     </div>
                                     <div className="shopList">
+                                            <div className="shopUserCoin">
+                                                <Coin
+                                                    style={{
+                                                        width: "20px",
+                                                        height: "20px",
+                                                        marginRight: "5px",
+                                                        verticalAlign: "middle",
+                                                    }}
+                                                />
+                                                1,000
+                                            </div>
                                         <div className="gacha">
                                             <div className="gacha_1">
                                                 <div className="gacha_1_img">
                                                     뽑기볼 이미지
                                                 </div>
                                                 <div className="gacha_1s">
-                                                    <button onClick={oneGachaOpen}>
+                                                    <button>
                                                         1회 뽑기
                                                     </button>
                                                 </div>
                                             </div>
-                                            <Modal
-                                                isOpen={isOneGacha}
-                                                onRequestClose={oneGachaclose}
-                                                style={gachaStyle}
-                                            ></Modal>
                                             <div className="gacha_2">
                                                 <div className="gacha_2_img">
                                                     뽑기볼 이미지 * 10
                                                 </div>
                                                 <div className="gacha_10s">
-                                                    <button onClick={tenGachaOpen}>
+                                                    <button>
                                                         10회 뽑기
                                                     </button>
                                                 </div>
                                             </div>
-                                            <Modal
-                                                isOpen={isTenGacha}
-                                                onRequestClose={tenGachaclose}
-                                                style={gachaStyle}
-                                            ></Modal>
                                         </div>
                                     </div>
                                 </div>

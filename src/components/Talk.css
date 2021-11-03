@@ -1,6 +1,5 @@
 body {
   background-color: #000000;
-  user-select : none;
 }
 
 .chat {
@@ -22,10 +21,6 @@ body {
   justify-content: space-between;
 }
 
-.chat .chatTop .chatSkipBtn {
-  z-index: 10;
-}
-
 .chat .chatName {
   font-size: 23px;
   font-weight: 600;
@@ -38,13 +33,14 @@ body {
   font-size: 18px;
 }
 
-.chat .chatButton {
+.chatSkipBtn {
   position: absolute;
-  right: 14px;
-  bottom: 14px;
-  padding: 5px;
+  z-index: 10;
+  right: 20px;
+  bottom: 160px;
 }
 
-.chat .chatButton Button:first-child {
-  margin-right: 20px;
+.chatSkipBtn Button:hover {
+  color: #fff;
+  border-color: #858cec;
 }

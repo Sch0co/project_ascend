@@ -28,20 +28,25 @@ const Talk = (props) => {
   // 콜백함수 ->
 
   return (
-    <div className="chat">
-      <div className="chatTop">
-        <div className="chatName">{data[index].character}</div>
-        <div className="chatSkipBtn">
-          <Button onClick={() => onClickSkip()}>Skip</Button>
+    <div className="chatIndex">
+      <div className="chat" onClick={() => onClick(1)}>
+        <div className="chatTop">
+          <div className="chatName">{data[index].character}</div>
+        </div>
+        <div className="chatDial">
+          {data[index].dialogue}
         </div>
       </div>
-      <div className="chatDial" onClick={() => onClick(1)}>
-        {data[index].dialogue}
+      <div className="chatSkipBtn">
+        <Button 
+          onClick={() => onClickSkip()}
+          style={{
+            backgroundColor: "#858cec",
+          }}
+        >
+          Skip
+        </Button>
       </div>
-      {/* <div className="chatButton">
-        <Button onClick={() => onClick(-1)}>이전</Button>
-        <Button onClick={() => onClick(1)}>다음</Button>
-      </div> */}
     </div>
   );
 };

@@ -1,96 +1,188 @@
 import React, { useState } from "react";
-import { Button, Tabs } from "antd";
+import { Tabs, notification } from "antd";
 import "./LoginForm.css";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 const { TabPane } = Tabs;
 
 const LoginForm = () => {
   // const [loginTab, setLoginTab] = useState(true);
+  const [tabIndex, setTabIndex] = useState("1");
+
+  const [logId, setLogId] = useState("");
+  const [logPw, setLogPw] = useState("");
+
+  const [regiId, setRegiId] = useState("");
+  const [regiPw, setRegiPw] = useState("");
+  const [regiEmail, setRegiEmail] = useState("");
+  const [regiNickName, setRegiNickName] = useState("");
 
   const history = useHistory();
 
-  const onLogin = () => {
-    history.push("/main");
+  const onLogin = async() => {
+
+    if(logId === "") {
+      notification.open({
+        message: '경고',
+        description: '아이디를 입력해 주세요.',
+      });
+      return;
+    } else if(logPw === "") {
+      notification.open({
+        message: '경고',
+        description: '비밀번호를 입력해 주세요.',
+      });
+      return;
+    }
+    
+    const res = await axios({
+      method: 'post',     //put
+      url: "/login",
+      headers: {'X-Requested-With': "XMLHttpRequest"},
+      data: {
+        "userId" : logId,
+        "userPwd" : logPw,
+      }
+    });
+
+    if(res.status === 200) {
+      history.push("/main");
+    }
+
+    console.log(res);
   };
+
+  const onRegist = async() => {
+    let emailReg = /^([0-9a-zA-Z_\.-]+)@([a-zA-Z-]+)(\.[a-zA-Z-]+){1,2}$/i;
+
+    if(regiId.length < 5) {
+      notification.open({
+        message: '경고',
+        description: '아이디는 최소 5글자 입니다.',
+      });
+      return;
+    } else if(regiId.length > 15) {
+      notification.open({
+        message: '경고',
+        description: '아이디는 최대 15글자 입니다.',
+      });
+      return;
+    } else if(regiPw.length < 5) {
+      notification.open({
+        message: '경고',
+        description: '비밀번호는 최소 5글자 입니다.',
+      });
+      return;
+    } else if(regiPw.length > 20) {
+      notification.open({
+        message: '경고',
+        description: '비밀번호는 최대 20글자 입니다.',
+      });
+      return;
+    } else if(!emailReg.test(regiEmail)) {
+      notification.open({
+        message: '경고',
+        description: '이메일을 정확하게 입력해주세요.',
+      });
+      return;
+    } else if(regiNickName.length < 2) {
+      notification.open({
+        message: '경고',
+        description: '닉네임은 최소 2글자 입니다.',
+      });
+      return;
+    } else if(regiNickName.length > 8) {
+      notification.open({
+        message: '경고',
+        description: '닉네임은 최대 8글자 입니다.',
+      });
+      return;
+    }
+
+    const res = await axios({
+      method: 'post',     //put
+      url: "/user",
+      // headers: {'Authorization': 'Bearer'+token}, 
+      data: {
+        "userId" : regiId,
+        "userPwd" : regiPw,
+        "nickname" : regiNickName,
+        "email" : regiEmail,
+      }
+    });
+
+    if(res.status === 200) {
+      setRegiId("")
+      setRegiPw("")
+      setRegiEmail("")
+      setRegiNickName("")
+      setTabIndex("1")
+    }
+
+    // console.log(res);
+    console.log("통과");
+  }
 
   return (
     <div className="login">
-      {/* <div className="formTitle">
-        {<Button
-          onClick={() => {
-            setLoginTab(true);
-          }}
-          style={{
-            backgroundColor: loginTab ? "#A6EDFF" : "white",
-          }}
-        >
-          로그인
-        </Button>
-        <Button
-          onClick={() => {
-            setLoginTab(false);
-          }}
-          style={{
-            backgroundColor: !loginTab ? "#A6EDFF" : "white",
-          }}
-        >
-          회원가입
-        </Button>
-      </div> */}
-      {/* {loginTab ? ( */}
-      <Tabs className="loginTab" defaultActiveKey="1">
+      <Tabs
+        className="loginTab"
+        activeKey={tabIndex}
+        onChange={(key) => setTabIndex(key)}
+        tabBarStyle={{
+          color: "#fff",
+        }}
+      >
         <TabPane tab={<div className="tabBtn">로그인</div>} key="1">
           <div className="startForm">
             <h3 className="loginStart">존재 확인, 접속 합니다.</h3>
-            <form className="loginForm">
+            <div className="loginForm">
               <div className="textTab">
                 <span>ID</span>
-                <input type="text" name="userId" required />
+                <input value={logId} onChange={(e) => setLogId(e.target.value)} type="text" name="userId" required />
               </div>
               <div className="textTab">
                 <span>PW</span>
-                <input type="password" name="userPw" required />
+                <input value={logPw} onChange={(e) => setLogPw(e.target.value)} type="password" name="userPw" required />
               </div>
               <div className="loginButton">
-                <button className="onMain" type="submit" onClick={onLogin}>
+                <button className="onMain" type="button" onClick={onLogin}>
                   접속
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </TabPane>
-        {/* ) : ( */}
         <TabPane tab={<div className="tabBtn">회원가입</div>} key="2">
           <div className="startForm">
             <h3 className="loginStart signupStart">존재를 생성합니다.</h3>
-            <form className="loginForm signupForm">
+            <div className="loginForm signupForm">
               <div className="textTab">
                 <span>ID</span>
-                <input type="text" name="userId" required />
+                <input value={regiId} onChange={(e) => setRegiId(e.target.value)} type="text" name="userId" required />
               </div>
               <div className="textTab">
                 <span>PW</span>
-                <input type="password" name="userPw" required />
+                <input value={regiPw} onChange={(e) => setRegiPw(e.target.value)} type="password" name="userPw" required />
               </div>
               <div className="textTab">
                 <span>E-Mail</span>
-                <input type="email" name="userEmail" required />
+                <input value={regiEmail} onChange={(e) => setRegiEmail(e.target.value)} type="email" name="userEmail" required />
               </div>
               <div className="textTab">
                 <span>Nickname</span>
-                <input type="text" name="userNickName" required />
+                <input value={regiNickName} onChange={(e) => setRegiNickName(e.target.value)} type="text" name="userNickName" required />
               </div>
               <div className="loginButton">
-                <button className="onMain" type="submit">
+                <button className="onMain" type="button" onClick={onRegist}>
                   생성
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </TabPane>
       </Tabs>
-      {/* )} */}
     </div>
   );
 };

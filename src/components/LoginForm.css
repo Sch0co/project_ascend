@@ -1,5 +1,5 @@
 .login {
-  background-color: #d3d3d3;
+  background-color: #25294a;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -9,7 +9,7 @@
   top: 40%;
   transform: translate(-50%, -50%);
   width: 400px;
-  height: 500px;
+  height: 550px;
 }
 
 .login .tabBtn {
@@ -33,6 +33,7 @@
   margin: 10px;
   font-size: 20px;
   font-weight: bold;
+  color: #fff;
 }
 
 .login .loginForm {
@@ -50,20 +51,21 @@
 
 .login .loginForm .textTab {
   margin: 5px;
+  color: #fff;
 }
 
 .login .loginForm .textTab input {
   border: none;
-  padding: 5px 10px;
+  padding: 8px 10px;
   margin: 3px;
   box-sizing: border-box;
   width: 300px;
-  border-bottom: 1px solid rgb(129, 129, 129);
+  border-radius: 10px;
+  color: #000;
 }
 
 .login .loginForm .textTab input:focus {
   outline: none;
-  border-bottom-color: #1783ff;
 }
 
 .login .loginButton {
@@ -74,16 +76,18 @@
   margin-top: 10px;
   margin-bottom: 20px;
   width: 300px;
-  height: 40px;
+  padding: 8px 0;
   border: none;
   border-radius: 7px;
-  color: #000000;
+  color: #fff;
   font-weight: bold;
-  background: -webkit-linear-gradient(left, #9fc9f3, #387af3);
+  background-color: #858cec;
+  font-size: 20px;
 }
 
 .login .loginButton .onMain:hover {
-  color: #ffffff;
+  color: #c9bbff;
+  cursor: pointer;
 }
 
 .ant-tabs > .ant-tabs-nav .ant-tabs-nav-wrap {
@@ -92,7 +96,7 @@
 }
 
 .ant-tabs > .ant-tabs-nav .ant-tabs-nav-list {
-  gap: 80px;  
+  gap: 80px;
 }
 
 .ant-tabs-tab {
@@ -100,5 +104,13 @@
 }
 
 .ant-tabs-tab:hover {
-  color: #0011ff;
+  color: #858cec;
+}
+
+.ant-tabs-ink-bar {
+  border-bottom: 4px solid #858cec;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #858cec;
 }

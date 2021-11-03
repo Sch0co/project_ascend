@@ -2,6 +2,7 @@
   "name": "project",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://220.78.202.122:8090",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
@@ -9,6 +10,7 @@
     "antd": "^4.16.13",
     "axios": "^0.23.0",
     "express": "^4.17.1",
+    "http-proxy-middleware": "^2.0.1",
     "mysql": "^2.18.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",

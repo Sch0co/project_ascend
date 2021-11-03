@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 import CharacterSet from "./CharacterSet";
 import Gacha from "./Gacha";
 import Modal from "react-modal";
+import { Tooltip, notification } from 'antd';
 
 // modal style
 // const myPageStyle = {
@@ -48,22 +49,22 @@ const MenuBar = () => {
     // const [isMyPage, setIsMyPage] = useState(false);
     const [isCharacter, setIsCharacter] = useState(false);
     const [isShop, setIsShop] = useState(false);
-    const [oneHover, setOneHover] =useState(false);
-    const [tenHover, setTenHover] =useState(false);
-    
-    const onOneHover = () => {
-        setOneHover(true);
-    };
-    const onOneLeave = () => {
-        setOneHover(false);
-    };
 
-    const onTenHover = () => {
-        setTenHover(true);
-    };
-    const onTenLeave = () => {
-        setTenHover(false);
-    };
+    const oneNoti = () => {
+        notification.open({
+            message: '뽑기 성공!',
+            description:
+              '장비 1개를 획득하였습니다.',
+          });
+    }
+
+    const tenNoti = () => {
+        notification.open({
+            message: '뽑기 성공!',
+            description:
+              '장비 10개를 획득하였습니다.',
+          });
+    }
 
     const screenMove = useMediaQuery({
         query: "(max-width: 600px)",
@@ -208,15 +209,13 @@ const MenuBar = () => {
                                                     뽑기볼 이미지
                                                 </div>
                                                 <div className="gacha_1s">
-                                                    <button
-                                                        onMouseOver={onOneHover}
-                                                        onMouseLeave={onOneLeave}
-                                                    >
-                                                        장비 1회 뽑기
-                                                    </button>
-                                                    <div>
-                                                        {oneHover && "100원이 소모됩니다."}
-                                                    </div>
+                                                    <Tooltip placement="bottom" color="#858cec" title="100원이 소모됩니다.">
+                                                        <button
+                                                            onClick={oneNoti}
+                                                        >
+                                                            장비 1회 뽑기
+                                                        </button>
+                                                    </Tooltip>
                                                 </div>
                                             </div>
                                             <div className="gacha_2">
@@ -224,15 +223,13 @@ const MenuBar = () => {
                                                     뽑기볼 이미지 * 10
                                                 </div>
                                                 <div className="gacha_10s">
-                                                    <button
-                                                        onMouseOver={onTenHover}
-                                                        onMouseLeave={onTenLeave}
-                                                    >
-                                                        장비 10회 뽑기
-                                                    </button>
-                                                    <div>
-                                                        {tenHover && "1,000원이 소모됩니다."}
-                                                    </div>
+                                                    <Tooltip placement="bottom" color="#858cec" title="1,000원이 소모됩니다.">
+                                                        <button
+                                                            onClick={tenNoti}
+                                                        >
+                                                            장비 10회 뽑기
+                                                        </button>
+                                                    </Tooltip>
                                                 </div>
                                             </div>
                                         </div>

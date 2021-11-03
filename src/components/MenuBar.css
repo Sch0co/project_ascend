@@ -39,7 +39,7 @@
     cursor: pointer;
     position: fixed;
     right: 0;
-    top: 10px;
+    top: 5px;
 }
 
 .shopModal .shopTop {
@@ -94,5 +94,6 @@
 .shopModal .shopList .gacha .gacha_1 .gacha_1s button:hover,
 .shopModal .shopList .gacha .gacha_2 .gacha_10s button:hover {
     background-color: #2a325f;
+    color: #fff;
     cursor: pointer;
 }

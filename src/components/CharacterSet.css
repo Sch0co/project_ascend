@@ -78,10 +78,25 @@
 }
 
 .characterModal .characterSetList .inventory .invenTop {
-    margin: 30px 0 10px 0;
+    margin: 20px 10px;
     font-weight: bold;
-    text-align: left;
     padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.characterModal .characterSetList .inventory .invenTop .sellBtn {
+    padding: 5px 15px;
+    border: none;
+    cursor: pointer;
+    background-color: #221f47;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.characterModal .characterSetList .inventory .invenTop .sellBtn:hover {
+    color: #766ce2;
 }
 
 .characterModal .characterSetList .inventory .invenArray {

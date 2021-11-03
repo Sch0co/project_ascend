@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
+import "./CharacterSet.css";
 import { ReactComponent as User } from "../icon/mainIcon/user.svg";
 import { ReactComponent as Hp } from "../icon/mainIcon/heart-solid.svg";
 import { ReactComponent as Armor } from "../icon/mainIcon/armor.svg";
 import { ReactComponent as Damage } from "../icon/mainIcon/swords.svg";
 import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
 // import { ReactComponent as ModalClose } from "../icon/mainIcon/x_close_cross_delete_icon.svg";
-import "./CharacterSet.css";
+import { Tooltip, notification } from 'antd';
+import { useSpring, animated } from 'react-spring';
 
 const CharacterSet = () => {
+    const [sell, setSell] = useState(true);
+    const {x} = useSpring({
+        from: {x: 0},
+        x: sell ? 1 : 0,
+        config: {duration: 700},
+    })
+
     return (
         <div className="characterModal">
             <div className="characterSetTop">
@@ -118,7 +127,23 @@ const CharacterSet = () => {
                     </div>
                 </div>
                 <div className="inventory">
-                    <div className="invenTop">인벤토리</div>
+                    <div className="invenTop">
+                        <div className="invenName">인벤토리</div>
+                        <Tooltip placement="left" color="#858cec" title="아이템을 선택하여 판매할 수 있습니다.">
+                        <div
+                            onClick={() => setSell(!sell)}
+                        >
+                            <animated.div
+                                style={{
+                                    opacity: x.to({ range: [0, 1], output: [0.5, 1] }),
+                                }}
+                            >
+                                판매 모드
+                            </animated.div>
+                        </div>
+                        </Tooltip>
+                        <button className="sellBtn">판매</button>
+                    </div>
                     <div className="invenArray">리스트</div>
                 </div>
             </div>

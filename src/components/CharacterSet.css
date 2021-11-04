@@ -86,6 +86,15 @@
     align-items: center;
 }
 
+.characterModal .characterSetList .inventory .invenTop .invenMode .invenName {
+    display: inline-block;
+    margin-right: 20px
+}
+
+.characterModal .characterSetList .inventory .invenTop .invenMode .sellMode {
+    display: inline-block;
+}
+
 .characterModal .characterSetList .inventory .invenTop .sellBtn {
     padding: 5px 15px;
     border: none;
@@ -102,6 +111,16 @@
 .characterModal .characterSetList .inventory .invenArray {
     border: 2px solid #221f47;
     border-radius: 10px;
-    padding: 10px;
     flex-wrap: wrap;
+    overflow: scroll;
+    height: 250px;
+}
+
+.characterModal .characterSetList .inventory .invenArray .invenItem {
+    border: 1px solid #221f47;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    margin: 15px 30px 15px 15px;
 }

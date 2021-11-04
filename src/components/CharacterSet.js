@@ -9,13 +9,72 @@ import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
 import { Tooltip, notification } from 'antd';
 import { useSpring, animated } from 'react-spring';
 
+const dataB = [
+    {
+        name: "무기",
+        url: "./item1.png",
+    },
+    {
+        name: "갑옷",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+]
+
 const CharacterSet = () => {
     const [sell, setSell] = useState(true);
+    const [onSell, setOnSell] = useState(false);
+    const [item, setItem] = useState(dataB);
+
+    const itemCheck = (index) => {
+        let copyData = [...item];
+        copyData[index] = {
+            ...copyData[index],
+            isChecked: !copyData[index].isChecked,
+        }
+        setItem(copyData);
+    }
+
     const {x} = useSpring({
         from: {x: 0},
         x: sell ? 1 : 0,
         config: {duration: 700},
     })
+
+    const sellBt = () => {
+        setOnSell(!onSell);
+    }
 
     return (
         <div className="characterModal">
@@ -128,23 +187,51 @@ const CharacterSet = () => {
                 </div>
                 <div className="inventory">
                     <div className="invenTop">
-                        <div className="invenName">인벤토리</div>
-                        <Tooltip placement="left" color="#858cec" title="아이템을 선택하여 판매할 수 있습니다.">
-                        <div
-                            onClick={() => setSell(!sell)}
-                        >
-                            <animated.div
-                                style={{
-                                    opacity: x.to({ range: [0, 1], output: [0.5, 1] }),
+                        <div className="invenMode">
+                            <div className="invenName">인벤토리</div>
+                            <Tooltip placement="right" color="#858cec" title="아이템을 선택하여 판매할 수 있습니다.">
+                            <div
+                                className="sellMode"
+                                onClick={() => {
+                                    setSell(!sell);
+                                    sellBt();
+                                    const a = item.filter((item) => (!item.isChecked));
+                                    setItem(a);
                                 }}
                             >
-                                판매 모드
-                            </animated.div>
+                                <animated.div
+                                    style={{
+                                        opacity: x.to({ range: [0, 1], output: [0.5, 1] }),
+                                        cursor: "pointer",
+                                        border: "2px solid #221f47",
+                                        padding: 5,
+                                        borderRadius: "5px",
+                                    }}
+                                >
+                                    판매 모드
+                                </animated.div>
+                            </div>
+                            </Tooltip>
                         </div>
-                        </Tooltip>
-                        <button className="sellBtn">판매</button>
+                        { onSell && 
+                            <button className="sellBtn">
+                                판매
+                            </button>
+                        }
                     </div>
-                    <div className="invenArray">리스트</div>
+                    <div className="invenArray">
+                        {item.map((item, index) => (
+                            <div
+                                className="invenItem"
+                                onClick={() => itemCheck(index)}
+                            >
+                                <p>{item.name}</p>
+                                {
+                                    item.isChecked ? "체크" : "체크 안됨"
+                                }
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

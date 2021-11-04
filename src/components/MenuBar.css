@@ -58,6 +58,40 @@
     margin: 15px 10px;
 }
 
+.gachaInven .gachaList {
+    overflow: scroll;
+    text-align: center;
+    height: 600px;
+}
+
+.gachaInven .gachaList .gachaItem {
+    display: inline-flex;
+    flex-wrap: wrap;
+    background-color: #221f47;
+    width: 150px;
+    height: 150px;
+    margin: 5px;
+    color: #fff;
+}
+
+.gachaInven .gachaClose {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    font-size: 20px;
+    width: 100px;
+    height: 60px;
+    background-color: #7970dd;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.gachaInven .gachaClose:hover {
+    background-color: #413c83;
+    color: #fff;
+}
+
 .shopModal .shopList .gacha {
     display: flex;
     justify-content: space-around;

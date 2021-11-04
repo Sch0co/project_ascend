@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import "./MenuBar.css";
 import { ReactComponent as Close } from "../icon/mainIcon/arrow-right-solid.svg";
 import { ReactComponent as Line } from "../icon/mainIcon/bars-solid.svg";
-import { ReactComponent as ModalClose } from "../icon/mainIcon/x_close_cross_delete_icon.svg";
+import { ReactComponent as ModalClose } from "../icon/mainIcon/x_close.svg";
 import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
 import { useMediaQuery } from "react-responsive"
 import { useHistory } from "react-router-dom";
@@ -10,6 +10,56 @@ import CharacterSet from "./CharacterSet";
 import Gacha from "./Gacha";
 import Modal from "react-modal";
 import { Tooltip, notification } from 'antd';
+
+const dataA = [
+    {
+        name: "투구",
+        url: "./item1.png",
+    },
+]
+
+const dataB = [
+    {
+        name: "무기",
+        url: "./item1.png",
+    },
+    {
+        name: "갑옷",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+    {
+        name: "방어구",
+        url: "./item1.png",
+    },
+]
 
 // modal style
 // const myPageStyle = {
@@ -49,21 +99,14 @@ const MenuBar = () => {
     // const [isMyPage, setIsMyPage] = useState(false);
     const [isCharacter, setIsCharacter] = useState(false);
     const [isShop, setIsShop] = useState(false);
+    const [itemResult, setItemResult] = useState([]);
 
-    const oneNoti = () => {
-        notification.open({
-            message: '뽑기 성공!',
-            description:
-              '장비 1개를 획득하였습니다.',
-          });
+    const oneGacha = () => {
+        setItemResult(dataA);
     }
 
-    const tenNoti = () => {
-        notification.open({
-            message: '뽑기 성공!',
-            description:
-              '장비 10개를 획득하였습니다.',
-          });
+    const tenGacha = () => {
+        setItemResult(dataB);
     }
 
     const screenMove = useMediaQuery({
@@ -98,6 +141,7 @@ const MenuBar = () => {
 
     const shopClose = () => {
         setIsShop(false);
+        setItemResult([]);
     }
 
     // logout
@@ -192,48 +236,74 @@ const MenuBar = () => {
                                         />
                                     </div>
                                     <div className="shopList">
-                                            <div className="shopUserCoin">
-                                                <Coin
-                                                    style={{
-                                                        width: "20px",
-                                                        height: "20px",
-                                                        marginRight: "5px",
-                                                        verticalAlign: "middle",
-                                                    }}
-                                                />
-                                                1,000
-                                            </div>
-                                        <div className="gacha">
-                                            <div className="gacha_1">
-                                                <div className="gacha_1_img">
-                                                    뽑기볼 이미지
-                                                </div>
-                                                <div className="gacha_1s">
-                                                    <Tooltip placement="bottom" color="#858cec" title="100원이 소모됩니다.">
-                                                        <button
-                                                            onClick={oneNoti}
-                                                        >
-                                                            장비 1회 뽑기
-                                                        </button>
-                                                    </Tooltip>
-                                                </div>
-                                            </div>
-                                            <div className="gacha_2">
-                                                <div className="gacha_2_img">
-                                                    뽑기볼 이미지 * 10
-                                                </div>
-                                                <div className="gacha_10s">
-                                                    <Tooltip placement="bottom" color="#858cec" title="1,000원이 소모됩니다.">
-                                                        <button
-                                                            onClick={tenNoti}
-                                                        >
-                                                            장비 10회 뽑기
-                                                        </button>
-                                                    </Tooltip>
-                                                </div>
-                                            </div>
+                                        <div className="shopUserCoin">
+                                            <Coin
+                                                style={{
+                                                    width: "20px",
+                                                    height: "20px",
+                                                    marginRight: "5px",
+                                                    verticalAlign: "middle",
+                                                }}
+                                            />
+                                            1,000
                                         </div>
-                                    </div>
+                                        { itemResult.length > 0 ?
+                                            <div className="gachaInven">
+                                                <div className="gachaList">
+                                                    {itemResult.map((item) =>
+                                                        <div className="gachaItem">
+                                                            <img
+                                                                src={item.url}
+                                                                style={{
+                                                                    objectFit: "cover",
+                                                                    width: "100%",
+                                                                    height: "100%",
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <button
+                                                    className="gachaClose"
+                                                    type="button"
+                                                    onClick={() => {setItemResult([])}}
+                                                >
+                                                    돌아가기
+                                                </button>
+                                            </div>
+                                            :
+                                            <div className="gacha">
+                                                <div className="gacha_1">
+                                                    <div className="gacha_1_img">
+                                                        뽑기볼 이미지
+                                                    </div>
+                                                    <div className="gacha_1s">
+                                                        <Tooltip placement="bottom" color="#858cec" title="100원이 소모됩니다.">
+                                                            <button
+                                                                onClick={oneGacha}
+                                                            >
+                                                                장비 1회 뽑기
+                                                            </button>
+                                                        </Tooltip>
+                                                    </div>
+                                                </div>
+                                                <div className="gacha_2">
+                                                    <div className="gacha_2_img">
+                                                        뽑기볼 이미지 * 10
+                                                    </div>
+                                                    <div className="gacha_10s">
+                                                        <Tooltip placement="bottom" color="#858cec" title="1,000원이 소모됩니다.">
+                                                            <button
+                                                                onClick={tenGacha}
+                                                            >
+                                                                장비 10회 뽑기
+                                                            </button>
+                                                        </Tooltip>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            }
+                                        </div>
                                     <Gacha />
                                 </div>
                             </Modal>

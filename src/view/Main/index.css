@@ -45,6 +45,17 @@
   background-color: transparent;
 }
 
+.stageTop {
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #221f47;
+}
+
+
 .mainWindow .mainView .mainItem {
   background-color: #3c4372;
   border-radius: 10px;

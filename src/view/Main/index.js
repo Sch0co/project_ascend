@@ -1,10 +1,95 @@
 import { React, useState } from "react";
 import "./index.css";
+import { ReactComponent as ModalClose } from "../../icon/mainIcon/x_close.svg";
 import MenuBar from "../../components/MenuBar";
 import CharacterSet from "../../components/CharacterSet";
 import CharaStatus from "../../components/CharaStatus";
 import Modal from "react-modal";
 import { useHistory } from "react-router-dom";
+import GameStage from "../../components/GameStage";
+
+const stages = [
+  {
+    key: 1,
+    name: "1F",
+  },
+  {
+    key: 2,
+    name: "2F",
+  },
+  {
+    key: 3,
+    name: "3F",
+  },
+  {
+    key: 4,
+    name: "4F",
+  },
+  {
+    key: 5,
+    name: "5F",
+  },
+  {
+    key: 6,
+    name: "6F",
+  },
+  {
+    key: 7,
+    name: "7F",
+  },
+  {
+    key: 8,
+    name: "8F",
+  },
+  {
+    key: 9,
+    name: "9F",
+  },
+  {
+    key: 10,
+    name: "10F",
+  },
+  {
+    key: 11,
+    name: "11F",
+  },
+  {
+    key: 12,
+    name: "12F",
+  },
+  {
+    key: 13,
+    name: "13F",
+  },
+  {
+    key: 14,
+    name: "14F",
+  },
+  {
+    key: 15,
+    name: "15F",
+  },
+  {
+    key: 16,
+    name: "16F",
+  },
+  {
+    key: 17,
+    name: "17F",
+  },
+  {
+    key: 18,
+    name: "18F",
+  },
+  {
+    key: 19,
+    name: "19F",
+  },
+  {
+    key: 20,
+    name: "20F",
+  },
+];
 
 const characterStyle = {
   overlay: {
@@ -99,9 +184,20 @@ const Main = () => {
               onRequestClose={stageClose}
               style={stageStyle}
               >
-                <div>
-                  1층 <button onClick={onGame}> 입장 </button>
+                <div className="stageTop">
+                  <div>스테이지</div>
+                  <ModalClose
+                    onClick={stageClose}
+                    style={{
+                      width: "25px",
+                      height: "25px",
+                      cursor: "pointer",
+                    }}
+                  />
                 </div>
+                  {stages.map((stair) => (
+                    <GameStage data={stair} />
+                  ))}
               </Modal>
         <div className="mainItem">
           <div className="mainItemTop">최근 획득 장비</div>

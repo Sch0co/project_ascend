@@ -1,0 +1,16 @@
+.stage {
+    background-color: #3c4372;
+    width: 130px;
+    height: 130px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 10px;
+  }
+  
+  .stage:hover {
+    background-color: #4b5594;
+  }

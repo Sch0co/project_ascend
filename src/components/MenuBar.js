@@ -4,8 +4,9 @@ import { ReactComponent as Close } from "../icon/mainIcon/arrow-right-solid.svg"
 import { ReactComponent as Line } from "../icon/mainIcon/bars-solid.svg";
 import { ReactComponent as ModalClose } from "../icon/mainIcon/x_close.svg";
 import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
+import { ReactComponent as Exit } from "../icon/mainIcon/exit-door.svg";
 import { useMediaQuery } from "react-responsive"
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import CharacterSet from "./CharacterSet";
 import Gacha from "./Gacha";
 import Modal from "react-modal";
@@ -101,6 +102,8 @@ const MenuBar = () => {
     const [isShop, setIsShop] = useState(false);
     const [itemResult, setItemResult] = useState([]);
 
+    const location = useLocation();
+
     const oneGacha = () => {
         setItemResult(dataA);
     }
@@ -129,6 +132,7 @@ const MenuBar = () => {
     // madal open/close
     const characterOpen = () => {
         setIsCharacter(true);
+        setSideToggle(false);
     }
 
     const characterClose = () => {
@@ -137,6 +141,7 @@ const MenuBar = () => {
 
     const shopOpen = () => {
         setIsShop(true);
+        setSideToggle(false);
     }
 
     const shopClose = () => {
@@ -148,15 +153,124 @@ const MenuBar = () => {
     const history = useHistory();
 
     const onLogout = () => {
+        // const res = await axios({
+        //     method: 'get',     //put
+        //     url: "/user",
+        //     // headers: {'Authorization': 'Bearer'+token}, 
+        //   });
+
         history.push("/");
+
+    }
+
+    const onRun = () => {
+        history.push("/main");
     }
 
     return (
         <>
-            { sideToggle || !screenMove ? (
+            <Modal
+                isOpen={isCharacter}
+                onRequestClose={characterClose}
+                style={characterStyle}
+                zIndex={1000}
+            >
+                <CharacterSet />
+            </Modal>
+
+            <Modal
+                isOpen={isShop}
+                onRequestClose={shopClose}
+                style={shopStyle}
+            >
+                <div className="shopModal">
+                    <div className="shopTop">
+                        <div>상점</div>
+                        <ModalClose
+                            onClick={shopClose}
+                            style={{
+                                width: "25px",
+                                height: "25px",
+                                cursor: "pointer",
+                            }}
+                        />
+                    </div>
+                    <div className="shopList">
+                        <div className="shopUserCoin">
+                            <Coin
+                                style={{
+                                    width: "20px",
+                                    height: "20px",
+                                    marginRight: "5px",
+                                    verticalAlign: "middle",
+                                }}
+                            />
+                            1,000
+                        </div>
+                        { itemResult.length > 0 ?
+                            <div className="gachaInven">
+                                <div className="gachaList">
+                                    {itemResult.map((item) =>
+                                        <div className="gachaItem">
+                                            <img
+                                                src={item.url}
+                                                style={{
+                                                    objectFit: "cover",
+                                                    width: "100%",
+                                                    height: "100%",
+                                                }}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                                    <button
+                                        className="gachaClose"
+                                        type="button"
+                                        onClick={() => {setItemResult([])}}
+                                    >
+                                        돌아가기
+                                    </button>
+                                </div>
+                            :
+                            <div className="gacha">
+                                <div className="gacha_1">
+                                    <div className="gacha_1_img">
+                                        뽑기볼 이미지
+                                    </div>
+                                    <div className="gacha_1s">
+                                        <Tooltip placement="bottom" color="#858cec" title="100원이 소모됩니다.">
+                                            <button
+                                                onClick={oneGacha}
+                                            >
+                                                장비 1회 뽑기
+                                            </button>
+                                        </Tooltip>
+                                    </div>
+                                </div>
+                                <div className="gacha_2">
+                                    <div className="gacha_2_img">
+                                        뽑기볼 이미지 * 10
+                                    </div>
+                                    <div className="gacha_10s">
+                                        <Tooltip placement="bottom" color="#858cec" title="1,000원이 소모됩니다.">
+                                            <button
+                                                onClick={tenGacha}
+                                            >
+                                                장비 10회 뽑기
+                                            </button>
+                                        </Tooltip>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    <Gacha />
+                </div>
+            </Modal>
+            { sideToggle  ? (
                 <div className="sideBarMenu">
                     <div className="sideBarTop">
-                        { screenMove &&
+                        { location.pathname !== "/main" &&
                             <button
                                 className="sideBarClose"
                                 onClick={showBar}
@@ -201,117 +315,31 @@ const MenuBar = () => {
                                 </div>
                             </div>
                         </Modal> */}
-                        <div>
-                            <button onClick={characterOpen}>
-                                캐릭터 세팅
-                            </button>
-                        </div>
-                            <Modal
-                                isOpen={isCharacter}
-                                onRequestClose={characterClose}
-                                style={characterStyle}
-                            >
-                                <CharacterSet />
-                            </Modal>
+                        { location.pathname === "/main" &&
+                            <div>
+                                <button onClick={characterOpen}>
+                                    캐릭터 세팅
+                                </button>
+                            </div>
+                        }
                         <div>
                             <button onClick={shopOpen}>
                                 상점
                             </button>
                         </div>
-                            <Modal
-                                isOpen={isShop}
-                                onRequestClose={shopClose}
-                                style={shopStyle}
-                            >
-                                <div className="shopModal">
-                                    <div className="shopTop">
-                                        <div>상점</div>
-                                        <ModalClose
-                                            onClick={shopClose}
-                                            style={{
-                                                width: "25px",
-                                                height: "25px",
-                                                cursor: "pointer",
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="shopList">
-                                        <div className="shopUserCoin">
-                                            <Coin
-                                                style={{
-                                                    width: "20px",
-                                                    height: "20px",
-                                                    marginRight: "5px",
-                                                    verticalAlign: "middle",
-                                                }}
-                                            />
-                                            1,000
-                                        </div>
-                                        { itemResult.length > 0 ?
-                                            <div className="gachaInven">
-                                                <div className="gachaList">
-                                                    {itemResult.map((item) =>
-                                                        <div className="gachaItem">
-                                                            <img
-                                                                src={item.url}
-                                                                style={{
-                                                                    objectFit: "cover",
-                                                                    width: "100%",
-                                                                    height: "100%",
-                                                                }}
-                                                            />
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                <button
-                                                    className="gachaClose"
-                                                    type="button"
-                                                    onClick={() => {setItemResult([])}}
-                                                >
-                                                    돌아가기
-                                                </button>
-                                            </div>
-                                            :
-                                            <div className="gacha">
-                                                <div className="gacha_1">
-                                                    <div className="gacha_1_img">
-                                                        뽑기볼 이미지
-                                                    </div>
-                                                    <div className="gacha_1s">
-                                                        <Tooltip placement="bottom" color="#858cec" title="100원이 소모됩니다.">
-                                                            <button
-                                                                onClick={oneGacha}
-                                                            >
-                                                                장비 1회 뽑기
-                                                            </button>
-                                                        </Tooltip>
-                                                    </div>
-                                                </div>
-                                                <div className="gacha_2">
-                                                    <div className="gacha_2_img">
-                                                        뽑기볼 이미지 * 10
-                                                    </div>
-                                                    <div className="gacha_10s">
-                                                        <Tooltip placement="bottom" color="#858cec" title="1,000원이 소모됩니다.">
-                                                            <button
-                                                                onClick={tenGacha}
-                                                            >
-                                                                장비 10회 뽑기
-                                                            </button>
-                                                        </Tooltip>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            }
-                                        </div>
-                                    <Gacha />
-                                </div>
-                            </Modal>
                         <div className="logout">
                             <button className="logoutBtn" onClick={onLogout}>
                                 로그아웃
                             </button>
                         </div>
+                        { location.pathname !== "/main" &&
+                            <div
+                                className="exit"
+                                onClick={onRun}
+                            >
+                                도망가기
+                            </div>
+                        }
                     </div>
                 </div>
             ) : (

@@ -2,11 +2,11 @@ import React from "react";
 import "./GameStage.css";
 
 const GameStage = (props) => {
-    const {name} = props.data;
+    const {stageCount} = props.data;
 
     return (
         <div className="stage">
-            {name}
+            {stageCount}
         </div>
     )
 }

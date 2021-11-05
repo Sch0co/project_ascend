@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import "./MenuBar.css";
 import { ReactComponent as Close } from "../icon/mainIcon/arrow-right-solid.svg";
 import { ReactComponent as Line } from "../icon/mainIcon/bars-solid.svg";
@@ -11,6 +11,7 @@ import CharacterSet from "./CharacterSet";
 import Gacha from "./Gacha";
 import Modal from "react-modal";
 import { Tooltip, notification } from 'antd';
+import axios from "axios";
 
 const dataA = [
     {
@@ -101,15 +102,47 @@ const MenuBar = () => {
     const [isCharacter, setIsCharacter] = useState(false);
     const [isShop, setIsShop] = useState(false);
     const [itemResult, setItemResult] = useState([]);
+    const [userData, setUserData] = useState(null);
+
+    const loadUserData = async() => {
+        const res = await axios({
+            method: 'get',
+            url: "/user",
+        });
+
+        // if(res.status === 200) {
+        //     setUserData(res.data);
+        // }
+    }
+
+    useEffect(() => {
+        loadUserData();
+    }, [])
 
     const location = useLocation();
 
-    const oneGacha = () => {
-        setItemResult(dataA);
+    const oneGacha = async() => {
+        const res = await axios({
+            method: 'post',
+            url: "/draw",
+            data: {
+                count: 1,
+            }
+        });
+
+        setItemResult();
     }
 
-    const tenGacha = () => {
-        setItemResult(dataB);
+    const tenGacha = async() => {
+        const res = await axios({
+            method: 'post',
+            url: "/draw",
+            data: {
+                count: 10,
+            }
+        });
+
+        setItemResult();
     }
 
     const screenMove = useMediaQuery({
@@ -205,7 +238,7 @@ const MenuBar = () => {
                                     verticalAlign: "middle",
                                 }}
                             />
-                            1,000
+                            {userData?.money?.toLocalString()}
                         </div>
                         { itemResult.length > 0 ?
                             <div className="gachaInven">

@@ -118,18 +118,6 @@ const Index = (props) => {
                         </div>
                     </div>
                 </div>
-                {/* <div className="userRun">
-                    <Exit
-                        onClick={onRun}
-                        style={{
-                            width: 90,
-                            height: 90,
-                            verticalAlign: "middle",
-                            color: "#000",
-                        }}
-                    />
-                    <div className="run">도망가기!</div>
-                </div> */}
             </div>
         </div>
     )

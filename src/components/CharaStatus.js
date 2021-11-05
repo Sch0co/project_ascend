@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./CharaStatus.css";
 import { ReactComponent as User } from "../icon/mainIcon/user.svg";
 import { ReactComponent as Hp } from "../icon/mainIcon/heart-solid.svg";
 import { ReactComponent as Armor } from "../icon/mainIcon/armor.svg";
 import { ReactComponent as Damage } from "../icon/mainIcon/swords.svg";
 import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
+import axios from "axios";
 
 const CharaStatus = () => {
+    const [userData, setUserData] = useState(null);
+
+    const loadUserData = async() => {
+        const res = await axios({
+            method: 'get',
+            url: "/user",
+        });
+
+        if(res.status === 200) {
+            setUserData(res.data);
+        }
+    }
+
+    useEffect(() => {
+        loadUserData();
+    }, [])
+
     return(
             <div className="statusList">
                 <div className="stats">
@@ -20,7 +38,7 @@ const CharaStatus = () => {
                         />
                         이름
                     </div>
-                    <div>닉네임</div>
+                    <div>{userData?.nickname}</div>
                 </div>
                 <div className="stats">
                     <div className="statusName">
@@ -33,7 +51,7 @@ const CharaStatus = () => {
                         />
                         체력
                     </div>
-                    <div>100</div>
+                    <div>{userData?.hp?.toLocaleString()}</div>
                 </div>
                 <div className="stats">
                     <div className="statusName">
@@ -46,7 +64,7 @@ const CharaStatus = () => {
                         />
                         방어력
                     </div>
-                    <div>0</div>
+                    <div>{userData?.defense?.toLocaleString()}</div>
                 </div>
                 <div className="stats">
                     <div className="statusName">
@@ -59,7 +77,7 @@ const CharaStatus = () => {
                         />
                         데미지
                     </div>
-                    <div>10</div>
+                    <div>{userData?.damage?.toLocaleString()}</div>
                 </div>
                 <div className="stats">
                     <div className="statusName">
@@ -72,7 +90,7 @@ const CharaStatus = () => {
                         />
                         재화
                     </div>
-                    <div>0</div>
+                    <div>{userData?.money?.toLocaleString()}</div>
                 </div>
                 {/* <div>캐릭터 생성 날짜</div> */}
             </div>

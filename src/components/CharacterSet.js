@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./CharacterSet.css";
 import { ReactComponent as User } from "../icon/mainIcon/user.svg";
 import { ReactComponent as Hp } from "../icon/mainIcon/heart-solid.svg";
 import { ReactComponent as Armor } from "../icon/mainIcon/armor.svg";
 import { ReactComponent as Damage } from "../icon/mainIcon/swords.svg";
 import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
+import { ReactComponent as Check } from "../icon/mainIcon/check.svg";
+import { ReactComponent as NoCheck } from "../icon/mainIcon/nocheck.svg";
 // import { ReactComponent as ModalClose } from "../icon/mainIcon/x_close_cross_delete_icon.svg";
 import { Tooltip, notification } from 'antd';
-import { useSpring, animated } from 'react-spring';
+import axios from "axios";
 
 const dataB = [
     {
@@ -53,11 +55,43 @@ const dataB = [
 ]
 
 const CharacterSet = () => {
-    const [sell, setSell] = useState(true);
+    const [sell, setSell] = useState(false);
     const [onSell, setOnSell] = useState(false);
     const [item, setItem] = useState(dataB);
+    const [userData, setUserData] = useState(null);
+
+    const loadUserData = async() => {
+        const res = await axios({
+            method: 'get',
+            url: "/user",
+        });
+
+        if(res.status === 200) {
+            setUserData(res.data);
+        }
+    }
+
+    const loadInvenData = async() => {
+        const res = await axios({
+            method: 'get',
+            url: "/item",
+        });
+
+        if(res.status === 200) {
+            setUserData(res.data);
+        }
+
+        // console.log(res);
+    }
+
+    useEffect(() => {
+        loadUserData();
+        loadInvenData();
+    }, [])
+
 
     const itemCheck = (index) => {
+        if(!sell) return;
         let copyData = [...item];
         copyData[index] = {
             ...copyData[index],
@@ -66,15 +100,17 @@ const CharacterSet = () => {
         setItem(copyData);
     }
 
-    const {x} = useSpring({
-        from: {x: 0},
-        x: sell ? 1 : 0,
-        config: {duration: 700},
-    })
-
     const sellBt = () => {
         setOnSell(!onSell);
     }
+
+    const sellNoti = () => {
+        notification.open({
+          message: '판매',
+          description:
+            '아이템이 판매 되었습니다.',
+        });
+      };
 
     return (
         <div className="characterModal">
@@ -128,7 +164,7 @@ const CharacterSet = () => {
                                     />
                                     이름
                                 </div>
-                                <div>닉네임</div>
+                                <div>{userData?.nickname}</div>
                             </div>
                             <div className="stats">
                                 <div>
@@ -141,7 +177,7 @@ const CharacterSet = () => {
                                     />
                                     체력
                                 </div>
-                                <div>100</div>
+                                <div>{userData?.hp?.toLocaleString()}</div>
                             </div>
                             <div className="stats">
                                 <div>
@@ -154,7 +190,7 @@ const CharacterSet = () => {
                                     />
                                     방어력
                                 </div>
-                                <div>0</div>
+                                <div>{userData?.defense?.toLocaleString()}</div>
                             </div>
                             <div className="stats">
                                 <div>
@@ -167,7 +203,7 @@ const CharacterSet = () => {
                                     />
                                     데미지
                                 </div>
-                                <div>10</div>
+                                <div>{userData?.damage?.toLocaleString()}</div>
                             </div>
                             <div className="stats">
                                 <div>
@@ -180,7 +216,7 @@ const CharacterSet = () => {
                                     />
                                     재화
                                 </div>
-                                <div>0</div>
+                                <div>{userData?.money?.toLocaleString()}</div>
                             </div>
                         </div>
                     </div>
@@ -195,26 +231,21 @@ const CharacterSet = () => {
                                 onClick={() => {
                                     setSell(!sell);
                                     sellBt();
-                                    const a = item.filter((item) => (!item.isChecked));
-                                    setItem(a);
                                 }}
                             >
-                                <animated.div
-                                    style={{
-                                        opacity: x.to({ range: [0, 1], output: [0.5, 1] }),
-                                        cursor: "pointer",
-                                        border: "2px solid #221f47",
-                                        padding: 5,
-                                        borderRadius: "5px",
-                                    }}
-                                >
                                     판매 모드
-                                </animated.div>
                             </div>
                             </Tooltip>
                         </div>
                         { onSell && 
-                            <button className="sellBtn">
+                            <button
+                                className="sellBtn"
+                                onClick={() => {
+                                    const iCheck = item.filter((item) => (!item.isChecked));
+                                    setItem(iCheck);
+                                    sellNoti();
+                                }}
+                            >
                                 판매
                             </button>
                         }
@@ -226,8 +257,15 @@ const CharacterSet = () => {
                                 onClick={() => itemCheck(index)}
                             >
                                 <p>{item.name}</p>
-                                {
-                                    item.isChecked ? "체크" : "체크 안됨"
+                                { sell &&
+                                    <div className="checkBox">
+                                        {
+                                            item.isChecked ?
+                                                <Check />
+                                                :
+                                                <NoCheck />
+                                        }
+                                    </div>
                                 }
                             </div>
                         ))}

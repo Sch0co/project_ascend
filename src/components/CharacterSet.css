@@ -84,6 +84,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 40px;
 }
 
 .characterModal .characterSetList .inventory .invenTop .invenMode .invenName {
@@ -93,6 +94,13 @@
 
 .characterModal .characterSetList .inventory .invenTop .invenMode .sellMode {
     display: inline-block;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.characterModal .characterSetList .inventory .invenTop .invenMode .sellMode:hover {
+    cursor: pointer;
+    background-color: #858cec;
 }
 
 .characterModal .characterSetList .inventory .invenTop .sellBtn {
@@ -123,4 +131,8 @@
     height: 100px;
     text-align: center;
     margin: 15px 30px 15px 15px;
+}
+
+.characterModal .characterSetList .inventory .invenArray .invenItem .checkBox {
+    margin: 40px 0 0 55px;
 }

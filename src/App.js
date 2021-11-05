@@ -12,7 +12,8 @@ function App() {
     <Switch>
       <Route exact path="/" component={Init} />
       <Route exact path="/main" component={Main} />
-      <Route exact path="/main/game" component={Game} />
+      <Route exact path="/main/game/:stageIndex" component={Game} />
+      <Route path="*" component={Main} />
       {/* <LoginForm /> */}
     </Switch>
   );

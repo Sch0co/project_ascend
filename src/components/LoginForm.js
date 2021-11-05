@@ -50,7 +50,6 @@ const LoginForm = () => {
       history.push("/main");
     }
 
-    console.log(res);
   };
 
   const onRegist = async() => {
@@ -101,9 +100,8 @@ const LoginForm = () => {
     }
 
     const res = await axios({
-      method: 'post',     //put
+      method: 'post',
       url: "/user",
-      // headers: {'Authorization': 'Bearer'+token}, 
       data: {
         "userId" : regiId,
         "userPwd" : regiPw,
@@ -119,9 +117,6 @@ const LoginForm = () => {
       setRegiNickName("")
       setTabIndex("1")
     }
-
-    // console.log(res);
-    console.log("통과");
   }
 
   return (

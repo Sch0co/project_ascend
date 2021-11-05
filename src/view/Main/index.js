@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import "./index.css";
 import { ReactComponent as ModalClose } from "../../icon/mainIcon/x_close.svg";
 import MenuBar from "../../components/MenuBar";
@@ -7,89 +7,8 @@ import CharaStatus from "../../components/CharaStatus";
 import Modal from "react-modal";
 import { useHistory } from "react-router-dom";
 import GameStage from "../../components/GameStage";
+import axios from "axios";
 
-const stages = [
-  {
-    key: 1,
-    name: "1F",
-  },
-  {
-    key: 2,
-    name: "2F",
-  },
-  {
-    key: 3,
-    name: "3F",
-  },
-  {
-    key: 4,
-    name: "4F",
-  },
-  {
-    key: 5,
-    name: "5F",
-  },
-  {
-    key: 6,
-    name: "6F",
-  },
-  {
-    key: 7,
-    name: "7F",
-  },
-  {
-    key: 8,
-    name: "8F",
-  },
-  {
-    key: 9,
-    name: "9F",
-  },
-  {
-    key: 10,
-    name: "10F",
-  },
-  {
-    key: 11,
-    name: "11F",
-  },
-  {
-    key: 12,
-    name: "12F",
-  },
-  {
-    key: 13,
-    name: "13F",
-  },
-  {
-    key: 14,
-    name: "14F",
-  },
-  {
-    key: 15,
-    name: "15F",
-  },
-  {
-    key: 16,
-    name: "16F",
-  },
-  {
-    key: 17,
-    name: "17F",
-  },
-  {
-    key: 18,
-    name: "18F",
-  },
-  {
-    key: 19,
-    name: "19F",
-  },
-  {
-    key: 20,
-    name: "20F",
-  },
-];
 
 const characterStyle = {
   overlay: {
@@ -116,8 +35,9 @@ const stageStyle = {
 
 const Main = () => {
   const [isCharacter, setIsCharacter] = useState(false);
-  const [stage, setStage] = useState(false);
-  
+  const [stage, setStage] = useState([]);
+  const [stageModal, setStageModal] = useState(false);
+
   const characterOpen = () => {
     setIsCharacter(true);
   }
@@ -125,19 +45,29 @@ const Main = () => {
   const characterClose = () => {
     setIsCharacter(false);
   }
+  
+  const stageOpen = async() => {
+    setStageModal(true);
 
-  const stageOpen = () => {
-    setStage(true);
+    const res = await axios({
+      method: 'get',
+      url: "/mystage",
+    });
+    console.log(res);
+
+    if(res.status === 200) {
+      setStage(res.data);
+    }
   }
   
   const stageClose = () => {
-    setStage(false);
+    setStageModal(false);
   }
   
   const history = useHistory();
   
-  const onGame = () => {
-    history.push("/main/game");
+  const onGame = (item) => {
+    history.push(`/main/game/${item.stageIdx}`);
   }
 
   return (
@@ -180,9 +110,9 @@ const Main = () => {
           </div>
         </div>
               <Modal
-              isOpen={stage}
-              onRequestClose={stageClose}
-              style={stageStyle}
+                isOpen={stageModal}
+                onRequestClose={stageClose}
+                style={stageStyle}
               >
                 <div className="stageTop">
                   <div>스테이지</div>
@@ -195,8 +125,18 @@ const Main = () => {
                     }}
                   />
                 </div>
-                  {stages.map((stair) => (
-                    <GameStage data={stair} />
+                  {stage.map((item) => (
+                    <div
+                      onClick={() => onGame(item)}
+                      style={{
+                        display: "inline-block",
+                        borderRadius: "50%",
+                      }}
+                    >
+                      <GameStage
+                        data={item}
+                      />
+                    </div>
                   ))}
               </Modal>
         <div className="mainItem">

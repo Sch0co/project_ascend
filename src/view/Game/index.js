@@ -1,40 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { useSpring, animated } from "react-spring";
 import "./index.css";
-import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ReactComponent as Armor } from "../../icon/mainIcon/armor.svg";
 import { ReactComponent as Damage } from "../../icon/mainIcon/swords.svg";
 import { ReactComponent as Coin } from "../../icon/mainIcon/coins.svg";
-import { ReactComponent as Exit } from "../../icon/mainIcon/exit-door.svg";
+// import { ReactComponent as Exit } from "../../icon/mainIcon/exit-door.svg";
+import MenuBar from "../../components/MenuBar";
+import axios from "axios";
 
-const Index = () => {
-    const history = useHistory();
+const Index = (props) => {
+    const [monData, setMonData] = useState(null);
+    const [userData, setUserData] = useState(null);
 
-    const onRun = () => {
-        history.push("/main");
+    const { stageIndex } = useParams();
+    // const history = useHistory();
+
+    // const onRun = () => {
+    //     history.push("/main");
+    // }
+
+    const loadStageInfo = async() => {
+
+        const res = await axios({
+            method: 'get',
+            url: `/stage/${stageIndex}`,
+        });
+
+        if(res.status === 200) {
+            setMonData(res.data);
+        }
+
     }
+
+    const loadUserData = async() => {
+        const res = await axios({
+            method: 'get',
+            url: "/user",
+        });
+
+        if(res.status === 200) {
+            setUserData(res.data);
+        }
+    }
+
+    useEffect(() => {
+        loadStageInfo();
+        loadUserData();
+    }, [])
+
 
     return (
         <div className="gameMain">
+            <MenuBar />
             <div className="monInfo">
                 <div className="monStats">
-                    <div className="monName">몬스터 이름</div>
+                    <div className="monName">{monData?.monsterName}</div>
                     <div className="monHp">
-                        HP <span>1,000</span>/1,000
+                        HP {monData?.monsterHp?.toLocaleString()}
                     </div>
                 </div>
                 <div className="monImg">
-                    몬스터 이미지
+                    {monData?.monsterUrl?.toLocaleString()}
                 </div>
             </div>
             <div className="userInter">
                 <div className="userInfo">
                     <div className="userPro">
-                        <div className="userImg">유저 이미지</div>
-                        <div className="userNick">유저 닉네임</div>
+                        <div className="userImg">{userData?.userProfileUrl}</div>
+                        <div className="userNick">{userData?.nickname}</div>
                     </div>
                     <div className="userStats">
-                        <div className="userHp">HP <span>100</span>/100</div>
+                        <div className="userHp">HP {userData?.hp?.toLocaleString()}</div>
                         <div className="statsList">
                             <div className="stats">
                                 <div className="statName">
@@ -48,7 +85,7 @@ const Index = () => {
                                     />
                                     데미지
                                 </div>
-                                <div>10</div>
+                                <div>{userData?.damage?.toLocaleString()}</div>
                             </div>
                             <div className="stats">
                                 <div className="statName">
@@ -62,7 +99,7 @@ const Index = () => {
                                     />
                                     방어력
                                 </div>
-                                <div>0</div>
+                                <div>{userData?.defense?.toLocaleString()}</div>
                             </div>
                             <div className="stats">
                                 <div className="statName">
@@ -76,12 +113,12 @@ const Index = () => {
                                     />
                                     재화
                                 </div>
-                                <div>0</div>
+                                <div>{userData?.money?.toLocaleString()}</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="userRun">
+                {/* <div className="userRun">
                     <Exit
                         onClick={onRun}
                         style={{
@@ -92,7 +129,7 @@ const Index = () => {
                         }}
                     />
                     <div className="run">도망가기!</div>
-                </div>
+                </div> */}
             </div>
         </div>
     )

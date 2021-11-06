@@ -139,7 +139,7 @@ const LoginForm = () => {
               </div>
               <div className="textTab">
                 <span>PW</span>
-                <input value={logPw} onChange={(e) => setLogPw(e.target.value)} type="password" name="userPw" required />
+                <input value={logPw} onChange={(e) => setLogPw(e.target.value)} type="password" name="userPw" required onKeyPress={(e) => e.key == "Enter" && onLogin()} />
               </div>
               <div className="loginButton">
                 <button className="onMain" type="button" onClick={onLogin}>

@@ -11,53 +11,10 @@ import { ReactComponent as NoCheck } from "../icon/mainIcon/nocheck.svg";
 import { Tooltip, notification } from 'antd';
 import axios from "axios";
 
-const dataB = [
-    {
-        name: "무기",
-        url: "./item1.png",
-    },
-    {
-        name: "갑옷",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-]
-
 const CharacterSet = () => {
     const [sell, setSell] = useState(false);
     const [onSell, setOnSell] = useState(false);
-    const [item, setItem] = useState(dataB);
+    const [item, setItem] = useState([]);
     const [userData, setUserData] = useState(null);
 
     const loadUserData = async() => {
@@ -74,14 +31,11 @@ const CharacterSet = () => {
     const loadInvenData = async() => {
         const res = await axios({
             method: 'get',
-            url: "/item",
+            url: "/inventory/item",
         });
-
         if(res.status === 200) {
-            setUserData(res.data);
+            setItem(res.data);
         }
-
-        // console.log(res);
     }
 
     useEffect(() => {
@@ -100,7 +54,30 @@ const CharacterSet = () => {
         setItem(copyData);
     }
 
-    const sellBt = () => {
+    const sellItem = async() => {
+        // console.log("판매시작", item)
+        // let iCheck = item.filter((item) => (item.isChecked));
+        // iCheck = iCheck.map((item) => item.idx);
+        // console.log(iCheck)
+        // const res = await axios({
+        //     method: 'get',
+        //     url: "/inventory/item",
+        //     data: {
+        //         userIdx: 2,
+        //         inventoryItemIdx: 9
+        //     }
+        // });
+
+        // if(res.status === 200) {
+        //     // setItem(res.data);
+        // }
+
+        // setItem(iCheck);
+        sellNoti();
+    }
+
+    const onSellModeChnage = () => {
+        setSell(!sell);
         setOnSell(!onSell);
     }
 
@@ -228,10 +205,7 @@ const CharacterSet = () => {
                             <Tooltip placement="right" color="#858cec" title="아이템을 선택하여 판매할 수 있습니다.">
                             <div
                                 className="sellMode"
-                                onClick={() => {
-                                    setSell(!sell);
-                                    sellBt();
-                                }}
+                                onClick={onSellModeChnage}
                             >
                                     판매 모드
                             </div>
@@ -240,11 +214,7 @@ const CharacterSet = () => {
                         { onSell && 
                             <button
                                 className="sellBtn"
-                                onClick={() => {
-                                    const iCheck = item.filter((item) => (!item.isChecked));
-                                    setItem(iCheck);
-                                    sellNoti();
-                                }}
+                                onClick={sellItem}
                             >
                                 판매
                             </button>

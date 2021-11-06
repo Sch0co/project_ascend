@@ -1,6 +1,7 @@
 // import logo from "./logo.svg";
 import "./App.css";
 import "antd/dist/antd.css";
+import "./common/common.css";
 import React from "react";
 import Main from "./view/Main/";
 import Init from "./view/Init/index";

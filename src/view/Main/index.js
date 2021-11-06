@@ -53,7 +53,6 @@ const Main = () => {
       method: 'get',
       url: "/mystage",
     });
-    console.log(res);
 
     if(res.status === 200) {
       setStage(res.data);

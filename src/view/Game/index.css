@@ -2,6 +2,7 @@
     height: 100vh;
     width: 100%;
     background-color: #4b4c64;
+    background-image: url("https://cdna.artstation.com/p/assets/covers/images/001/309/094/large/kim-youngju-1.jpg?1444099017");
 }
 
 .gameMain .monInfo {
@@ -23,11 +24,18 @@
 }
 
 .gameMain .monInfo .monStats .monHp {
-    background-color: #f17979;
+    position: relative;
+    display: flex;
     border-radius: 5px;
-    border:1px solid #000;
-    padding: 5px;
+    border:1px solid #615f5f;
     margin: 10px 5px;
+    width: 100%;
+    height: 50px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #FFF;
+    overflow: hidden;
+    justify-content: center;
 }
 
 .gameMain .monInfo .monImg {
@@ -35,6 +43,7 @@
     margin: 20px 0;
     height: 500px;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .gameMain .userInter {

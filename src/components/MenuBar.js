@@ -13,57 +13,6 @@ import Modal from "react-modal";
 import { Tooltip, notification } from 'antd';
 import axios from "axios";
 
-const dataA = [
-    {
-        name: "투구",
-        url: "./item1.png",
-    },
-]
-
-const dataB = [
-    {
-        name: "무기",
-        url: "./item1.png",
-    },
-    {
-        name: "갑옷",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-    {
-        name: "방어구",
-        url: "./item1.png",
-    },
-]
-
-// modal style
 // const myPageStyle = {
 //     overlay: {
 //         backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -97,7 +46,11 @@ const shopStyle = {
 }
 
 const MenuBar = () => {
-    const [sideToggle, setSideToggle] = useState(true);
+    const screenMove = useMediaQuery({
+        query: "(max-width: 600px)",
+    })
+    const location = useLocation();
+    const [sideToggle, setSideToggle] = useState((!screenMove && location.pathname == "/main") ? true : false);
     // const [isMyPage, setIsMyPage] = useState(false);
     const [isCharacter, setIsCharacter] = useState(false);
     const [isShop, setIsShop] = useState(false);
@@ -109,45 +62,26 @@ const MenuBar = () => {
             method: 'get',
             url: "/user",
         });
-
-        // if(res.status === 200) {
-        //     setUserData(res.data);
-        // }
+        if(res.status === 200) {
+            setUserData(res.data);
+        }
     }
 
     useEffect(() => {
         loadUserData();
     }, [])
 
-    const location = useLocation();
-
-    const oneGacha = async() => {
+    const onGacha = async(count = 1) => {
         const res = await axios({
             method: 'post',
             url: "/draw",
             data: {
-                count: 1,
+                count,
             }
         });
 
-        setItemResult();
+        // console.log(res, "가챠 결과");
     }
-
-    const tenGacha = async() => {
-        const res = await axios({
-            method: 'post',
-            url: "/draw",
-            data: {
-                count: 10,
-            }
-        });
-
-        setItemResult();
-    }
-
-    const screenMove = useMediaQuery({
-        query: "(max-width: 600px)",
-    })
 
     // modal open/ close
     const showBar = () => {
@@ -165,7 +99,7 @@ const MenuBar = () => {
     // madal open/close
     const characterOpen = () => {
         setIsCharacter(true);
-        setSideToggle(false);
+        // setSideToggle(false);
     }
 
     const characterClose = () => {
@@ -174,7 +108,7 @@ const MenuBar = () => {
 
     const shopOpen = () => {
         setIsShop(true);
-        setSideToggle(false);
+        // setSideToggle(false);
     }
 
     const shopClose = () => {
@@ -197,6 +131,11 @@ const MenuBar = () => {
     }
 
     const onRun = () => {
+        notification.open({
+            message: '안내',
+            description:
+                '도망치셨네요 겁쟁이처럼',
+        });
         history.push("/main");
     }
 
@@ -238,7 +177,7 @@ const MenuBar = () => {
                                     verticalAlign: "middle",
                                 }}
                             />
-                            {userData?.money?.toLocalString()}
+                            {userData?.money}
                         </div>
                         { itemResult.length > 0 ?
                             <div className="gachaInven">
@@ -273,7 +212,7 @@ const MenuBar = () => {
                                     <div className="gacha_1s">
                                         <Tooltip placement="bottom" color="#858cec" title="100원이 소모됩니다.">
                                             <button
-                                                onClick={oneGacha}
+                                                onClick={onGacha.bind(this, 1)}
                                             >
                                                 장비 1회 뽑기
                                             </button>
@@ -287,7 +226,7 @@ const MenuBar = () => {
                                     <div className="gacha_10s">
                                         <Tooltip placement="bottom" color="#858cec" title="1,000원이 소모됩니다.">
                                             <button
-                                                onClick={tenGacha}
+                                                onClick={onGacha.bind(this, 10)}
                                             >
                                                 장비 10회 뽑기
                                             </button>
@@ -303,7 +242,7 @@ const MenuBar = () => {
             { sideToggle  ? (
                 <div className="sideBarMenu">
                     <div className="sideBarTop">
-                        { location.pathname !== "/main" &&
+                        { (location.pathname !== "/main" || screenMove) &&
                             <button
                                 className="sideBarClose"
                                 onClick={showBar}
@@ -381,6 +320,9 @@ const MenuBar = () => {
                             className="mainSideBtn"
                             width="30"
                             height="25"
+                            style={{
+                                color: "#FFF"
+                            }}
                             onClick={showBar}
                         />
                     </div>

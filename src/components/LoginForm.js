@@ -3,7 +3,6 @@ import { Tabs, notification } from "antd";
 import "./LoginForm.css";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { API_URL } from "../common/util";
 
 const { TabPane } = Tabs;
 
@@ -37,10 +36,29 @@ const LoginForm = () => {
       return;
     }
     
+    // const res = await axios.post(
+    //   `/login`,
+    //   {
+    //     "userId" : logId,
+    //     "userPwd" : logPw,
+    //   },
+    //   {
+    //     headers: {
+    //       'X-Requested-With': "XMLHttpRequest",
+    //       'Access-Control-Allow-Origin': '*',
+    //       'Content-Type': 'multipart/form-data',
+    //     },
+    //   }
+    // );
+
     const res = await axios({
-      method: 'post',     //put
-      url: `${API_URL}/login`,
-      headers: {'X-Requested-With': "XMLHttpRequest"},
+      method: 'post',
+      url: `/login`,
+      // headers: {
+      //   'X-Requested-With': "XMLHttpRequest",
+      //   'Access-Control-Allow-Origin': '*',
+      //   'Content-Type': 'multipart/form-data',
+      // },
       data: {
         "userId" : logId,
         "userPwd" : logPw,
@@ -102,7 +120,7 @@ const LoginForm = () => {
 
     const res = await axios({
       method: 'post',
-      url: `${API_URL}/user`,
+      url: `/user`,
       data: {
         "userId" : regiId,
         "userPwd" : regiPw,

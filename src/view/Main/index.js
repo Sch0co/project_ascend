@@ -8,7 +8,7 @@ import Modal from "react-modal";
 import { useHistory } from "react-router-dom";
 import GameStage from "../../components/GameStage";
 import axios from "axios";
-import {API_URL} from "../../common/util";
+import { notification } from "antd";
 
 
 const characterStyle = {
@@ -52,12 +52,14 @@ const Main = () => {
 
     const res = await axios({
       method: 'get',
-      url: `${API_URL}/mystage`,
+      url: "/mystage",
     });
 
     if(res.status === 200) {
       setStage(res.data);
     }
+
+    console.log(res);
   }
   
   const stageClose = () => {
@@ -66,8 +68,28 @@ const Main = () => {
   
   const history = useHistory();
   
-  const onGame = (item) => {
-    history.push(`/main/game/${item.stageIdx}`);
+  const onGame = (item, index) => {
+    const isClear = stage.filter((v) => v.isCleared === "1");
+
+    if(isClear.length === 0 || index === 0)
+    {
+      history.push(`/main/game/${stage[0].stageIdx}`);
+    }
+    else if(isClear.length > 0 || stage[index - 1].isCleared === "1")
+    {
+      history.push(`/main/game/${item.stageIdx}`);
+    }
+    else if(item.isCleared === '1')
+    {
+      history.push(`/main/game/${item.stageIdx}`);
+    }
+    else
+    {
+      notification.open({
+        message: '경고',
+        description: '비밀번호를 입력해 주세요.',
+      });
+    }
   }
 
   return (
@@ -125,9 +147,9 @@ const Main = () => {
                     }}
                   />
                 </div>
-                  {stage.map((item) => (
+                  {stage.map((item, index) => (
                     <div
-                      onClick={() => onGame(item)}
+                      onClick={() => onGame(item, index)}
                       style={{
                         display: "inline-block",
                       }}

@@ -6,7 +6,6 @@ import { ReactComponent as Armor } from "../icon/mainIcon/armor.svg";
 import { ReactComponent as Damage } from "../icon/mainIcon/swords.svg";
 import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
 import axios from "axios";
-import {API_URL} from "../common/util";
 
 const CharaStatus = () => {
     const [userData, setUserData] = useState(null);
@@ -14,7 +13,7 @@ const CharaStatus = () => {
     const loadUserData = async() => {
         const res = await axios({
             method: 'get',
-            url: `${API_URL}/user`,
+            url: `/user`,
         });
 
         if(res.status === 200) {

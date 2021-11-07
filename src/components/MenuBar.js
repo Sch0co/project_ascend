@@ -12,7 +12,6 @@ import Gacha from "./Gacha";
 import Modal from "react-modal";
 import { Tooltip, notification } from 'antd';
 import axios from "axios";
-import {API_URL} from "../common/util";
 
 // const myPageStyle = {
 //     overlay: {
@@ -61,7 +60,7 @@ const MenuBar = () => {
     const loadUserData = async() => {
         const res = await axios({
             method: 'get',
-            url: `${API_URL}/user`,
+            url: `/user`,
         });
         if(res.status === 200) {
             setUserData(res.data);
@@ -75,7 +74,7 @@ const MenuBar = () => {
     const onGacha = async(count = 1) => {
         const res = await axios({
             method: 'post',
-            url: `${API_URL}/draw`,
+            url: `/draw`,
             data: {
                 count,
             }
@@ -120,12 +119,11 @@ const MenuBar = () => {
     // logout
     const history = useHistory();
 
-    const onLogout = () => {
-        // const res = await axios({
-        //     method: 'get',     //put
-        //     url: `${API_URL}/user`,
-        //     // headers: {'Authorization': 'Bearer'+token}, 
-        //   });
+    const onLogout = async() => {
+        const res = await axios({
+            method: 'post',
+            url: `/logout`,
+          });
 
         history.push("/");
 

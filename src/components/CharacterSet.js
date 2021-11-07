@@ -10,7 +10,6 @@ import { ReactComponent as NoCheck } from "../icon/mainIcon/nocheck.svg";
 // import { ReactComponent as ModalClose } from "../icon/mainIcon/x_close_cross_delete_icon.svg";
 import { Tooltip, notification } from 'antd';
 import axios from "axios";
-import {API_URL} from "../common/util";
 
 const CharacterSet = () => {
     const [sell, setSell] = useState(false);
@@ -21,7 +20,7 @@ const CharacterSet = () => {
     const loadUserData = async() => {
         const res = await axios({
             method: 'get',
-            url: `${API_URL}/user`,
+            url: `/user`,
         });
 
         if(res.status === 200) {
@@ -32,7 +31,7 @@ const CharacterSet = () => {
     const loadInvenData = async() => {
         const res = await axios({
             method: 'get',
-            url: `${API_URL}/inventory/item`,
+            url: `/inventory/item`,
         });
         if(res.status === 200) {
             setItem(res.data);
@@ -62,7 +61,7 @@ const CharacterSet = () => {
         // console.log(iCheck)
         // const res = await axios({
         //     method: 'get',
-        //     url: `${API_URL}/inventory/item`,
+        //     url: `/inventory/item`,
         //     data: {
         //         userIdx: 2,
         //         inventoryItemIdx: 9

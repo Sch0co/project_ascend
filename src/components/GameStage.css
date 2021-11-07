@@ -1,5 +1,5 @@
 .stage {
-    background-color: #3c4372;
+    background-color: #2a2e44;
     width: 130px;
     height: 130px;
     display: inline-flex;
@@ -10,6 +10,9 @@
     cursor: pointer;
     margin: 10px 15px;
     overflow: auto;
+    position: relative;
+    font-size: 40px;
+    vertical-align: middle;
   }
   
   .stage:hover {

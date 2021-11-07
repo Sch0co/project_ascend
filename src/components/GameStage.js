@@ -1,12 +1,26 @@
 import React from "react";
 import "./GameStage.css";
+import { ReactComponent as Lock } from "../icon/mainIcon/lock.svg";
 
 const GameStage = (props) => {
-    const {stageCount} = props.data;
+    if(props.data.isCleared === '0') {
+        return (
+            <div
+                className="stage"
+            >
+                <Lock />
+            </div>
+        )
+    }
 
     return (
-        <div className="stage">
-            {stageCount}
+        <div
+            className="stage"
+            style={{
+                backgroundImage: `url(${props.data.monsterUrl})`,
+                backgroundSize: "cover",
+            }}
+        >
         </div>
     )
 }

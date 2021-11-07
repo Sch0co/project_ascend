@@ -9,6 +9,7 @@ import { ReactComponent as Coin } from "../../icon/mainIcon/coins.svg";
 import MenuBar from "../../components/MenuBar";
 import axios from "axios";
 import { animated, useSpring } from 'react-spring';
+import { API_URL } from "../../common/util";
 
 const Index = (props) => {
     const [monsterData, setMonsterData] = useState(null);
@@ -32,7 +33,7 @@ const Index = (props) => {
     const loadStageInfo = async() => {
         const res = await axios({
             method: 'get',
-            url: `/stage/${stageIndex}`,
+            url: `${API_URL}/stage/${stageIndex}`,
         });
         if(res.status === 200) {
             setMonsterHp(res.data.monsterHp);
@@ -44,7 +45,7 @@ const Index = (props) => {
     const loadUserData = async() => {
         const res = await axios({
             method: 'get',
-            url: "/user",
+            url: `${API_URL}/user`,
         });
         if(res.status === 200) {
             setUserData(res.data);
@@ -124,7 +125,7 @@ const Index = (props) => {
             setIsVitory(true);
             await axios({
                 method: 'post',
-                url: "/mystage/clear",
+                url: `${API_URL}/mystage/clear`,
                 data: {
                     stageIdx: stageIndex
                 }

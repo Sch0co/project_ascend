@@ -3,6 +3,7 @@ import { Tabs, notification } from "antd";
 import "./LoginForm.css";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../common/util";
 
 const { TabPane } = Tabs;
 
@@ -38,7 +39,7 @@ const LoginForm = () => {
     
     const res = await axios({
       method: 'post',     //put
-      url: "/login",
+      url: `${API_URL}/login`,
       headers: {'X-Requested-With': "XMLHttpRequest"},
       data: {
         "userId" : logId,
@@ -101,7 +102,7 @@ const LoginForm = () => {
 
     const res = await axios({
       method: 'post',
-      url: "/user",
+      url: `${API_URL}/user`,
       data: {
         "userId" : regiId,
         "userPwd" : regiPw,
@@ -130,7 +131,7 @@ const LoginForm = () => {
         }}
       >
         <TabPane tab={<div className="tabBtn">로그인</div>} key="1">
-          <div className="startForm">
+          <form method="post" className="startForm">
             <h3 className="loginStart">존재 확인, 접속 합니다.</h3>
             <div className="loginForm">
               <div className="textTab">
@@ -147,10 +148,10 @@ const LoginForm = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </form>
         </TabPane>
         <TabPane tab={<div className="tabBtn">회원가입</div>} key="2">
-          <div className="startForm">
+          <form method="post" className="startForm">
             <h3 className="loginStart signupStart">존재를 생성합니다.</h3>
             <div className="loginForm signupForm">
               <div className="textTab">
@@ -175,7 +176,7 @@ const LoginForm = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </form>
         </TabPane>
       </Tabs>
     </div>

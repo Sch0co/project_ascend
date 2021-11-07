@@ -8,6 +8,7 @@ import Modal from "react-modal";
 import { useHistory } from "react-router-dom";
 import GameStage from "../../components/GameStage";
 import axios from "axios";
+import {API_URL} from "../../common/util";
 
 
 const characterStyle = {
@@ -51,7 +52,7 @@ const Main = () => {
 
     const res = await axios({
       method: 'get',
-      url: "/mystage",
+      url: `${API_URL}/mystage`,
     });
 
     if(res.status === 200) {
@@ -129,7 +130,6 @@ const Main = () => {
                       onClick={() => onGame(item)}
                       style={{
                         display: "inline-block",
-                        borderRadius: "50%",
                       }}
                     >
                       <GameStage

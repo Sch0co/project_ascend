@@ -86,11 +86,6 @@
     margin-bottom: 20px;
 }
 
-.myPageModal .myPageList .userNickname div,
-.myPageModal .myPageList .userEmail div {
-    margin-right: 20px;
-}
-
 .shopModal .shopTop {
     display: flex;
     justify-content: space-between;

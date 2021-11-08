@@ -8,10 +8,9 @@ import { useMediaQuery } from "react-responsive"
 import { useHistory, useLocation } from "react-router-dom";
 import CharacterSet from "./CharacterSet";
 import Gacha from "./Gacha";
-import Modal from "react-modal";
-import { Tooltip, notification } from 'antd';
+import Modals from "react-modal";
+import { Modal, Tooltip, notification } from 'antd';
 import axios from "axios";
-import { tsNonNullExpression } from "@babel/types";
 
 const myPageStyle = {
     overlay: {
@@ -61,6 +60,7 @@ const MenuBar = () => {
     const [isShop, setIsShop] = useState(false);
     const [itemResult, setItemResult] = useState([]);
     const [userData, setUserData] = useState(null);
+    const [isRunModal, setIsRunModal] = useState(false);
 
     const loadUserData = async() => {
         const res = await axios({
@@ -76,10 +76,21 @@ const MenuBar = () => {
         loadUserData();
     }, [])
 
+    const userDelete = async() => {
+        const res = await axios({
+            method: 'delete',
+            url: '/user',
+        });
+
+        if(res.status === 200) {
+            setUserData(res.data);
+        }
+    }
+
     const onGacha = async(count = 1) => {
         const res = await axios({
             method: 'post',
-            url: `/draw`,
+            url: '/draw',
             data: {
                 count,
             }
@@ -126,11 +137,19 @@ const MenuBar = () => {
     const onLogout = async() => {
         const res = await axios({
             method: 'post',
-            url: `/logout`,
+            url: '/logout',
           });
 
         history.push("/");
 
+    }
+
+    const onRunModal = () => {
+        setIsRunModal(true);
+    }
+
+    const onRunModalCancel = () => {
+        setIsRunModal(false);
     }
 
     const onRun = () => {
@@ -144,15 +163,15 @@ const MenuBar = () => {
 
     return (
         <>
-            <Modal
+            <Modals
                 isOpen={isCharacter}
                 onRequestClose={characterClose}
                 style={characterStyle}
             >
                 <CharacterSet />
-            </Modal>
+            </Modals>
 
-            <Modal
+            <Modals
                 isOpen={isShop}
                 onRequestClose={shopClose}
                 style={shopStyle}
@@ -240,7 +259,7 @@ const MenuBar = () => {
                         </div>
                     <Gacha />
                 </div>
-            </Modal>
+            </Modals>
             { sideToggle  ? (
                 <div className="sideBarMenu">
                     <div className="sideBarTop">
@@ -261,7 +280,7 @@ const MenuBar = () => {
                                 마이페이지
                             </button>
                         </div>
-                        <Modal
+                        <Modals
                             isOpen={isMyPage}
                             onRequestClose={myPageClose}
                             style={myPageStyle}
@@ -288,7 +307,13 @@ const MenuBar = () => {
                                     </div> */}
                                     {/* <div>프로필 이미지 변경</div> */}
                                     <div className="userNickname">
-                                        <div>닉네임</div>
+                                        <div
+                                            style={{
+                                                marginRight: 20,
+                                            }}
+                                        >
+                                            닉네임
+                                        </div>
                                         <input
                                             value={userData?.nickname}
                                             type="text"
@@ -301,7 +326,13 @@ const MenuBar = () => {
                                         />
                                     </div>
                                     <div className="userEmail">
-                                        <div>이메일</div>
+                                        <div
+                                            style={{
+                                                marginRight: 20,
+                                            }}
+                                        >
+                                            이메일
+                                        </div>
                                         <input
                                             value={userData?.email}
                                             type="email"
@@ -313,12 +344,33 @@ const MenuBar = () => {
                                             }}
                                         />
                                     </div>
-                                    <div className="nickChange">닉네임 변경</div>
-                                    <div className="pwChange">비밀번호 변경</div>
-                                    <div className="userDelete">회원 탈퇴</div>
+                                    <div
+                                        className="pwChange"
+                                        style={{
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        비밀번호 변경
+                                    </div>
+                                    <div
+                                        className="nickChange"
+                                        style={{
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        닉네임 변경
+                                    </div>
+                                    <div
+                                        className="userDelete"
+                                        style={{
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        회원 탈퇴
+                                    </div>
                                 </div>
                             </div>
-                        </Modal>
+                        </Modals>
                         { location.pathname === "/main" &&
                             <div>
                                 <button onClick={characterOpen}>
@@ -339,9 +391,12 @@ const MenuBar = () => {
                         { location.pathname !== "/main" &&
                             <div
                                 className="exit"
-                                onClick={onRun}
+                                onClick={onRunModal}
                             >
                                 도망가기
+                                <Modal title="안내" visible={isRunModal} onOk={onRun} onCansel={onRunModalCancel}>
+                                    <p>도망가시겠습니까?</p>
+                                </Modal>
                             </div>
                         }
                     </div>

@@ -7,7 +7,6 @@ import axios from "axios";
 const { TabPane } = Tabs;
 
 const LoginForm = () => {
-  // const [loginTab, setLoginTab] = useState(true);
   const [tabIndex, setTabIndex] = useState("1");
 
   const [logId, setLogId] = useState("");
@@ -38,7 +37,7 @@ const LoginForm = () => {
 
     const res = await axios({
       method: 'post',
-      url: `/login`,
+      url: '/login',
       headers: {
         'X-Requested-With': "XMLHttpRequest",
         'Access-Control-Allow-Origin': '*',
@@ -53,8 +52,6 @@ const LoginForm = () => {
     if(res.status === 200) {
       history.push("/main");
     }
-
-    console.log(res);
   };
 
   const onRegist = async() => {

@@ -14,6 +14,7 @@ import { notification } from "antd";
 const characterStyle = {
   overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
+      zIndex: 2,
   },
   content: {
       backgroundColor: "#fff",
@@ -25,6 +26,7 @@ const characterStyle = {
 const stageStyle = {
   overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
+      zIndex: 2,
   },
   content: {
       backgroundColor: "#fff",
@@ -32,7 +34,6 @@ const stageStyle = {
       margin: "0 auto",
   }
 }
-
 
 const Main = () => {
   const [isCharacter, setIsCharacter] = useState(false);
@@ -58,8 +59,6 @@ const Main = () => {
     if(res.status === 200) {
       setStage(res.data);
     }
-
-    console.log(res);
   }
   
   const stageClose = () => {
@@ -75,7 +74,7 @@ const Main = () => {
     {
       history.push(`/main/game/${stage[0].stageIdx}`);
     }
-    else if(isClear.length > 0 || stage[index - 1].isCleared === "1")
+    else if(isClear.length > 0 && stage[index - 1].isCleared === "1")
     {
       history.push(`/main/game/${item.stageIdx}`);
     }
@@ -87,7 +86,7 @@ const Main = () => {
     {
       notification.open({
         message: '경고',
-        description: '비밀번호를 입력해 주세요.',
+        description: '이전 단계를 클리어해주세요!',
       });
     }
   }

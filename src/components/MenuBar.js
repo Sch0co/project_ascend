@@ -4,7 +4,6 @@ import { ReactComponent as Close } from "../icon/mainIcon/arrow-right-solid.svg"
 import { ReactComponent as Line } from "../icon/mainIcon/bars-solid.svg";
 import { ReactComponent as ModalClose } from "../icon/mainIcon/x_close.svg";
 import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
-import { ReactComponent as Exit } from "../icon/mainIcon/exit-door.svg";
 import { useMediaQuery } from "react-responsive"
 import { useHistory, useLocation } from "react-router-dom";
 import CharacterSet from "./CharacterSet";
@@ -12,20 +11,24 @@ import Gacha from "./Gacha";
 import Modal from "react-modal";
 import { Tooltip, notification } from 'antd';
 import axios from "axios";
+import { tsNonNullExpression } from "@babel/types";
 
-// const myPageStyle = {
-//     overlay: {
-//         backgroundColor: "rgba(0, 0, 0, 0.5)",
-//     },
-//     content: {
-//         backgroundColor: "#fff",
-//         width: "400px",
-//     }
-// }
+const myPageStyle = {
+    overlay: {
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        zIndex: 2,
+    },
+    content: {
+        backgroundColor: "#fff",
+        width: "400px",
+        margin: "0 auto",
+    }
+}
 
 const characterStyle = {
     overlay: {
         backgroundColor: "rgba(0, 0, 0, 0.5)",
+        zIndex: 2,
     },
     content: {
         backgroundColor: "#fff",
@@ -37,6 +40,7 @@ const characterStyle = {
 const shopStyle = {
     overlay: {
         backgroundColor: "rgba(0, 0, 0, 0.5)",
+        zIndex: 2,
     },
     content: {
         backgroundColor: "#fff",
@@ -49,9 +53,10 @@ const MenuBar = () => {
     const screenMove = useMediaQuery({
         query: "(max-width: 600px)",
     })
+
     const location = useLocation();
     const [sideToggle, setSideToggle] = useState((!screenMove && location.pathname == "/main") ? true : false);
-    // const [isMyPage, setIsMyPage] = useState(false);
+    const [isMyPage, setIsMyPage] = useState(false);
     const [isCharacter, setIsCharacter] = useState(false);
     const [isShop, setIsShop] = useState(false);
     const [itemResult, setItemResult] = useState([]);
@@ -60,7 +65,7 @@ const MenuBar = () => {
     const loadUserData = async() => {
         const res = await axios({
             method: 'get',
-            url: `/user`,
+            url: '/user',
         });
         if(res.status === 200) {
             setUserData(res.data);
@@ -80,7 +85,6 @@ const MenuBar = () => {
             }
         });
 
-        // console.log(res, "가챠 결과");
     }
 
     // modal open/ close
@@ -88,13 +92,13 @@ const MenuBar = () => {
         setSideToggle(!sideToggle);
     }
 
-    // const myPageOpen = () => {
-    //     setIsMyPage(true);
-    // }
+    const myPageOpen = () => {
+        setIsMyPage(true);
+    }
 
-    // const myPageClose = () => {
-    //     setIsMyPage(false);
-    // }
+    const myPageClose = () => {
+        setIsMyPage(false);
+    }
     
     // madal open/close
     const characterOpen = () => {
@@ -144,7 +148,6 @@ const MenuBar = () => {
                 isOpen={isCharacter}
                 onRequestClose={characterClose}
                 style={characterStyle}
-                zIndex={1000}
             >
                 <CharacterSet />
             </Modal>
@@ -251,7 +254,7 @@ const MenuBar = () => {
                         }
                     </div>
                     <div className="sideBarList">
-                        {/* <div className="myPage">
+                        <div className="myPage">
                             <button
                                 onClick={myPageOpen}
                             >
@@ -269,23 +272,53 @@ const MenuBar = () => {
                                     <ModalClose
                                         className="closeBtn"
                                         onClick={myPageClose}
+                                        style={{
+                                            width: "25px",
+                                            height: "25px",
+                                            cursor: "pointer",
+                                        }}
                                     />
                                 </div>
                                 <div className="myPageList">
-                                    <div className="myPageProfile">
+                                    {/* <div className="myPageProfile">
                                         <input
                                             className="profile"
                                             type="file"
-                                            value={upload}
+                                        />
+                                    </div> */}
+                                    {/* <div>프로필 이미지 변경</div> */}
+                                    <div className="userNickname">
+                                        <div>닉네임</div>
+                                        <input
+                                            value={userData?.nickname}
+                                            type="text"
+                                            name="userNickname"
+                                            style={{
+                                                outline: "none",
+                                                border: "1px solid #D5D0DB",
+                                                padding: 5,
+                                            }}
                                         />
                                     </div>
-                                    <div>프로필 이미지 변경</div>
-                                    <div>닉네임 변경</div>
-                                    <div>비밀번호 변경</div>
-                                    <div>회원 탈퇴</div>
+                                    <div className="userEmail">
+                                        <div>이메일</div>
+                                        <input
+                                            value={userData?.email}
+                                            type="email"
+                                            name="userEmail"
+                                            style={{
+                                                outline: "none",
+                                                border: "1px solid #D5D0DB",
+                                                padding: 5,
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="nickChange">닉네임 변경</div>
+                                    <div className="pwChange">비밀번호 변경</div>
+                                    <div className="userDelete">회원 탈퇴</div>
                                 </div>
                             </div>
-                        </Modal> */}
+                        </Modal>
                         { location.pathname === "/main" &&
                             <div>
                                 <button onClick={characterOpen}>

@@ -190,7 +190,10 @@ const Index = (props) => {
                 }}
             >
                 승리!
-                <div className="button" onClick={() => history.push("/main")}>
+                <div
+                    className="button"
+                    onClick={() => history.push("/main")}
+                >
                     돌아가기
                 </div>
             </div>

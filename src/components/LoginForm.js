@@ -35,30 +35,15 @@ const LoginForm = () => {
       });
       return;
     }
-    
-    // const res = await axios.post(
-    //   `/login`,
-    //   {
-    //     "userId" : logId,
-    //     "userPwd" : logPw,
-    //   },
-    //   {
-    //     headers: {
-    //       'X-Requested-With': "XMLHttpRequest",
-    //       'Access-Control-Allow-Origin': '*',
-    //       'Content-Type': 'multipart/form-data',
-    //     },
-    //   }
-    // );
 
     const res = await axios({
       method: 'post',
       url: `/login`,
-      // headers: {
-      //   'X-Requested-With': "XMLHttpRequest",
-      //   'Access-Control-Allow-Origin': '*',
-      //   'Content-Type': 'multipart/form-data',
-      // },
+      headers: {
+        'X-Requested-With': "XMLHttpRequest",
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'multipart/form-data',
+      },
       data: {
         "userId" : logId,
         "userPwd" : logPw,
@@ -69,6 +54,7 @@ const LoginForm = () => {
       history.push("/main");
     }
 
+    console.log(res);
   };
 
   const onRegist = async() => {
@@ -186,7 +172,7 @@ const LoginForm = () => {
               </div>
               <div className="textTab">
                 <span>Nickname</span>
-                <input value={regiNickName} onChange={(e) => setRegiNickName(e.target.value)} type="text" name="userNickName" required />
+                <input value={regiNickName} onChange={(e) => setRegiNickName(e.target.value)} type="text" name="userNickName" required onKeyPress={(e) => e.key == "Enter" && onRegist()} />
               </div>
               <div className="loginButton">
                 <button className="onMain" type="button" onClick={onRegist}>

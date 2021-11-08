@@ -1,5 +1,4 @@
 import React, { useEffect, useState  } from "react";
-// import { useSpring, animated } from "react-spring";
 import "./index.css";
 import { useParams, useHistory } from "react-router-dom";
 import { ReactComponent as Armor } from "../../icon/mainIcon/armor.svg";
@@ -44,7 +43,7 @@ const Index = (props) => {
     const loadUserData = async() => {
         const res = await axios({
             method: 'get',
-            url: `/user`,
+            url: '/user',
         });
         if(res.status === 200) {
             setUserData(res.data);
@@ -124,7 +123,7 @@ const Index = (props) => {
             setIsVitory(true);
             await axios({
                 method: 'post',
-                url: `/mystage/clear`,
+                url: '/mystage/clear',
                 data: {
                     stageIdx: stageIndex
                 }
@@ -201,6 +200,8 @@ const Index = (props) => {
     }
 
     const monsterHpSpring = useSpring({ width: hpPercent });
+    const userHpSpring = useSpring({ width: hpPercent });
+
     return (
         <div className="gameMain">
             {

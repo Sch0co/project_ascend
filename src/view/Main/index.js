@@ -39,6 +39,8 @@ const Main = () => {
   const [isCharacter, setIsCharacter] = useState(false);
   const [stage, setStage] = useState([]);
   const [stageModal, setStageModal] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [itemList, setItemList] = useState([]); // 최근획득장비
 
   const characterOpen = () => {
     setIsCharacter(true);
@@ -65,6 +67,34 @@ const Main = () => {
     setStageModal(false);
   }
   
+  const loadUserData = async() => {
+    const res = await axios({
+        method: 'get',
+        url: `/user`,
+    });
+
+    if(res.status === 200) {
+        setUserData(res.data);
+    }
+  }
+
+  // 최근 획득 장비리스트 호출
+  const loadItemList = async() => {
+    const res = await axios({
+      method: 'get',
+      url: '/inventory/item/get',
+  });
+  console.log(res, "최근획득")
+  if(res.status === 200) {
+      // setUserData(res.data);
+  }
+  }
+
+  useEffect(() => {
+    loadUserData();
+    loadItemList();
+  }, [])
+
   const history = useHistory();
   
   const onGame = (item, index) => {
@@ -93,14 +123,16 @@ const Main = () => {
 
   return (
     <div className="mainWindow">
-      <MenuBar />
+      <MenuBar
+        onUpdateUserData={loadUserData}
+      />
       <div className="mainView">
         <div className="mainInfo">
           <div className="mainInfoTop">
             <div className="mainInfoStatus">
               캐릭터 스탯
             </div>
-            <CharaStatus />
+            <CharaStatus userData={userData} />
           </div>
           <div className="mainSetting">
             <div
@@ -118,7 +150,9 @@ const Main = () => {
               onRequestClose={characterClose}
               style={characterStyle}
             >
-              <CharacterSet />
+              <CharacterSet
+                onEquiment={loadUserData}
+              />
             </Modal>
             <div className="mainStartBtn">
               <button 

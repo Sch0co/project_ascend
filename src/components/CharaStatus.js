@@ -73,7 +73,7 @@ const CharaStatus = (props) => {
                                 marginRight: "5px"
                             }}
                         />
-                        재화
+                        골드
                     </div>
                     <div>{userData?.money?.toLocaleString()}</div>
                 </div>

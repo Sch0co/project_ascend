@@ -34,11 +34,14 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    color: #ffff;
+    color: #000;
+    font-size: 24px;
 }
 
 .characterModal .characterSetList .charaSta .charaGear .gearTab .gear div {
-    background-color: #2d236b;
+    background-color: #FFF;
+    border: 1px solid #3e3e41;
+    overflow: hidden;
     width: 90px;
     height: 90px;
     display: flex;
@@ -46,6 +49,7 @@
     align-items: center;
     margin-right: 10px;
     border-radius: 12px;
+    cursor: pointer;
 }
 
 .characterModal .characterSetList .charaSta .charaGear .gearTab .charaImg {
@@ -125,14 +129,20 @@
 }
 
 .characterModal .characterSetList .inventory .invenArray .invenItem {
-    border: 1px solid #221f47;
+    border: 1px solid #bdbdbd;
     display: inline-block;
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     text-align: center;
     margin: 15px 30px 15px 15px;
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 .characterModal .characterSetList .inventory .invenArray .invenItem .checkBox {
+    position: absolute;
+    bottom: 20px;
+    right: 35px;
     margin: 40px 0 0 55px;
 }

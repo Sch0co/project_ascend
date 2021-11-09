@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Tabs, notification } from "antd";
 import "./LoginForm.css";
 import { useHistory } from "react-router-dom";
@@ -8,6 +8,7 @@ const { TabPane } = Tabs;
 
 const LoginForm = () => {
   const [tabIndex, setTabIndex] = useState("1");
+  const [userData, setUserData] = useState(null);
 
   const [logId, setLogId] = useState("");
   const [logPw, setLogPw] = useState("");
@@ -18,6 +19,28 @@ const LoginForm = () => {
   const [regiNickName, setRegiNickName] = useState("");
 
   const history = useHistory();
+
+  const loadUserData = async() => {
+    try {
+      const res = await axios({
+          method: 'get',
+          url: '/user',
+      });
+  
+      if(res.status === 200)
+      {
+        setUserData(res.data);
+        history.push("/main");
+      }
+      
+    } catch {
+      history.push("/");
+    }
+  }
+
+  useEffect(() => {
+    loadUserData();
+  }, [])
 
   const onLogin = async() => {
 

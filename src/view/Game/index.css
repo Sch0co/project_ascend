@@ -79,6 +79,7 @@
 .gameMain .userInter .userInfo .userPro .userNick {
     margin-top: 10px;
     font-weight: bold;
+    font-size: 20px;
 }
 
 .gameMain .userInter .userInfo .userStats {
@@ -102,6 +103,11 @@
 
 .gameMain .userInter .userInfo .userStats .statsList .stats .statName {
     width: 100px;
+    font-size: 20px;
+}
+
+.gameMain .userInter .userInfo .userStats .statsList .stats .statNum {
+    font-size: 20px;
 }
 
 .gameMain .userInter .userRun {

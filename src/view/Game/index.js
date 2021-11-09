@@ -8,6 +8,7 @@ import { ReactComponent as Coin } from "../../icon/mainIcon/coins.svg";
 import MenuBar from "../../components/MenuBar";
 import axios from "axios";
 import { animated, useSpring } from 'react-spring';
+import { changeConfirmLocale } from "antd/lib/modal/locale";
 
 const Index = (props) => {
     const [monsterData, setMonsterData] = useState(null);
@@ -41,14 +42,19 @@ const Index = (props) => {
     }
 
     const loadUserData = async() => {
-        const res = await axios({
-            method: 'get',
-            url: '/user',
-        });
-        if(res.status === 200) {
-            setUserData(res.data);
-            setHp(res.data.hp);
-            setTotalHp(res.data.hp);
+        try {
+            const res = await axios({
+                method: 'get',
+                url: '/user',
+            });
+            if(res.status === 200) {
+                setUserData(res.data);
+                setHp(res.data.hp);
+                setTotalHp(res.data.hp);
+            }
+
+        } catch {
+            history.push("/main");
         }
     }
 
@@ -249,7 +255,7 @@ const Index = (props) => {
                         style={{
                             width: "100%",
                             height: "100%",
-                            objectFit: "cover"
+                            objectFit: "contain"
                         }}
                     />
                 </animated.div>
@@ -261,7 +267,13 @@ const Index = (props) => {
                         <div className="userNick">{userData?.nickname}</div>
                     </div>
                     <div className="userStats">
-                        <div className="userHp">
+                        <div
+                            className="userHp"
+                            style={{
+                                fontSize: 20,
+                                fontWeight: "bold",
+                            }}
+                        >
                             {hp?.toLocaleString()} / {totalHp?.toLocaleString()}
                         </div>
                         <div className="statsList">
@@ -277,7 +289,7 @@ const Index = (props) => {
                                     />
                                     데미지
                                 </div>
-                                <div>{userData?.damage?.toLocaleString()}</div>
+                                <div className="statNum">{userData?.damage?.toLocaleString()}</div>
                             </div>
                             <div className="stats">
                                 <div className="statName">
@@ -291,7 +303,7 @@ const Index = (props) => {
                                     />
                                     방어력
                                 </div>
-                                <div>{userData?.defense?.toLocaleString()}</div>
+                                <div className="statNum">{userData?.defense?.toLocaleString()}</div>
                             </div>
                             <div className="stats">
                                 <div className="statName">
@@ -305,7 +317,7 @@ const Index = (props) => {
                                     />
                                     재화
                                 </div>
-                                <div>{userData?.money?.toLocaleString()}</div>
+                                <div className="statNum">{userData?.money?.toLocaleString()}</div>
                             </div>
                         </div>
                     </div>

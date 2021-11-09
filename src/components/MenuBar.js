@@ -72,14 +72,19 @@ const MenuBar = (props) => {
     const [nickChecked, setNickChecked] = useState(false);
 
     const loadUserData = async() => {
-        const res = await axios({
-            method: 'get',
-            url: '/user',
-        });
-        if(res.status === 200) {
-            setUserData(res.data);
-            setChangeNick(res.data.nickname);
-            setChangeNickCopy(res.data.nickname);
+        try {
+            const res = await axios({
+                method: 'get',
+                url: '/user',
+            });
+            if(res.status === 200) {
+                setUserData(res.data);
+                setChangeNick(res.data.nickname);
+                setChangeNickCopy(res.data.nickname);
+            }
+
+        } catch {
+            history.push("/");
         }
 
     }
@@ -128,7 +133,6 @@ const MenuBar = (props) => {
                     "nickname" : changeNick,
                 }
             });
-            console.log(resp);
             if(resp.status === 200)
             {
                 setNickChecked(resp.data);
@@ -208,7 +212,6 @@ const MenuBar = (props) => {
                 count,
             }
         });
-        console.log(res)
         if(res.status === 200)
         {
             setItemResult(res.data);
@@ -327,7 +330,7 @@ const MenuBar = (props) => {
                                     verticalAlign: "middle",
                                 }}
                             />
-                            {userData?.money}
+                            {userData?.money?.toLocaleString()}
                         </div>
                         { itemResult.length > 0 ?
                             <div className="gachaInven">

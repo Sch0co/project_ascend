@@ -23,7 +23,6 @@ const CharacterSet = (props) => {
             method: 'get',
             url: '/equipment',
         });
-        console.log(res)
         if(res.status === 200) {
             setEquiment(res.data);
         }
@@ -76,7 +75,6 @@ const CharacterSet = (props) => {
         // 판매모드가 아닐경우
         if(!sell)
         {
-            console.log(v.inventoryItemIdx)
             const res = await axios({
                 method: 'post',
                 url: '/equipment',
@@ -113,19 +111,14 @@ const CharacterSet = (props) => {
             method: 'post',
             url: '/item/sell',
             data: {
-                inventoryItemIdx: iCheck
+                inventoryItemIdxList: iCheck
             }
         });
 
-        console.log(item.filter((item) => (item.isChecked)), iCheck, res, "<==결과", {
-            method: 'post',
-            url: '/item/sell',
-            data: {
-                inventoryItemIdx: iCheck
-            }
-        })
         if(res.status === 200) {
             loadInvenData();
+            loadUserData();
+            props.onSellItem?.();
             notification.open({
                 message: '판매',
                 description:
@@ -174,6 +167,8 @@ const CharacterSet = (props) => {
                                                     }}
                                                 >
                                                     <h3 style={{ color: "#FFF" }}>{v.name}</h3>
+                                                    {v.hp}
+                                                    {v.price}
                                                     {v.description}
                                                 </div>
                                             }
@@ -235,6 +230,8 @@ const CharacterSet = (props) => {
                                                     }}
                                                 >
                                                     <h3 style={{ color: "#FFF" }}>{v.name}</h3>
+                                                    {v.defense}
+                                                    {v.price}
                                                     {v.description}
                                                 </div>
                                             }
@@ -296,6 +293,8 @@ const CharacterSet = (props) => {
                                                     }}
                                                 >
                                                     <h3 style={{ color: "#FFF" }}>{v.name}</h3>
+                                                    {v.damage}
+                                                    {v.price}
                                                     {v.description}
                                                 </div>
                                             }

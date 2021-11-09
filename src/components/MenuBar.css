@@ -80,10 +80,28 @@
 }
 
 .myPageModal .myPageList .userNickname,
-.myPageModal .myPageList .userEmail,
-.myPageModal .myPageList .nickChange,
-.myPageModal .myPageList .pwChange {
-    margin-bottom: 20px;
+.myPageModal .myPageList .userEmail {
+    margin-bottom: 30px;
+}
+
+.myPageModal .myPageList .userDelete:hover {
+    color: rgb(128, 49, 49);
+}
+
+.userDataChange {
+    border-top: 1px solid #221f47;
+    padding-top: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.userDataChange .changeNickname,
+.userDataChange .changePwd {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
 }
 
 .shopModal .shopTop {
@@ -103,7 +121,7 @@
 }
 
 .gachaInven .gachaList {
-    overflow: scroll;
+    overflow: auto;
     text-align: center;
     height: 500px;
     margin-top: 40px;
@@ -112,11 +130,13 @@
 .gachaInven .gachaList .gachaItem {
     display: inline-flex;
     flex-wrap: wrap;
-    background-color: #221f47;
+    background-color: #FFF;
     width: 150px;
     height: 150px;
     margin: 5px;
     color: #fff;
+    border-radius: 16px;
+    overflow: hidden;
 }
 
 .gachaInven .gachaClose {
@@ -176,3 +196,4 @@
     color: #fff;
     cursor: pointer;
 }
+

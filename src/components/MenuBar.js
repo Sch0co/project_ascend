@@ -48,7 +48,7 @@ const shopStyle = {
     }
 }
 
-const MenuBar = () => {
+const MenuBar = (props) => {
     const screenMove = useMediaQuery({
         query: "(max-width: 600px)",
     })
@@ -61,6 +61,15 @@ const MenuBar = () => {
     const [itemResult, setItemResult] = useState([]);
     const [userData, setUserData] = useState(null);
     const [isRunModal, setIsRunModal] = useState(false);
+    const [isLogoutModal, setIsLogoutModal] = useState(false);
+    const [isUserDeleteModal, setIsUserDeleteModal] = useState(false);
+    const [userDataChangeMode, setUserDataChangeMode] = useState(false);
+    const [changeNick, setChangeNick] = useState("");
+    const [changeNickCopy, setChangeNickCopy] = useState(""); // 닉네임 초기값 확인용
+    const [userPwd, setUserPwd] = useState("");
+    const [changePwd, setChangePwd] = useState("");
+    const [checkPwd, setCheckPwd] = useState("");
+    const [nickChecked, setNickChecked] = useState(false);
 
     const loadUserData = async() => {
         const res = await axios({
@@ -69,12 +78,107 @@ const MenuBar = () => {
         });
         if(res.status === 200) {
             setUserData(res.data);
+            setChangeNick(res.data.nickname);
+            setChangeNickCopy(res.data.nickname);
         }
+
     }
 
     useEffect(() => {
         loadUserData();
     }, [])
+
+    const onUserDeletetModal = () => {
+        setIsUserDeleteModal(true);
+    }
+
+    const onUserDeletetModalCancel = () => {
+        setIsUserDeleteModal(false);
+    }
+
+    const userDataChange = async() => {
+
+
+        if(userPwd === "")
+        {
+            notification.open({
+                message: '경고',
+                description: '기존 비밀번호를 입력해 주세요.',
+            });
+            return;
+        } 
+        if(changeNick.length < 2)
+        {
+            notification.open({
+                message: '경고',
+                description: '닉네임은 최소 2글자 입니다.',
+            });
+            return;
+        }
+
+        try {
+            if(changeNickCopy != changeNick) {
+                setNickChecked(true);
+            };
+
+            const resp = await axios({
+                method: 'post',
+                url: '/user/valid/nickname',
+                data: {
+                    "nickname" : changeNick,
+                }
+            });
+            console.log(resp);
+            if(resp.status === 200)
+            {
+                setNickChecked(resp.data);
+                if(!resp.data)
+                {
+                    notification.open({
+                        message: '경고',
+                        description: '닉네임이 중복되었습니다.',
+                    });        
+                }
+            }
+            else
+            {
+                setNickChecked(false);
+            }
+        } catch {
+            setNickChecked(false);
+
+            notification.open({
+                message: '경고',
+                description: '닉네임이 중복되었습니다.',
+            });
+            return;
+        }
+
+        const res = await axios({
+            method: 'put',
+            url: '/user',
+            data: {
+                "nickname" : changeNick,
+                "existPwd" : userPwd,
+                "newPwd" : changePwd != "" && changePwd,
+                "confPwd" : checkPwd !="" && checkPwd,
+            }
+        });
+
+        
+        if(res.status === 400)
+        {
+            notification.open({
+                message: '경고',
+                description: '비밀번호를 확인해 주세요.',
+            });
+            return;
+        }
+
+        setUserDataChangeMode(false);
+        loadUserData();
+        props.onUpdateUserData?.();
+    }
 
     const userDelete = async() => {
         const res = await axios({
@@ -83,11 +187,20 @@ const MenuBar = () => {
         });
 
         if(res.status === 200) {
-            setUserData(res.data);
+            history.push("/");
         }
+        setIsUserDeleteModal(false);
     }
 
     const onGacha = async(count = 1) => {
+        if(userData.money < count * 1000)
+        {
+            notification.open({
+                message: '안내',
+                description:
+                    `${count * 1000 - userData.money} 골드 부족합니다`,
+            });
+        }
         const res = await axios({
             method: 'post',
             url: '/draw',
@@ -95,7 +208,12 @@ const MenuBar = () => {
                 count,
             }
         });
-
+        console.log(res)
+        if(res.status === 200)
+        {
+            setItemResult(res.data);
+            loadUserData();
+        }
     }
 
     // modal open/ close
@@ -109,6 +227,7 @@ const MenuBar = () => {
 
     const myPageClose = () => {
         setIsMyPage(false);
+        setUserDataChangeMode(false);
     }
     
     // madal open/close
@@ -129,6 +248,14 @@ const MenuBar = () => {
     const shopClose = () => {
         setIsShop(false);
         setItemResult([]);
+    }
+
+    const onLogoutModal = () => {
+        setIsLogoutModal(true);
+    }
+
+    const onLogoutModalCancel = () => {
+        setIsLogoutModal(false);
     }
 
     // logout
@@ -168,7 +295,9 @@ const MenuBar = () => {
                 onRequestClose={characterClose}
                 style={characterStyle}
             >
-                <CharacterSet />
+                <CharacterSet
+                    onEquiment={props.onUpdateUserData}
+                />
             </Modals>
 
             <Modals
@@ -206,7 +335,7 @@ const MenuBar = () => {
                                     {itemResult.map((item) =>
                                         <div className="gachaItem">
                                             <img
-                                                src={item.url}
+                                                src={item.itemUrl}
                                                 style={{
                                                     objectFit: "cover",
                                                     width: "100%",
@@ -231,7 +360,7 @@ const MenuBar = () => {
                                         뽑기볼 이미지
                                     </div>
                                     <div className="gacha_1s">
-                                        <Tooltip placement="bottom" color="#858cec" title="100원이 소모됩니다.">
+                                        <Tooltip placement="bottom" color="#858cec" title="1,000원이 소모됩니다.">
                                             <button
                                                 onClick={onGacha.bind(this, 1)}
                                             >
@@ -245,7 +374,7 @@ const MenuBar = () => {
                                         뽑기볼 이미지 * 10
                                     </div>
                                     <div className="gacha_10s">
-                                        <Tooltip placement="bottom" color="#858cec" title="1,000원이 소모됩니다.">
+                                        <Tooltip placement="bottom" color="#858cec" title="10,000원이 소모됩니다.">
                                             <button
                                                 onClick={onGacha.bind(this, 10)}
                                             >
@@ -284,6 +413,7 @@ const MenuBar = () => {
                             isOpen={isMyPage}
                             onRequestClose={myPageClose}
                             style={myPageStyle}
+                            onClose
                         >
                             <div className="myPageModal">
                                 <div className="myPageTop">
@@ -298,77 +428,186 @@ const MenuBar = () => {
                                         }}
                                     />
                                 </div>
-                                <div className="myPageList">
-                                    {/* <div className="myPageProfile">
-                                        <input
-                                            className="profile"
-                                            type="file"
-                                        />
-                                    </div> */}
-                                    {/* <div>프로필 이미지 변경</div> */}
-                                    <div className="userNickname">
+
+                                { userDataChangeMode && isMyPage
+                                ?
+                                    <div className="userDataChange">
+                                        <div className="changeNickname">
+                                            <div
+                                                style={{
+                                                    marginRight: 20,
+                                                }}
+                                            >
+                                                닉네임 변경
+                                            </div>
+                                            <input
+                                                value={changeNick}
+                                                type="text"
+                                                name="userNickname"
+                                                onChange={(e) => setChangeNick(e.target.value)}
+                                                style={{
+                                                    outline: "none",
+                                                    border: "1px solid #D5D0DB",
+                                                    padding: 5,
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="changePwd">
+                                            <div
+                                                style={{
+                                                    marginRight: 20,
+                                                }}
+                                            >
+                                                기존 비밀번호
+                                            </div>
+                                            <input
+                                                value={userPwd}
+                                                type="password"
+                                                name="userPwd"
+                                                onChange={(e) => setUserPwd(e.target.value)}
+                                                style={{
+                                                    outline: "none",
+                                                    border: "1px solid #D5D0DB",
+                                                    padding: 5,
+                                                }}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="changePwd">
+                                            <div
+                                                style={{
+                                                    marginRight: 20,
+                                                }}
+                                            >
+                                                비밀번호 변경
+                                            </div>
+                                            <input
+                                                value={changePwd}
+                                                type="password"
+                                                name="userPwd"
+                                                onChange={(e) => setChangePwd(e.target.value)}
+                                                style={{
+                                                    outline: "none",
+                                                    border: "1px solid #D5D0DB",
+                                                    padding: 5,
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="changePwd">
+                                            <div
+                                                style={{
+                                                    marginRight: 20,
+                                                }}
+                                            >
+                                                비밀번호 확인
+                                            </div>
+                                            <input
+                                                value={checkPwd}
+                                                type="password"
+                                                name="userPwd"
+                                                onChange={(e) => setCheckPwd(e.target.value)}
+                                                style={{
+                                                    outline: "none",
+                                                    border: "1px solid #D5D0DB",
+                                                    padding: 5,
+                                                }}
+                                            />
+                                        </div>
                                         <div
+                                            onClick={() => {
+                                                userDataChange()
+                                            }}
                                             style={{
-                                                marginRight: 20,
+                                                cursor: "pointer",
+                                                marginBottom: 30,
                                             }}
                                         >
-                                            닉네임
+                                            확인
                                         </div>
-                                        <input
-                                            value={userData?.nickname}
-                                            type="text"
-                                            name="userNickname"
-                                            style={{
-                                                outline: "none",
-                                                border: "1px solid #D5D0DB",
-                                                padding: 5,
-                                            }}
-                                        />
-                                    </div>
-                                    <div className="userEmail">
                                         <div
+                                            onClick={() => {
+                                                setUserDataChangeMode(false)
+                                            }}
                                             style={{
-                                                marginRight: 20,
+                                                cursor: "pointer",
                                             }}
                                         >
-                                            이메일
+                                            돌아가기
                                         </div>
-                                        <input
-                                            value={userData?.email}
-                                            type="email"
-                                            name="userEmail"
+                                    </div>
+                                :
+                                    <div className="myPageList">
+                                        {/* <div className="myPageProfile">
+                                            <input
+                                                className="profile"
+                                                type="file"
+                                            />
+                                        </div> */}
+                                        {/* <div>프로필 이미지 변경</div> */}
+                                        <div className="userNickname">
+                                            <div
+                                                style={{
+                                                    marginRight: 20,
+                                                }}
+                                            >
+                                                닉네임
+                                            </div>
+                                            <input
+                                                value={userData?.nickname}
+                                                type="text"
+                                                name="userNickname"
+                                                readOnly
+                                                style={{
+                                                    outline: "none",
+                                                    border: "1px solid #D5D0DB",
+                                                    padding: 5,
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="userEmail">
+                                            <div
+                                                style={{
+                                                    marginRight: 20,
+                                                }}
+                                            >
+                                                이메일
+                                            </div>
+                                            <input
+                                                value={userData?.email}
+                                                type="email"
+                                                name="userEmail"
+                                                readOnly
+                                                style={{
+                                                    outline: "none",
+                                                    border: "1px solid #D5D0DB",
+                                                    padding: 5,
+                                                }}
+                                            />
+                                        </div>
+                                        <div
+                                            className="userChangeMode"
+                                            onClick={() => {setUserDataChangeMode(true)}}
                                             style={{
-                                                outline: "none",
-                                                border: "1px solid #D5D0DB",
-                                                padding: 5,
+                                                cursor: "pointer",
+                                                marginBottom: 40,
                                             }}
-                                        />
+                                        >
+                                            회원 정보 수정
+                                        </div>
+                                        <div
+                                            className="userDelete"
+                                            onClick={onUserDeletetModal}
+                                            style={{
+                                                cursor: "pointer",
+                                            }}
+                                        >
+                                            회원 탈퇴
+                                        </div>
+                                        <Modal title="안내" visible={isUserDeleteModal} onOk={userDelete} onCancel={onUserDeletetModalCancel}>
+                                            <p>정말 탈퇴하시겠습니까? 탈퇴한 뒤엔 복구할 수 없습니다.</p>
+                                        </Modal>
                                     </div>
-                                    <div
-                                        className="pwChange"
-                                        style={{
-                                            cursor: "pointer",
-                                        }}
-                                    >
-                                        비밀번호 변경
-                                    </div>
-                                    <div
-                                        className="nickChange"
-                                        style={{
-                                            cursor: "pointer",
-                                        }}
-                                    >
-                                        닉네임 변경
-                                    </div>
-                                    <div
-                                        className="userDelete"
-                                        style={{
-                                            cursor: "pointer",
-                                        }}
-                                    >
-                                        회원 탈퇴
-                                    </div>
-                                </div>
+                                }
                             </div>
                         </Modals>
                         { location.pathname === "/main" &&
@@ -384,17 +623,20 @@ const MenuBar = () => {
                             </button>
                         </div>
                         <div className="logout">
-                            <button className="logoutBtn" onClick={onLogout}>
+                            <button className="logoutBtn" onClick={onLogoutModal}>
                                 로그아웃
                             </button>
                         </div>
+                        <Modal title="안내" visible={isLogoutModal} onOk={onLogout} onCancel={onLogoutModalCancel}>
+                            <p>로그아웃하시겠습니까?</p>
+                        </Modal>
                         { location.pathname !== "/main" &&
                             <div
                                 className="exit"
                                 onClick={onRunModal}
                             >
                                 도망가기
-                                <Modal title="안내" visible={isRunModal} onOk={onRun} onCansel={onRunModalCancel}>
+                                <Modal title="안내" visible={isRunModal} onOk={onRun} onCancel={onRunModalCancel}>
                                     <p>도망가시겠습니까?</p>
                                 </Modal>
                             </div>

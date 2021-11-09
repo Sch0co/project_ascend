@@ -35,6 +35,7 @@
   border: 3px solid transparent;
   border-radius: 10px;
   font-size: 24px;
+
   padding: 16px 12px;
 }
 
@@ -71,6 +72,14 @@
 .mainWindow .mainView .mainItem .mainItemList {
   border-top: 2px solid #25294a;
   padding: 10px;
+  overflow: auto;
+  height: 480px;
+}
+
+.mainWindow .mainView .mainItem .mainItemList .itemInfo {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 @media screen and (max-width: 600px) {

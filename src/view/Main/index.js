@@ -68,13 +68,18 @@ const Main = () => {
   }
   
   const loadUserData = async() => {
-    const res = await axios({
-        method: 'get',
-        url: `/user`,
-    });
+    try {
+      const res = await axios({
+          method: 'get',
+          url: `/user`,
+      });
+  
+      if(res.status === 200) {
+          setUserData(res.data);
+      }
 
-    if(res.status === 200) {
-        setUserData(res.data);
+    } catch {
+      history.push("/");
     }
   }
 
@@ -84,9 +89,8 @@ const Main = () => {
       method: 'get',
       url: '/inventory/item/get',
   });
-  console.log(res, "최근획득")
   if(res.status === 200) {
-      // setUserData(res.data);
+    setItemList(res.data);
   }
   }
 
@@ -152,6 +156,7 @@ const Main = () => {
             >
               <CharacterSet
                 onEquiment={loadUserData}
+                onSellItem={loadUserData}
               />
             </Modal>
             <div className="mainStartBtn">
@@ -189,6 +194,10 @@ const Main = () => {
                     >
                       <GameStage
                         data={item}
+                        isCleared={
+                          index == 0 ? true :
+                          stage[index - 1]?.isCleared == "1" ? true : false
+                        }
                       />
                     </div>
                   ))}
@@ -196,7 +205,36 @@ const Main = () => {
         <div className="mainItem">
           <div className="mainItemTop">최근 획득 장비</div>
           <div className="mainItemList">
-            목록 ~~
+            {itemList.map((il) => (
+              <div className="itemInfo">
+                <img
+                  src={il.itemUrl}
+                  style={{
+                    width: 100,
+                    height: 100
+                  }}
+                />
+                <div
+                  style={{
+                    width: 200,
+                    textAlign: "center",
+                  }}
+                >
+                  {il.name}
+                </div>
+                <div>{il.itemRank}</div>
+                <div>{il.description}</div>
+                <div>{il?.price?.toLocaleString()}</div>
+                <button
+                  className={"button"}
+                  style={{
+                    color: "#000",
+                  }}
+                >
+                  판매
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </div>

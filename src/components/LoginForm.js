@@ -27,30 +27,30 @@ const LoginForm = () => {
         description: '아이디를 입력해 주세요.',
       });
       return;
-    } else if(logPw === "") {
-      notification.open({
-        message: '경고',
-        description: '비밀번호를 입력해 주세요.',
-      });
-      return;
     }
-
-    const res = await axios({
-      method: 'post',
-      url: '/login',
-      headers: {
-        'X-Requested-With': "XMLHttpRequest",
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'multipart/form-data',
-      },
-      data: {
-        "userId" : logId,
-        "userPwd" : logPw,
+    try {
+      const res = await axios({
+        method: 'post',
+        url: '/login',
+        headers: {
+          'X-Requested-With': "XMLHttpRequest",
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'multipart/form-data',
+        },
+        data: {
+          "userId" : logId,
+          "userPwd" : logPw,
+        }
+      });
+  
+      if(res.status === 200) {
+        history.push("/main");
       }
-    });
-
-    if(res.status === 200) {
-      history.push("/main");
+    } catch {
+      notification.open({
+        message: '안내',
+        description: '로그인에 실패했습니다.',
+      });
     }
   };
 
@@ -103,7 +103,7 @@ const LoginForm = () => {
 
     const res = await axios({
       method: 'post',
-      url: `/user`,
+      url: '/user',
       data: {
         "userId" : regiId,
         "userPwd" : regiPw,

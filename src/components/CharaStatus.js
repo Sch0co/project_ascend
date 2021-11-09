@@ -7,23 +7,8 @@ import { ReactComponent as Damage } from "../icon/mainIcon/swords.svg";
 import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
 import axios from "axios";
 
-const CharaStatus = () => {
-    const [userData, setUserData] = useState(null);
-
-    const loadUserData = async() => {
-        const res = await axios({
-            method: 'get',
-            url: `/user`,
-        });
-
-        if(res.status === 200) {
-            setUserData(res.data);
-        }
-    }
-
-    useEffect(() => {
-        loadUserData();
-    }, [])
+const CharaStatus = (props) => {
+    const userData = props.userData;
 
     return(
             <div className="statusList">

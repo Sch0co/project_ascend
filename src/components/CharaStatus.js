@@ -5,7 +5,6 @@ import { ReactComponent as Hp } from "../icon/mainIcon/heart-solid.svg";
 import { ReactComponent as Armor } from "../icon/mainIcon/armor.svg";
 import { ReactComponent as Damage } from "../icon/mainIcon/swords.svg";
 import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
-import axios from "axios";
 
 const CharaStatus = (props) => {
     const userData = props.userData;

@@ -7,7 +7,7 @@ import { ReactComponent as Damage } from "../icon/mainIcon/swords.svg";
 import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
 import { ReactComponent as Check } from "../icon/mainIcon/check.svg";
 import { ReactComponent as NoCheck } from "../icon/mainIcon/nocheck.svg";
-// import { ReactComponent as ModalClose } from "../icon/mainIcon/x_close_cross_delete_icon.svg";
+// import { ReactComponent as ModalClose } from "../icon/mainIcon/x_close.svg";
 import { Tooltip, notification } from 'antd';
 import axios from "axios";
 
@@ -120,6 +120,9 @@ const CharacterSet = (props) => {
             loadUserData();
             props.onSellItem?.();
             notification.open({
+                style: {
+                    width: 250,
+                },
                 message: '판매',
                 description:
                     '아이템이 판매 되었습니다.',
@@ -167,9 +170,27 @@ const CharacterSet = (props) => {
                                                     }}
                                                 >
                                                     <h3 style={{ color: "#FFF" }}>{v.name}</h3>
-                                                    {v.hp}
-                                                    {v.price}
-                                                    {v.description}
+                                                    <div>
+                                                        체력 +{v.hp.toLocaleString()}
+                                                    </div>
+                                                    <div>
+                                                        방어력 +{v.defense.toLocaleString()}
+                                                    </div>
+                                                    <div>
+                                                        데미지 +{v.damage.toLocaleString()}
+                                                    </div>
+                                                    <div>
+                                                        가격 {v.price.toLocaleString()}골드
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            marginTop: 5,
+                                                            borderTop: "1px solid #fff",
+                                                            fontSize: 10,
+                                                        }}
+                                                    >
+                                                        {v.description}
+                                                    </div>
                                                 </div>
                                             }
                                         >
@@ -196,7 +217,7 @@ const CharacterSet = (props) => {
                                                         fontSize: 30,
                                                         fontWeight: "bold",
                                                         color: 
-                                                        v.itemRank == "S" ? "#9D06EC"
+                                                        v.itemRank == "S" ? "#DED714"
                                                         : v.itemRank == "A" ? "#EC5C5C"
                                                         : v.itemRank == "B" ? "#00DEFF"
                                                         : "#FFF",
@@ -230,9 +251,27 @@ const CharacterSet = (props) => {
                                                     }}
                                                 >
                                                     <h3 style={{ color: "#FFF" }}>{v.name}</h3>
-                                                    {v.defense}
-                                                    {v.price}
-                                                    {v.description}
+                                                    <div>
+                                                        체력 +{v.hp.toLocaleString()}
+                                                    </div>
+                                                    <div>
+                                                        방어력 +{v.defense.toLocaleString()}
+                                                    </div>
+                                                    <div>
+                                                        데미지 +{v.damage.toLocaleString()}
+                                                    </div>
+                                                    <div>
+                                                        가격 {v.price.toLocaleString()}골드
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            marginTop: 5,
+                                                            borderTop: "1px solid #fff",
+                                                            fontSize: 10,
+                                                        }}
+                                                    >
+                                                        {v.description}
+                                                    </div>
                                                 </div>
                                             }
                                         >
@@ -259,7 +298,7 @@ const CharacterSet = (props) => {
                                                         fontSize: 30,
                                                         fontWeight: "bold",
                                                         color: 
-                                                        v.itemRank == "S" ? "#9D06EC"
+                                                        v.itemRank == "S" ? "#DED714"
                                                         : v.itemRank == "A" ? "#EC5C5C"
                                                         : v.itemRank == "B" ? "#00DEFF"
                                                         : "#FFF",
@@ -293,9 +332,27 @@ const CharacterSet = (props) => {
                                                     }}
                                                 >
                                                     <h3 style={{ color: "#FFF" }}>{v.name}</h3>
-                                                    {v.damage}
-                                                    {v.price}
-                                                    {v.description}
+                                                    <div>
+                                                        체력 +{v.hp.toLocaleString()}
+                                                    </div>
+                                                    <div>
+                                                        방어력 +{v.defense.toLocaleString()}
+                                                    </div>
+                                                    <div>
+                                                        데미지 +{v.damage.toLocaleString()}
+                                                    </div>
+                                                    <div>
+                                                        가격 {v.price.toLocaleString()}골드
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            marginTop: 5,
+                                                            borderTop: "1px solid #fff",
+                                                            fontSize: 10,
+                                                        }}
+                                                    >
+                                                        {v.description}
+                                                    </div>
                                                 </div>
                                             }
                                         >
@@ -322,7 +379,7 @@ const CharacterSet = (props) => {
                                                         fontSize: 30,
                                                         fontWeight: "bold",
                                                         color: 
-                                                        v.itemRank == "S" ? "#9D06EC"
+                                                        v.itemRank == "S" ? "#DED714"
                                                         : v.itemRank == "A" ? "#EC5C5C"
                                                         : v.itemRank == "B" ? "#00DEFF"
                                                         : "#FFF",
@@ -343,8 +400,21 @@ const CharacterSet = (props) => {
                                     </div>
                                 }
                             </div>
-                            <div className="charaImg">
-                                캐릭터 이미지
+                            <div 
+                                className="charaImg"
+                                style={{
+                                    position: "relative",
+                                }}
+                            >
+                                <img
+                                    src="./sword.png"
+                                    style={{
+                                        objectFit: "cover",
+                                        width: "100%",
+                                        height: "100%",
+                                        marginTop: "-12px",
+                                    }}
+                                />
                             </div>
                         </div>
                     </div>
@@ -414,7 +484,7 @@ const CharacterSet = (props) => {
                                             marginRight: "5px"
                                         }}
                                     />
-                                    재화
+                                    골드
                                 </div>
                                 <div>{userData?.money?.toLocaleString()}</div>
                             </div>
@@ -445,7 +515,28 @@ const CharacterSet = (props) => {
                     </div>
                     <div className="invenArray">
                         {item.map((item, index) => (
-                            <div style={{ position: "relative", display: "inline-block" }}>
+                            <div
+                                style={{
+                                    position: "relative",
+                                    display: "inline-flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                            >
+                                {
+                                    item.itemRank == 'S' &&
+                                    <img
+                                        src={"./effect.gif"}
+                                        style={{
+                                            left: 0,
+                                            position: "absolute",
+                                            objectFit: "contain",
+                                            width: 150,
+                                            height: 150,
+                                            zIndex: 0
+                                        }}
+                                    />
+                                }
                                 <Tooltip
                                     placement="right"
                                     color="rgba(0, 0, 0, 0.7)"
@@ -456,7 +547,27 @@ const CharacterSet = (props) => {
                                             }}
                                         >
                                             <h3 style={{ color: "#FFF" }}>{item.name}</h3>
-                                            {item.description}
+                                            <div>
+                                                체력 +{item.hp.toLocaleString()}
+                                            </div>
+                                            <div>
+                                                방어력 +{item.defense.toLocaleString()}
+                                            </div>
+                                            <div>
+                                                데미지 +{item.damage.toLocaleString()}
+                                            </div>
+                                            <div>
+                                                가격 {item.price.toLocaleString()}골드
+                                            </div>
+                                            <div
+                                                style={{
+                                                    marginTop: 5,
+                                                    borderTop: "1px solid #fff",
+                                                    fontSize: 10,
+                                                }}
+                                            >
+                                                {item.description}
+                                            </div>
                                         </div>
                                     }
                                 >
@@ -466,17 +577,15 @@ const CharacterSet = (props) => {
                                     >
                                         <div
                                             style={{
-                                                width: "100%",
-                                                height: "100%",
                                                 position: "relative",
                                             }}
                                         >
                                             <img
                                                 src={item.itemUrl}
                                                 style={{
-                                                    objectFit: "cover",
-                                                    width: "100%",
-                                                    height: "100%",
+                                                    objectFit: "contain",
+                                                    width: 100,
+                                                    height: 100,
                                                 }}
                                             />
                                             <div
@@ -488,7 +597,7 @@ const CharacterSet = (props) => {
                                                     fontSize: 30,
                                                     fontWeight: "bold",
                                                     color: 
-                                                    item.itemRank == "S" ? "#9D06EC"
+                                                    item.itemRank == "S" ? "#DED714"
                                                     : item.itemRank == "A" ? "#EC5C5C"
                                                     : item.itemRank == "B" ? "#00DEFF"
                                                     : "#FFF",
@@ -515,6 +624,17 @@ const CharacterSet = (props) => {
                                 </Tooltip>
                             </div>
                         ))}
+                    </div>
+                    <div
+                        style={{
+                            textAlign: "right",
+                            marginRight: 10,
+                            marginTop: 5,
+                            fontWeight: "bold",
+                            fontSize: 15,
+                        }}
+                    >
+                        {item.length} / 300
                     </div>
                 </div>
             </div>

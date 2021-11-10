@@ -124,24 +124,110 @@ const LoginForm = () => {
       return;
     }
 
-    const res = await axios({
-      method: 'post',
-      url: '/user',
-      data: {
-        "userId" : regiId,
-        "userPwd" : regiPw,
-        "nickname" : regiNickName,
-        "email" : regiEmail,
+    try {
+      const sameId = await axios({
+        method: 'get',
+        url: `/user/valid/userId/${regiId}`,
+      });
+      
+      if(sameId.status !== 200) {
+        notification.open({
+          message: '경고',
+          description: '중복 아이디 입니다.',
+        });
       }
-    });
-
-    if(res.status === 200) {
-      setRegiId("")
-      setRegiPw("")
-      setRegiEmail("")
-      setRegiNickName("")
-      setTabIndex("1")
+      else if(!sameId.data)
+      {
+        notification.open({
+          message: '경고',
+          description: '중복 아이디 입니다.',
+        });
+      }
+    } catch {
+      notification.open({
+        message: '경고',
+        description: '중복 아이디 입니다.',
+      });
     }
+
+    try {
+      const sameNick = await axios({
+        method: 'post',
+        url: '/user/valid/nickname',
+        data: {
+          "nickname" : regiNickName,
+        }
+      });
+
+      if(sameNick.status !== 200) {
+        notification.open({
+          message: '경고',
+          description: '중복 닉네임 입니다.',
+        });
+      }
+      else if(!sameNick.data)
+      {
+        notification.open({
+          message: '경고',
+          description: '중복 닉네임 입니다.',
+        });
+      }
+    } catch {
+      notification.open({
+        message: '경고',
+        description: '중복 닉네임 입니다.',
+      });
+    }
+
+    try {
+      const sameEmail = await axios({
+        method: 'post',
+        url: '/user/valid/email',
+        data: {
+          "email" : regiEmail,
+        }
+      });
+
+      if(sameEmail.status !== 200) {
+        notification.open({
+          message: '경고',
+          description: '중복 이메일 입니다.',
+        });
+      }
+      else if(!sameEmail.data)
+      {
+        notification.open({
+          message: '경고',
+          description: '중복 이메일 입니다.',
+        });
+      }
+
+    } catch {
+      notification.open({
+        message: '경고',
+        description: '중복 이메일 입니다.',
+      });
+    }
+
+      const res = await axios({
+        method: 'post',
+        url: '/user',
+        data: {
+          "userId" : regiId,
+          "userPwd" : regiPw,
+          "nickname" : regiNickName,
+          "email" : regiEmail,
+        }
+      });
+  
+      if(res.status === 200) {
+        setRegiId("")
+        setRegiPw("")
+        setRegiEmail("")
+        setRegiNickName("")
+        setTabIndex("1")
+      }
+    
   }
 
   return (
@@ -174,6 +260,7 @@ const LoginForm = () => {
             </div>
           </form>
         </TabPane>
+
         <TabPane tab={<div className="tabBtn">회원가입</div>} key="2">
           <form method="post" className="startForm">
             <h3 className="loginStart signupStart">존재를 생성합니다.</h3>

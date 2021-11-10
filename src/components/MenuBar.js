@@ -19,7 +19,8 @@ const myPageStyle = {
     },
     content: {
         backgroundColor: "#fff",
-        width: "400px",
+        maxWidth: 400,
+        maxHeight: 600,
         margin: "0 auto",
     }
 }
@@ -31,7 +32,7 @@ const characterStyle = {
     },
     content: {
         backgroundColor: "#fff",
-        maxWidth: "700px",
+        maxWidth: 700,
         margin: "0 auto",
     }
 }
@@ -43,8 +44,9 @@ const shopStyle = {
     },
     content: {
         backgroundColor: "#fff",
-        maxWidth: "900px",
-        margin: "0 auto",
+        maxWidth: 900,
+        maxHeight: 700,
+        margin: "auto auto",
     }
 }
 
@@ -102,8 +104,6 @@ const MenuBar = (props) => {
     }
 
     const userDataChange = async() => {
-
-
         if(userPwd === "")
         {
             notification.open({
@@ -165,7 +165,7 @@ const MenuBar = (props) => {
                 "nickname" : changeNick,
                 "existPwd" : userPwd,
                 "newPwd" : changePwd != "" && changePwd,
-                "confPwd" : checkPwd !="" && checkPwd,
+                "confPwd" : checkPwd != "" && checkPwd,
             }
         });
 
@@ -200,9 +200,12 @@ const MenuBar = (props) => {
         if(userData.money < count * 1000)
         {
             notification.open({
+                style: {
+                    width: 250,
+                },
                 message: '안내',
                 description:
-                    `${count * 1000 - userData.money} 골드 부족합니다`,
+                    `${(count * 1000) - userData.money} 골드 부족합니다`,
             });
         }
         const res = await axios({
@@ -286,7 +289,7 @@ const MenuBar = (props) => {
         notification.open({
             message: '안내',
             description:
-                '도망치셨네요 겁쟁이처럼',
+                '도망치셨네요 겁쟁이..',
         });
         history.push("/main");
     }
@@ -336,18 +339,95 @@ const MenuBar = (props) => {
                             <div className="gachaInven">
                                 <div className="gachaList">
                                     {itemResult.map((item) =>
-                                        <div className="gachaItem">
-                                            <img
-                                                src={item.itemUrl}
-                                                style={{
-                                                    objectFit: "cover",
-                                                    width: "100%",
-                                                    height: "100%",
-                                                }}
-                                            />
+                                        <div
+                                            className="gachaItem"
+                                            style={{
+                                                position: "relative",
+                                            }}
+                                        >
+                                            <Tooltip
+                                                placement="right"
+                                                color="rgba(0, 0, 0, 0.7)"
+                                                title={() => 
+                                                    <div
+                                                        style={{
+                                                            display: "block"
+                                                        }}
+                                                    >
+                                                        <h3 style={{ color: "#FFF" }}>{item.name}</h3>
+                                                        <div>
+                                                            체력 +{item.hp.toLocaleString()}
+                                                        </div>
+                                                        <div>
+                                                            방어력 +{item.defense.toLocaleString()}
+                                                        </div>
+                                                        <div>
+                                                            데미지 +{item.damage.toLocaleString()}
+                                                        </div>
+                                                        <div>
+                                                            가격 {item.price.toLocaleString()}골드
+                                                        </div>
+                                                        <div
+                                                        style={{
+                                                                marginTop: 5,
+                                                                borderTop: "1px solid #fff",
+                                                                fontSize: 10,
+                                                            }}
+                                                        >
+
+                                                            {item.description}
+                                                        </div>
+                                                    </div>
+                                                    
+                                                }
+                                            >
+                                                <img
+                                                    src={item.itemUrl}
+                                                    style={{
+                                                        objectFit: "contain",
+                                                        width: 150,
+                                                        height: 150,
+                                                    }}
+                                                />
+                                                <div
+                                                    style={{
+                                                        position: "absolute",
+                                                        top: 0,
+                                                        right: 0,
+                                                        zIndex: 1,
+                                                        fontSize: 30,
+                                                        fontWeight: "bold",
+                                                        color: 
+                                                        item.itemRank == "S" ? "#DED714"
+                                                        : item.itemRank == "A" ? "#EC5C5C"
+                                                        : item.itemRank == "B" ? "#00DEFF"
+                                                        : "#FFF",
+                                                        backgroundColor: "rgba(0, 0, 0, 0.7)",
+                                                        width: 30,
+                                                        height: 45,
+                                                        borderBottomLeftRadius: 10,
+                                                    }}
+                                                >
+                                                    {item.itemRank}
+                                                </div>
+                                            </Tooltip>
                                         </div>
                                     )}
                                 </div>
+                                    <button
+                                        className="oneMoreGacha"
+                                        type="button"
+                                        onClick={onGacha.bind(this, 1)}
+                                    >
+                                        1번 더 뽑기
+                                    </button>
+                                    <button
+                                        className="tenMoreGacha"
+                                        type="button"
+                                        onClick={onGacha.bind(this, 10)}
+                                    >
+                                        10번 더 뽑기
+                                    </button>
                                     <button
                                         className="gachaClose"
                                         type="button"
@@ -355,12 +435,19 @@ const MenuBar = (props) => {
                                     >
                                         돌아가기
                                     </button>
-                                </div>
+                            </div>
                             :
                             <div className="gacha">
                                 <div className="gacha_1">
                                     <div className="gacha_1_img">
-                                        뽑기볼 이미지
+                                        <img
+                                            src="./randombox1.png"
+                                            style={{
+                                                objectFit: "cover",
+                                                width: "100%",
+                                                height: "100%",
+                                            }}
+                                        />
                                     </div>
                                     <div className="gacha_1s">
                                         <Tooltip placement="bottom" color="#858cec" title="1,000원이 소모됩니다.">
@@ -374,7 +461,14 @@ const MenuBar = (props) => {
                                 </div>
                                 <div className="gacha_2">
                                     <div className="gacha_2_img">
-                                        뽑기볼 이미지 * 10
+                                        <img
+                                            src="./randombox.png"
+                                            style={{
+                                                objectFit: "cover",
+                                                width: "100%",
+                                                height: "100%",
+                                            }}
+                                        />
                                     </div>
                                     <div className="gacha_10s">
                                         <Tooltip placement="bottom" color="#858cec" title="10,000원이 소모됩니다.">

@@ -117,7 +117,8 @@
 }
 
 .shopModal .shopList .shopUserCoin {
-    margin: 15px 10px;
+    margin: 10px 0 0 15px;
+    font-size: 18px;
 }
 
 .gachaInven .gachaList {
@@ -135,8 +136,35 @@
     height: 150px;
     margin: 5px;
     color: #fff;
-    border-radius: 16px;
+    border-radius: 5px;
     overflow: hidden;
+    border: 1px solid #a7a7a7;
+}
+
+.gachaInven .oneMoreGacha {
+    position: absolute;
+    bottom: 30px;
+    right: 300px;
+    font-size: 20px;
+    width: 130px;
+    height: 60px;
+    background-color: #7970dd;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.gachaInven .tenMoreGacha {
+    position: absolute;
+    bottom: 30px;
+    right: 150px;
+    font-size: 20px;
+    width: 130px;
+    height: 60px;
+    background-color: #7970dd;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
 }
 
 .gachaInven .gachaClose {
@@ -152,6 +180,8 @@
     cursor: pointer;
 }
 
+.gachaInven .oneMoreGacha:hover,
+.gachaInven .tenMoreGacha:hover,
 .gachaInven .gachaClose:hover {
     background-color: #413c83;
     color: #fff;
@@ -161,14 +191,14 @@
     display: flex;
     justify-content: space-around;
     text-align: center;
-    margin-top: 40px;
+    margin-top: 30px;
     flex-wrap: wrap;
     height: 100%;
 }
 
 .shopModal .shopList .gacha .gacha_1 .gacha_1_img,
 .shopModal .shopList .gacha .gacha_2 .gacha_2_img {
-    background-color: #2a325f;
+    background-color: #dddcdc;
     height: 400px;
     width: 400px;
     border-radius: 10px;
@@ -177,7 +207,7 @@
 
 .shopModal .shopList .gacha .gacha_1 .gacha_1s,
 .shopModal .shopList .gacha .gacha_2 .gacha_10s {
-    margin: 30px 0;
+    margin: 40px 0;
 }
 
 .shopModal .shopList .gacha .gacha_1 .gacha_1s button,
@@ -186,7 +216,7 @@
     height: 50px;
     border-radius: 10px;
     border: none;
-    background-color: #bdaaff;
+    background-color: #afaad3;
     font-weight: bold;
 }
 

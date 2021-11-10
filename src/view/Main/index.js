@@ -71,7 +71,7 @@ const Main = () => {
     try {
       const res = await axios({
           method: 'get',
-          url: `/user`,
+          url: '/user',
       });
   
       if(res.status === 200) {
@@ -89,15 +89,38 @@ const Main = () => {
       method: 'get',
       url: '/inventory/item/get',
   });
-  if(res.status === 200) {
-    setItemList(res.data);
-  }
+    if(res.status === 200) {
+      setItemList(res.data);
+    }
   }
 
   useEffect(() => {
     loadUserData();
     loadItemList();
   }, [])
+
+  const newItemSell = async(idx) => {
+    const res = await axios({
+      method: 'post',
+      url: '/item/sell',
+      data: {
+        inventoryItemIdxList: [idx]
+      }
+    });
+
+    if(res.status === 200) {
+      loadUserData();
+      loadItemList();
+      notification.open({
+        style: {
+          width: 250,
+        },
+        message: '안내',
+        description:
+          '아이템이 판매 되었습니다.',
+      });
+    }
+  }
 
   const history = useHistory();
   
@@ -119,6 +142,9 @@ const Main = () => {
     else
     {
       notification.open({
+        style: {
+          width: 250,
+        },
         message: '경고',
         description: '이전 단계를 클리어해주세요!',
       });
@@ -134,7 +160,7 @@ const Main = () => {
         <div className="mainInfo">
           <div className="mainInfoTop">
             <div className="mainInfoStatus">
-              캐릭터 스탯
+              캐릭터 능력치
             </div>
             <CharaStatus userData={userData} />
           </div>
@@ -203,33 +229,73 @@ const Main = () => {
                   ))}
               </Modal>
         <div className="mainItem">
-          <div className="mainItemTop">최근 획득 장비</div>
+          <div className="mainItemTop">
+            <div
+              style={{
+                fontSize: 20,
+                fontWeight: "bold",
+              }}
+            >
+              최근 획득 장비
+            </div>
+            <div
+              style={{
+                fontSize: 13,
+              }}
+            >
+              ※ 최근 획득한 장비 20개가 노출됩니다.
+            </div>
+          </div>
           <div className="mainItemList">
-            {itemList.map((il) => (
+            {itemList.map((v) => (
               <div className="itemInfo">
                 <img
-                  src={il.itemUrl}
+                  src={v.itemUrl}
                   style={{
-                    width: 100,
-                    height: 100
+                    objectFit: "contain",
+                    width: 60,
+                    height: 60,
                   }}
                 />
                 <div
                   style={{
                     width: 200,
                     textAlign: "center",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
                   }}
                 >
-                  {il.name}
+                  {v.name}
                 </div>
-                <div>{il.itemRank}</div>
-                <div>{il.description}</div>
-                <div>{il?.price?.toLocaleString()}</div>
+                <div
+                  style={{
+                    width: 20,
+                    textAlign: "center",
+                  }}
+                >
+                  {v.itemRank}
+                </div>
+                <div
+                  style={{
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    width: 150,
+                    textAlign: "center",
+                  }}
+                >{v.description}</div>
+                <div
+                  style={{
+                    width: 30,
+                    textAlign: "center",
+                  }}
+                >
+                  {v?.price?.toLocaleString()}
+                </div>
                 <button
                   className={"button"}
-                  style={{
-                    color: "#000",
-                  }}
+                  onClick={() => newItemSell(v.inventoryItemIdx)}
                 >
                   판매
                 </button>

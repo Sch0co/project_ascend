@@ -65,8 +65,9 @@
 
 .mainWindow .mainView .mainItem .mainItemTop {
   padding: 10px;
-  font-weight: bold;
-  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .mainWindow .mainView .mainItem .mainItemList {
@@ -80,6 +81,8 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #aba9b4;
 }
 
 @media screen and (max-width: 600px) {

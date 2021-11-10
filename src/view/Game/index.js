@@ -8,9 +8,8 @@ import { ReactComponent as Coin } from "../../icon/mainIcon/coins.svg";
 import MenuBar from "../../components/MenuBar";
 import axios from "axios";
 import { animated, useSpring } from 'react-spring';
-import { changeConfirmLocale } from "antd/lib/modal/locale";
 
-const Index = (props) => {
+const Index = () => {
     const [monsterData, setMonsterData] = useState(null);
     const [userData, setUserData] = useState(null);
 
@@ -30,14 +29,18 @@ const Index = (props) => {
     const [isLoaded, setIsLoaded] = useState(false); // 데이터 호출 확인
 
     const loadStageInfo = async() => {
-        const res = await axios({
-            method: 'get',
-            url: `/stage/${stageIndex}`,
-        });
-        if(res.status === 200) {
-            setMonsterHp(res.data.monsterHp);
-            setMonsterTotalHp(res.data.monsterHp);
-            setMonsterData(res.data);
+        try{
+            const res = await axios({
+                method: 'get',
+                url: `/stage/${stageIndex}`,
+            });
+            if(res.status === 200) {
+                setMonsterHp(res.data.monsterHp);
+                setMonsterTotalHp(res.data.monsterHp);
+                setMonsterData(res.data);
+            }
+        } catch {
+            history.push("/main");
         }
     }
 
@@ -49,8 +52,8 @@ const Index = (props) => {
             });
             if(res.status === 200) {
                 setUserData(res.data);
-                setHp(res.data.hp);
                 setTotalHp(res.data.hp);
+                setHp(res.data.hp);
             }
 
         } catch {
@@ -70,8 +73,13 @@ const Index = (props) => {
             let copyLoaded = false;
             let copyMonsterData = null;
             let copyUserData = null;
+            let copyTotalHp = null;
             setUserData((prevState) => {
                 copyUserData = prevState;
+                return prevState;
+            });
+            setTotalHp((prevState) => {
+                copyTotalHp = prevState;
                 return prevState;
             });
             setIsLoaded((prevState) => {
@@ -95,6 +103,7 @@ const Index = (props) => {
                         if(damage <= 0) {
                             damage = 0;
                         }
+                        setHpPercent(`${(prevState - damage) / copyTotalHp * 100}%`);
                         return prevState - damage;
                     }
                 });
@@ -120,6 +129,7 @@ const Index = (props) => {
         if(hp != null && hp <= 0)
         {
             setIsDefeat(true);
+            setHpPercent("0%");
         }
     }, [hp])
 
@@ -127,6 +137,7 @@ const Index = (props) => {
         if(monsterHp <= 0)
         {
             setIsVitory(true);
+            setMonsterHpPercent("0%");
             await axios({
                 method: 'post',
                 url: '/mystage/clear',
@@ -146,9 +157,23 @@ const Index = (props) => {
             }
             else
             {
-                setHpPercent(`${prevState - userData.damage / monsterTotalHp * 100}%`);
+                setMonsterHpPercent(`${(prevState - userData.damage) / monsterTotalHp * 100}%`);
                 return prevState - userData.damage;
             }
+        });
+        monsterEffectApi.start({
+            config: {
+                duration: 100
+            },
+            from: {
+                transform: "translate3d(-50px, 0, 0)"
+            },
+            to: [
+                {transform: "translate3d(30px, 0, 0)"},
+                {transform: "translate3d(10px, 0, 0)"},
+                {transform: "translate3d(-10px, 0, 0)"},
+                {transform: "translate3d(0px, 0, 0)"},
+            ],
         });
     }
 
@@ -205,8 +230,9 @@ const Index = (props) => {
         )
     }
 
-    const monsterHpSpring = useSpring({ width: hpPercent });
+    const monsterHpSpring = useSpring({ width: monsterHpPercent });
     const userHpSpring = useSpring({ width: hpPercent });
+    const [monsterEffect, monsterEffectApi] = useSpring(() => ({}));
 
     return (
         <div className="gameMain">
@@ -244,11 +270,7 @@ const Index = (props) => {
                 <animated.div
                     className="monImg"
                     onClick={onAttack}
-                    // style={{
-                    //     transform: {
-                    //         translateX
-                    //     }
-                    // }}
+                    style={{...monsterEffect}}
                 >
                     <img
                         src={monsterData?.monsterUrl}
@@ -263,19 +285,45 @@ const Index = (props) => {
             <div className="userInter">
                 <div className="userInfo">
                     <div className="userPro">
-                        <div className="userImg">{userData?.userProfileUrl}</div>
+                        <div className="userImg">
+                            <img
+                                src="../../profile.png"
+                                style={{
+                                    objectFit: "contain",
+                                    width: "100%",
+                                    height: "100%",
+                                }}
+                            />
+                        </div>
                         <div className="userNick">{userData?.nickname}</div>
                     </div>
                     <div className="userStats">
                         <div
                             className="userHp"
-                            style={{
-                                fontSize: 20,
-                                fontWeight: "bold",
-                            }}
                         >
-                            {hp?.toLocaleString()} / {totalHp?.toLocaleString()}
+                            <div
+                                style={{
+                                    position: "absolute",
+                                    color: "#000",
+                                    fontSize: 20,
+                                    zIndex: 1,
+                                }}
+                            >
+                                {hp?.toLocaleString()} / {totalHp?.toLocaleString()}
+                            </div>
+                            <animated.div
+                                style={{
+                                    position: "absolute",
+                                    top: 0,
+                                    left: 0,
+                                    height: 40,
+                                    width: userHpSpring.width,
+                                    backgroundColor: "#f17979",
+                                    borderRadius: 5,
+                                }}
+                            />
                         </div>
+
                         <div className="statsList">
                             <div className="stats">
                                 <div className="statName">
@@ -315,7 +363,7 @@ const Index = (props) => {
                                             verticalAlign: "middle",
                                         }}
                                     />
-                                    재화
+                                    골드
                                 </div>
                                 <div className="statNum">{userData?.money?.toLocaleString()}</div>
                             </div>

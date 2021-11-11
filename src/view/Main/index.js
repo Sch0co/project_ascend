@@ -205,8 +205,14 @@ const Main = () => {
               style={characterStyle}
             >
               <CharacterSet
-                onEquiment={loadUserData}
-                onSellItem={loadUserData}
+                onEquiment={() => {
+                  loadUserData();
+                  loadItemList();
+                }}
+                onSellItem={() => {
+                  loadUserData();
+                  loadItemList();
+                }}
               />
             </Modal>
             <div className="mainStartBtn">

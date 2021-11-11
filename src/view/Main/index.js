@@ -8,7 +8,7 @@ import Modal from "react-modal";
 import { useHistory } from "react-router-dom";
 import GameStage from "../../components/GameStage";
 import axios from "axios";
-import { notification } from "antd";
+import { notification, Tooltip } from "antd";
 
 
 const characterStyle = {
@@ -79,6 +79,14 @@ const Main = () => {
       }
 
     } catch {
+      notification.open({
+        style: {
+          width: 330,
+        },
+        message: '안내',
+        description:
+          '로그인이 되어있지 않습니다. 로그인해 주세요.',
+      });
       history.push("/");
     }
   }
@@ -100,26 +108,38 @@ const Main = () => {
   }, [])
 
   const newItemSell = async(idx) => {
-    const res = await axios({
-      method: 'post',
-      url: '/item/sell',
-      data: {
-        inventoryItemIdxList: [idx]
+    try {
+      const res = await axios({
+        method: 'post',
+        url: '/item/sell',
+        data: {
+          inventoryItemIdxList: [idx]
+        }
+      });
+  
+      if(res.status === 200) {
+        loadUserData();
+        loadItemList();
+        notification.open({
+          style: {
+            width: 250,
+          },
+          message: '안내',
+          description:
+            '장비가 판매 되었습니다.',
+        });
       }
-    });
-
-    if(res.status === 200) {
-      loadUserData();
-      loadItemList();
+    } catch {
       notification.open({
         style: {
-          width: 250,
+          width: 300,
         },
         message: '안내',
         description:
-          '아이템이 판매 되었습니다.',
+          '장착되어 있는 장비는 판매할 수 없습니다.',
       });
     }
+    
   }
 
   const history = useHistory();
@@ -211,22 +231,92 @@ const Main = () => {
                     }}
                   />
                 </div>
+                <div style={{
+                  overflow: "auto",
+                  maxHeight: 750,
+                }}>
                   {stage.map((item, index) => (
-                    <div
-                      onClick={() => onGame(item, index)}
-                      style={{
-                        display: "inline-block",
-                      }}
-                    >
-                      <GameStage
-                        data={item}
-                        isCleared={
-                          index == 0 ? true :
-                          stage[index - 1]?.isCleared == "1" ? true : false
-                        }
-                      />
-                    </div>
+                    <>
+                      {
+                        (item?.isCleared ==="1" || stage[index - 1]?.isCleared === "1")
+                        ?
+                          <Tooltip
+                            placement="top"
+                            color="rgba(0, 0, 0, 0.7)"
+                            title={() => 
+                              <div
+                                style={{
+                                    display: "block"
+                                }}
+                              >
+                                {item.isBoss ==="Y" ?
+                                  <div style={{ color: "#FFF" }}>
+                                    <div
+                                      style={{
+                                        fontSize: 15,
+                                        textAlign: "center",
+                                      }}
+                                    >
+                                      [BOSS]
+                                    </div>
+                                    {item.monsterName}
+                                  </div>
+                                  :
+                                  <div style={{ color: "#FFF" }}>{item.monsterName}</div>
+                                }
+                              </div>
+                            }
+                          >
+                          <div
+                            onClick={() => onGame(item, index)}
+                            style={{
+                              display: "inline-block",
+                            }}
+                          >
+                            <GameStage
+                              data={item}
+                              isCleared={
+                                index == 0 ? true :
+                                stage[index - 1]?.isCleared == "1" ? true : false
+                              }
+                            />
+                            <div
+                              style={{
+                                textAlign: "center",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              {item.stageIdx}층
+                            </div>
+                          </div>
+                        </Tooltip>
+                      :
+                      <div
+                        onClick={() => onGame(item, index)}
+                        style={{
+                          display: "inline-block",
+                        }}
+                      >
+                        <GameStage
+                          data={item}
+                          isCleared={
+                            index == 0 ? true :
+                            stage[index - 1]?.isCleared == "1" ? true : false
+                          }
+                        />
+                        <div
+                          style={{
+                            textAlign: "center",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {item.stageIdx}층
+                        </div>
+                      </div>
+                    }
+                    </>
                   ))}
+                </div>
               </Modal>
         <div className="mainItem">
           <div className="mainItemTop">

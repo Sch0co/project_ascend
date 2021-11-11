@@ -114,6 +114,7 @@
     background-color: #221f47;
     color: #fff;
     border-radius: 5px;
+    margin-left: 10px;
 }
 
 .characterModal .characterSetList .inventory .invenTop .sellBtn:hover {

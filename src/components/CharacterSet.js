@@ -8,7 +8,7 @@ import { ReactComponent as Coin } from "../icon/mainIcon/coins.svg";
 import { ReactComponent as Check } from "../icon/mainIcon/check.svg";
 import { ReactComponent as NoCheck } from "../icon/mainIcon/nocheck.svg";
 // import { ReactComponent as ModalClose } from "../icon/mainIcon/x_close.svg";
-import { Tooltip, notification } from 'antd';
+import { Tooltip, notification, Modal } from 'antd';
 import axios from "axios";
 
 const CharacterSet = (props) => {
@@ -17,6 +17,9 @@ const CharacterSet = (props) => {
     const [item, setItem] = useState([]);
     const [userData, setUserData] = useState(null);
     const [equiment, setEquiment] = useState([]);
+    const [cSellModal, setCSellModal] = useState(false);
+    const [bSellModal, setBSellModal] = useState(false);
+    const [aSellModal, setASellModal] = useState(false);
 
     const loadEquiment = async() => {
         const res = await axios({
@@ -46,6 +49,7 @@ const CharacterSet = (props) => {
         if(res.status === 200) {
             setItem(res.data);
         }
+
     }
 
     useEffect(() => {
@@ -55,6 +59,16 @@ const CharacterSet = (props) => {
     }, [])
 
     const releaseEquiment = async(v) => {
+        if(item.length >= 300){
+            notification.open({
+                style: {
+                    width: 300,
+                },
+                message: '안내',
+                description: '인벤토리가 가득 차 해제할 수 없습니다.',
+            });
+            return;
+        }
         const res = await axios({
             method: 'delete',
             url: '/equipment',
@@ -104,6 +118,14 @@ const CharacterSet = (props) => {
         let iCheck = item.filter((item) => (item.isChecked));
         if(iCheck?.length <= 0)
         {
+            notification.open({
+                style: {
+                    width: 250,
+                },
+                message: '안내',
+                description:
+                    '체크한 장비가 없습니다.',
+            });
             return;
         }
         iCheck = iCheck.map((item) => item.inventoryItemIdx);
@@ -125,16 +147,160 @@ const CharacterSet = (props) => {
                 },
                 message: '판매',
                 description:
-                    '아이템이 판매 되었습니다.',
+                    '장비가 판매 되었습니다.',
             });
         }
     }
 
-    const onSellModeChnage = () => {
+    const sellItemC = async() => {
+        let cRank = item.filter((item) => (item.itemRank === "C"));
+        if(cRank?.length <= 0)
+        {
+            setCSellModal(false);
+            notification.open({
+                style: {
+                    width: 250,
+                },
+                message: '안내',
+                description:
+                    'C등급 장비가 없습니다.',
+            });
+            return;
+        }
+        cRank = cRank.map((item) => item.inventoryItemIdx);
+        const res = await axios({
+            method: 'post',
+            url: '/item/sell',
+            data: {
+                inventoryItemIdxList: cRank
+            }
+        });
+
+        if(res.status === 200) {
+            loadInvenData();
+            loadUserData();
+            props.onSellItem?.();
+            setCSellModal(false);
+            notification.open({
+                style: {
+                    width: 250,
+                },
+                message: '판매',
+                description:
+                    '장비가 판매 되었습니다.',
+            });
+        }
+    }
+
+    const sellItemB = async() => {
+        let bRank = item.filter((item) => (item.itemRank === "B"));
+        if(bRank?.length <= 0)
+        {
+            setBSellModal(false);
+            notification.open({
+                style: {
+                    width: 250,
+                },
+                message: '안내',
+                description:
+                    'B등급 장비가 없습니다.',
+            });
+            return;
+        }
+        bRank = bRank.map((item) => item.inventoryItemIdx);
+        const res = await axios({
+            method: 'post',
+            url: '/item/sell',
+            data: {
+                inventoryItemIdxList: bRank
+            }
+        });
+
+        if(res.status === 200) {
+            loadInvenData();
+            loadUserData();
+            props.onSellItem?.();
+            setBSellModal(false);
+            notification.open({
+                style: {
+                    width: 250,
+                },
+                message: '판매',
+                description:
+                    '장비가 판매 되었습니다.',
+            });
+        }
+    }
+
+    const sellItemA = async() => {
+        let aRank = item.filter((item) => (item.itemRank === "A"));
+        if(aRank?.length <= 0)
+        {
+            setBSellModal(false);
+            notification.open({
+                style: {
+                    width: 250,
+                },
+                message: '안내',
+                description:
+                    'A등급 장비가 없습니다.',
+            });
+            return;
+        }
+        aRank = aRank.map((item) => item.inventoryItemIdx);
+        const res = await axios({
+            method: 'post',
+            url: '/item/sell',
+            data: {
+                inventoryItemIdxList: aRank
+            }
+        });
+
+        if(res.status === 200) {
+            loadInvenData();
+            loadUserData();
+            props.onSellItem?.();
+            setASellModal(false);
+            notification.open({
+                style: {
+                    width: 250,
+                },
+                message: '판매',
+                description:
+                    '장비가 판매 되었습니다.',
+            });
+        }
+    }
+
+    const onCrankSellModal = () => {
+        setCSellModal(true);
+    }
+
+    const onCrankSellModalClose = () => {
+        setCSellModal(false);
+    }
+
+    const onBrankSellModal = () => {
+        setBSellModal(true);
+    }
+
+    const onBrankSellModalClose = () => {
+        setBSellModal(false);
+    }
+
+    const onArankSellModal = () => {
+        setASellModal(true);
+    }
+
+    const onArankSellModalClose = () => {
+        setASellModal(false);
+    }
+
+    const onSellModeChange = () => {
         setSell(!sell);
         setOnSell(!onSell);
     }
-
+    
     return (
         <div className="characterModal">
             <div className="characterSetTop">
@@ -203,7 +369,7 @@ const CharacterSet = (props) => {
                                                 <img
                                                     src={v.itemUrl}
                                                     style={{
-                                                        objectFit: "cover",
+                                                        objectFit: "contain",
                                                         width: "100%",
                                                         height: "100%",
                                                     }}
@@ -284,7 +450,7 @@ const CharacterSet = (props) => {
                                                 <img
                                                     src={v.itemUrl}
                                                     style={{
-                                                        objectFit: "cover",
+                                                        objectFit: "contain",
                                                         width: "100%",
                                                         height: "100%",
                                                     }}
@@ -365,7 +531,7 @@ const CharacterSet = (props) => {
                                                 <img
                                                     src={v.itemUrl}
                                                     style={{
-                                                        objectFit: "cover",
+                                                        objectFit: "contain",
                                                         width: "100%",
                                                         height: "100%",
                                                     }}
@@ -495,22 +661,51 @@ const CharacterSet = (props) => {
                     <div className="invenTop">
                         <div className="invenMode">
                             <div className="invenName">인벤토리</div>
-                            <Tooltip placement="right" color="#858cec" title="아이템을 선택하여 판매할 수 있습니다.">
+                            <Tooltip placement="right" color="#858cec" title="장비를 선택하여 판매할 수 있습니다.">
                             <div
                                 className="sellMode"
-                                onClick={onSellModeChnage}
+                                onClick={onSellModeChange}
                             >
                                     판매 모드
                             </div>
                             </Tooltip>
                         </div>
                         { onSell && 
-                            <button
-                                className="sellBtn"
-                                onClick={sellItem}
-                            >
-                                판매
-                            </button>
+                            <div>
+                                <button
+                                    className="sellBtn"
+                                    onClick={onArankSellModal}
+                                >
+                                    A등급 전체 판매
+                                </button>
+                                <Modal title="안내" visible={aSellModal} onOk={sellItemA} onCancel={onArankSellModalClose}>
+                                    <p>A등급 전체 판매 하시겠습니까?</p>
+                                </Modal>
+                                <button
+                                    className="sellBtn"
+                                    onClick={onBrankSellModal}
+                                >
+                                    B등급 전체 판매
+                                </button>
+                                <Modal title="안내" visible={bSellModal} onOk={sellItemB} onCancel={onBrankSellModalClose}>
+                                    <p>B등급 전체 판매 하시겠습니까?</p>
+                                </Modal>
+                                <button
+                                    className="sellBtn"
+                                    onClick={onCrankSellModal}
+                                >
+                                    C등급 전체 판매
+                                </button>
+                                <Modal title="안내" visible={cSellModal} onOk={sellItemC} onCancel={onCrankSellModalClose}>
+                                    <p>C등급 전체 판매 하시겠습니까?</p>
+                                </Modal>
+                                <button
+                                    className="sellBtn"
+                                    onClick={sellItem}
+                                >
+                                    판매
+                                </button>
+                            </div>
                         }
                     </div>
                     <div className="invenArray">
@@ -614,9 +809,38 @@ const CharacterSet = (props) => {
                                             <div className="checkBox">
                                                 {
                                                     item.isChecked ?
-                                                    <Check />
+                                                    <div
+                                                        style={{
+                                                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                                            top: -100,
+                                                            right: 0,
+                                                            width: 100,
+                                                            height: 100,
+                                                            borderRadius: 5,
+                                                            textAlign: "center",
+                                                        }}
+                                                        >
+                                                        <Check
+                                                            style={{
+                                                                color: "#fff",
+                                                                width: 100,
+                                                                height: 100,
+                                                            }}
+                                                        />
+                                                    </div>
                                                     :
-                                                    <NoCheck />
+                                                    <div
+                                                        style={{
+                                                            position: "absolute",
+                                                            top: -100,
+                                                            right: 0,
+                                                            width: 100,
+                                                            height: 100,
+                                                            borderRadius: 5,
+                                                            textAlign: "center",
+                                                        }}
+                                                    >
+                                                    </div>
                                                 }
                                             </div>
                                         }

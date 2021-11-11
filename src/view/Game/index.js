@@ -94,7 +94,7 @@ const Index = () => {
             if(copyLoaded && copyMonsterData)
             {
                 setHp((prevState) => {
-                    if(prevState - copyMonsterData?.monsterDamage < 0)
+                    if(prevState - (copyMonsterData?.monsterDamage - copyUserData?.defense) < 0)
                     {
                         return 0;
                     }

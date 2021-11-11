@@ -76,7 +76,6 @@ const Main = () => {
   
       if(res.status === 200) {
           setUserData(res.data);
-          loadItemList();
       }
 
     } catch {
@@ -176,7 +175,10 @@ const Main = () => {
     <div className="mainWindow">
       <MenuBar
         onUpdateUserData={loadUserData}
-        onGacha={loadUserData}
+        onGacha={() => {
+          loadUserData();
+          loadItemList();
+        }}
       />
       <div className="mainView">
         <div className="mainInfo">

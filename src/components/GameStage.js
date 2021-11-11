@@ -2,7 +2,7 @@ import React from "react";
 import "./GameStage.css";
 import { ReactComponent as Lock } from "../icon/mainIcon/lock.svg";
 
-const GameStage = (props, index) => {
+const GameStage = (props) => {
     if(!props.isCleared)
     {
         return (

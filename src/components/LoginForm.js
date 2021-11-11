@@ -26,7 +26,6 @@ const LoginForm = () => {
           method: 'get',
           url: '/user',
       });
-  
       if(res.status === 200)
       {
         setUserData(res.data);

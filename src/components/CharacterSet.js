@@ -51,7 +51,6 @@ const CharacterSet = (props) => {
         }
 
     }
-
     useEffect(() => {
         loadUserData();
         loadInvenData();

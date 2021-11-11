@@ -44,7 +44,7 @@ const shopStyle = {
     content: {
         backgroundColor: "#fff",
         maxWidth: 900,
-        maxHeight: 700,
+        maxHeight: 770,
         margin: "auto auto",
     }
 }
@@ -199,7 +199,6 @@ const MenuBar = (props) => {
             return;
         } 
     
-
         setUserDataChangeMode(false);
         loadUserData();
         props.onUpdateUserData?.();
@@ -255,6 +254,7 @@ const MenuBar = (props) => {
             setItemResult(res.data);
             loadUserData();
             loadInvenData();
+            props.onGacha?.();
         }
     }
 
@@ -285,11 +285,13 @@ const MenuBar = (props) => {
     const shopOpen = () => {
         setIsShop(true);
         // setSideToggle(false);
+        loadInvenData();
     }
 
     const shopClose = () => {
         setIsShop(false);
         setItemResult([]);
+        loadInvenData();
     }
 
     const onLogoutModal = () => {
@@ -340,6 +342,7 @@ const MenuBar = (props) => {
             >
                 <CharacterSet
                     onEquiment={props.onUpdateUserData}
+                    onSellItem={props.onUpdateUserData}
                 />
             </Modals>
 
@@ -519,6 +522,19 @@ const MenuBar = (props) => {
                             </div>
                         </div>
                         }
+                        <div
+                            style={{
+                                display: "inline-flex",
+                                width: "100%",
+                                justifyContent: "center",
+                                fontSize: 24,
+                            }}
+                        >
+                            <div style={{ marginRight: 16 }}>C 79%</div>
+                            <div style={{ marginRight: 16 }}>B 20%</div>
+                            <div style={{ marginRight: 16 }}>A 0.99%</div>
+                            <div style={{ marginRight: 16 }}>S 0.01%</div>
+                        </div>
                     </div>
                 </div>
             </Modals>

@@ -217,7 +217,7 @@ const MenuBar = (props) => {
     }
 
     const onGacha = async(count = 1) => {
-       if((inven.length + count) >= 300)
+       if((inven.length + count) > 300)
         {
             notification.open({
                 style: {

@@ -346,7 +346,6 @@ const Index = () => {
                                 }}
                             />
                         </div>
-
                         <div className="statsList">
                             <div className="stats">
                                 <div className="statName">

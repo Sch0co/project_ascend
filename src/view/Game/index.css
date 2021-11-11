@@ -3,6 +3,7 @@
     width: 100%;
     background-color: #4b4c64;
     background-image: url("https://cdna.artstation.com/p/assets/covers/images/001/309/094/large/kim-youngju-1.jpg?1444099017");
+    background-repeat: round;
 }
 
 .gameMain .monInfo {

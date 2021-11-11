@@ -8,6 +8,7 @@ import { ReactComponent as Coin } from "../../icon/mainIcon/coins.svg";
 import MenuBar from "../../components/MenuBar";
 import axios from "axios";
 import { animated, useSpring } from 'react-spring';
+import { notification } from 'antd';
 
 const Index = () => {
     const [monsterData, setMonsterData] = useState(null);
@@ -203,6 +204,14 @@ const Index = () => {
     }
 
     const VictoryView = () => {
+        notification.open({
+            style: {
+                width: 250,
+            },
+            message: '안내',
+            description:
+                `${monsterData?.dropMoney?.toLocaleString()}골드를 획득했습니다.`,
+        })
         return (
             <div
                 style={{
@@ -245,7 +254,13 @@ const Index = () => {
             <MenuBar />
             <div className="monInfo">
                 <div className="monStats">
-                    <div className="monName">{monsterData?.monsterName}</div>
+                    {monsterData?.isBoss === "Y" ?
+                        <div className="monName">
+                            [ BOSS ] {monsterData?.monsterName}
+                        </div>
+                    :
+                        <div className="monName">{monsterData?.monsterName}</div>
+                    }
                     <div className="monHp">
                         <p
                             style={{
@@ -265,6 +280,14 @@ const Index = () => {
                                 backgroundColor: "#f17979",
                             }}
                         />
+                    </div>
+                    <div
+                        style={{
+                            textAlign: "right",
+                            fontWeight: "bold",
+                        }}
+                    >
+                        데미지 {monsterData?.monsterDamage?.toLocaleString()}
                     </div>
                 </div>
                 <animated.div
